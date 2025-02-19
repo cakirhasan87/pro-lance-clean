@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance CMS - Blog Management</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Pro-Lance CMS</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Blog Posts</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Blog Post Management</h1>
+            <button class="add-post-btn" onclick="openNewPostModal()">
+                <i class="fas fa-plus"></i> Add New Post
+            </button>
+        </div>
+
+        <div class="blog-posts-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Language</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="blogPostsList">
+                    <!-- Blog posts will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- New/Edit Post Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">New Blog Post</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="blogPostForm">
+                    <div class="form-group">
+                        <label for="postTitle">Title</label>
+                        <input type="text" id="postTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postLanguage">Language</label>
+                        <select id="postLanguage" name="language" required>
+                            <option value="en">English</option>
+                            <option value="tr">Turkish</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postImage">Featured Image</label>
+                        <input type="file" id="postImage" name="image" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="postContent">Content</label>
+                        <textarea id="postContent" name="content" rows="10" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postTags">Tags (comma separated)</label>
+                        <input type="text" id="postTags" name="tags">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Save Post</button>
+                        <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html> 

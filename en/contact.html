@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance | Contact</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Pro-Lance</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="collaboration.html">Collaboration</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <div class="language-selector">
+                    <a href="../contact.html">TR</a>
+                    <a href="#" class="active">EN</a>
+                </div>
+                <a href="register.html" class="register-btn">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="hero-content">
+                <h1>Get in Touch</h1>
+                <p>We're here for your questions and collaboration opportunities</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="contact-form-wrapper">
+                    <h2>Contact Form</h2>
+                    <p class="form-description">Tell us how we can help you</p>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name*</label>
+                            <input type="text" id="name" name="name" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email*</label>
+                            <input type="email" id="email" name="email" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone">
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject*</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="business">Business Collaboration</option>
+                                <option value="support">Technical Support</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message*</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <div class="meeting-request">
+                    <div class="meeting-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Schedule an Online Meeting</h3>
+                    <p>Request an online meeting to discuss your projects and requirements in detail.</p>
+                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                        <i class="fas fa-video"></i>
+                        Schedule Meeting
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Your trusted partner in the freelance world</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Pro-Lance. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html> 

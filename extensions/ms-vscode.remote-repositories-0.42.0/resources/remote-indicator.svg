@@ -1,0 +1,88 @@
+<svg width="219" height="153" viewBox="0 0 219 153" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <g>
+      <g clip-path="url(#clip0_109_519)">
+        <rect x="6" width="212.316" height="143.768" rx="2" fill="var(--vscode-editor-background, #1E1E1E)" />
+        <g>
+          <rect width="212.316" height="9" transform="translate(6)" fill="var(--vscode-titleBar-activeBackground, #303031)" />
+        </g>
+        <g>
+          <g>
+            <rect width="10" height="129.915" transform="translate(6 9)" fill="var(--vscode-titleBar-activeBackground, #303031)" />
+          </g>
+          <g>
+            <rect width="66.7279" height="143.768" transform="translate(16 9)" fill="var(--vscode-breadcrumbPicker-background, #292929)" />
+            <g>
+              <g>
+                <rect x="23.2794" y="16.2132" width="36.3971" height="4.24632" rx="2.12316" fill="var(--vscode-activityBar-activeBorder, #FFFFFF)" fill-opacity="0.16" />
+              </g>
+              <g>
+                <rect x="23.2794" y="27.886" width="36.3971" height="4.24632" rx="2.12316" fill="var(--vscode-activityBar-activeBorder, #FFFFFF)" fill-opacity="0.16" />
+              </g>
+              <g>
+                <rect x="23.2794" y="39.5588" width="22.4449" height="4.24632" rx="2.12316" fill="var(--vscode-activityBar-activeBorder, #FFFFFF)" fill-opacity="0.16" />
+              </g>
+              <g>
+                <rect x="23.2794" y="51.2316" width="30.3309" height="4.24632" rx="2.12316" fill="var(--vscode-activityBar-activeBorder, #FFFFFF)" fill-opacity="0.16" />
+              </g>
+              <g>
+                <rect x="23.2794" y="62.9044" width="25.4779" height="4.24632" rx="2.12316" fill="var(--vscode-activityBar-activeBorder, #FFFFFF)" fill-opacity="0.16" />
+              </g>
+              <g>
+                <rect x="23.2794" y="74.5772" width="29.1176" height="4.24632" rx="2.12316" fill="var(--vscode-activityBar-activeBorder, #FFFFFF)" fill-opacity="0.16" />
+              </g>
+            </g>
+          </g>
+          <g>
+            <g>
+              <rect width="135.588" height="19.4118" transform="translate(82.7291 9.00002)" fill="var(--vscode-editorGroupHeader-tabsBackground, #252526)" />
+              <g clip-path="url(#clip1_109_519)">
+                <g>
+                  <rect width="70.1575" height="23.8399" transform="translate(82.7291 6.78594)" fill="var(--vscode-editor-background, #1E1E1E)" />
+                  <rect x="90.9027" y="16.3219" width="53.8101" height="4.76798" rx="2.38399" fill="#FFFFFF" fill-opacity="0.12" />
+                </g>
+              </g>
+            </g>
+            <g opacity="0.18">
+              <rect x="91.2881" y="37.2171" width="20.625" height="4.85294" rx="2.42647" fill="#B180D7" />
+              <rect x="91.2871" y="96.9783" width="59.4485" height="4.85294" rx="2.42647" fill="#007ACC" />
+              <rect x="131.325" y="56.5148" width="59.4485" height="4.85294" rx="2.42647" fill="#B180D7" />
+              <rect x="91.2871" y="68.0408" width="38.8235" height="4.85294" rx="2.42647" fill="#B180D7" />
+              <rect x="91.2871" y="79.5663" width="24.8713" height="4.85294" rx="2.42647" fill="#B180D7" />
+              <rect x="133.75" y="68.0408" width="38.8235" height="4.85294" rx="2.42647" fill="#F14C4C" />
+              <rect x="119.8" y="79.5663" width="52.7757" height="4.85294" rx="2.42647" fill="#F14C4C" />
+              <rect x="154.375" y="96.9783" width="36.3971" height="4.85294" rx="2.42647" fill="#D7BA7D" />
+              <rect x="91.2871" y="56.5148" width="36.3971" height="4.85294" rx="2.42647" fill="#D7BA7D" />
+              <rect x="115.552" y="37.217" width="64.9081" height="4.85294" rx="2.42647" fill="#8ADDFF" />
+            </g>
+          </g>
+        </g>
+        <rect x="6" y="138.915" width="212.316" height="4.85294" fill="#0078D4" />
+      </g>
+    </g>
+    <g filter="url(#filter0_d_109_519)">
+      <g>
+        <rect width="18.8402" height="13.9201" transform="translate(4 131)" fill="#16825D" />
+        <path d="M15.8656 138.987L13.7131 136.863L15.8656 134.711L15.5212 134.395L13.2252 136.691V137.036L15.5212 139.332L15.8656 138.987ZM10.5273 136.863L12.7372 139.073L10.5273 141.255L10.8717 141.599L13.2252 139.217V138.901L10.8717 136.548L10.5273 136.863Z" fill="#FFFFFF" />
+      </g>
+    </g>
+  </g>
+  <defs>
+    <filter id="filter0_d_109_519" x="0" y="131" width="26.8402" height="21.9201" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+      <feOffset dy="4" />
+      <feGaussianBlur stdDeviation="2" />
+      <feComposite in2="hardAlpha" operator="out" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_109_519" />
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_109_519" result="shape" />
+    </filter>
+    <clipPath id="clip0_109_519">
+      <rect x="6" width="212.316" height="143.768" rx="2" fill="#FFFFFF" />
+    </clipPath>
+    <clipPath id="clip1_109_519">
+      <rect width="70.1575" height="19.4118" fill="#FFFFFF" transform="translate(82.7291 9.00002)" />
+    </clipPath>
+  </defs>
+</svg>

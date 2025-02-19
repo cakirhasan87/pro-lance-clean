@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Pro-Lance</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .register-section {
+            padding: 4rem 0;
+            background-color: #f8f9fa;
+        }
+        .register-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .register-form h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .terms {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .terms input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        .terms a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .register-btn:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .success-message.show {
+            display: block;
+        }
+        .error-message {
+            display: none;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Pro-Lance</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="collaboration.html">Collaboration</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <div class="language-selector">
+                    <a href="../register.html">TR</a>
+                    <a href="#" class="active">EN</a>
+                </div>
+                <a href="register.html" class="register-btn">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="register-section">
+            <div class="register-container">
+                <div id="successMessage" class="success-message">
+                    Registration successful! Welcome to Pro-Lance. You will be redirected to login page shortly.
+                </div>
+                <div id="errorMessage" class="error-message">
+                    Please fill in all required fields correctly.
+                </div>
+                <form id="registerForm" class="register-form">
+                    <h2>Register</h2>
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{3} [0-9]{3} [0-9]{2} [0-9]{2}" placeholder="555 704 28 27" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input">
+                            <input type="password" id="password" name="password" required>
+                            <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="password-input">
+                            <input type="password" id="confirm-password" name="confirm-password" required>
+                            <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-type">Account Type</label>
+                        <select id="user-type" name="user-type" required>
+                            <option value="">Select</option>
+                            <option value="freelancer">Freelancer</option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <div class="form-options">
+                        <label class="terms">
+                            <input type="checkbox" name="terms" required>
+                            I accept the <a href="../terms-of-use.html">Terms of Use</a> and <a href="../privacy-policy.html">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    
+                    <div class="social-login">
+                        <p>or register with</p>
+                        <div class="social-buttons">
+                            <button type="button" class="google-btn">
+                                <i class="fab fa-google"></i>
+                                Google
+                            </button>
+                            <button type="button" class="linkedin-btn">
+                                <i class="fab fa-linkedin"></i>
+                                LinkedIn
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="login-link">
+                        Already have an account? <a href="login.html">Login</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Your trusted partner in the freelance world</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="../terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Pro-Lance. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const userType = document.getElementById('user-type').value;
+            const terms = document.getElementById('terms').checked;
+
+            // Basic validation
+            if (!fullname || !email || !phone || !password || !confirmPassword || !userType || !terms) {
+                document.getElementById('errorMessage').textContent = "Please fill in all required fields.";
+                document.getElementById('errorMessage').classList.add('show');
+                document.getElementById('successMessage').classList.remove('show');
+                return;
+            }
+
+            // Phone number validation
+            const phonePattern = /^\d{3} \d{3} \d{2} \d{2}$/;
+            if (!phonePattern.test(phone)) {
+                document.getElementById('errorMessage').textContent = "Please enter the phone number in the correct format (e.g., 555 704 28 27)";
+                document.getElementById('errorMessage').classList.add('show');
+                document.getElementById('successMessage').classList.remove('show');
+                return;
+            }
+
+            // Password match validation
+            if (password !== confirmPassword) {
+                document.getElementById('errorMessage').textContent = "Passwords do not match.";
+                document.getElementById('errorMessage').classList.add('show');
+                document.getElementById('successMessage').classList.remove('show');
+                return;
+            }
+
+            // If all validation passes, show success message
+            document.getElementById('successMessage').classList.add('show');
+            document.getElementById('errorMessage').classList.remove('show');
+            
+            // Reset form
+            this.reset();
+
+            // Redirect to login page after 3 seconds
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 3000);
+        });
+
+        // Phone number formatting
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            
+            let formattedValue = '';
+            if (value.length >= 3) {
+                formattedValue += value.slice(0, 3) + ' ';
+                if (value.length >= 6) {
+                    formattedValue += value.slice(3, 6) + ' ';
+                    if (value.length >= 8) {
+                        formattedValue += value.slice(6, 8) + ' ';
+                        if (value.length >= 10) {
+                            formattedValue += value.slice(8, 10);
+                        } else {
+                            formattedValue += value.slice(8);
+                        }
+                    } else {
+                        formattedValue += value.slice(6);
+                    }
+                } else {
+                    formattedValue += value.slice(3);
+                }
+            } else {
+                formattedValue = value;
+            }
+            
+            e.target.value = formattedValue;
+        });
+    </script>
+</body>
+</html> 

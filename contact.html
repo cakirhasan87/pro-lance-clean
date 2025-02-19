@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance | İletişim</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Pro-Lance</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="services.html">Hizmetler</a></li>
+                <li><a href="collaboration.html">İş Birliği</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html" class="active">İletişim</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <div class="language-selector">
+                    <a href="#" class="active">TR</a>
+                    <a href="en/contact.html">EN</a>
+                </div>
+                <a href="register.html" class="register-btn">Kayıt Ol</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="hero-content">
+                <h1>Bizimle İletişime Geçin</h1>
+                <p>Sorularınız ve işbirliği fırsatları için buradayız</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="contact-form-wrapper">
+                    <h2>İletişim Formu</h2>
+                    <p class="form-description">Size nasıl yardımcı olabileceğimizi anlatın</p>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Adınız*</label>
+                            <input type="text" id="name" name="name" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-posta*</label>
+                            <input type="email" id="email" name="email" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Telefon</label>
+                            <input type="tel" id="phone" name="phone">
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Konu*</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Seçiniz</option>
+                                <option value="general">Genel Bilgi</option>
+                                <option value="business">İş Birliği</option>
+                                <option value="support">Teknik Destek</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mesajınız*</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Gönder
+                        </button>
+                    </form>
+                </div>
+
+                <div class="meeting-request">
+                    <div class="meeting-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Online Görüşme Planlayın</h3>
+                    <p>Projelerinizi ve ihtiyaçlarınızı detaylı olarak görüşmek için online toplantı talep edebilirsiniz.</p>
+                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                        <i class="fas fa-video"></i>
+                        Görüşme Planla
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Freelance dünyasında güvenilir adresiniz</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
+                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>E-posta: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

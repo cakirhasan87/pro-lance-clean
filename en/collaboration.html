@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance | Collaboration</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Pro-Lance</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="collaboration.html" class="active">Collaboration</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <div class="language-selector">
+                    <a href="../collaboration.html">TR</a>
+                    <a href="#" class="active">EN</a>
+                </div>
+                <a href="register.html" class="register-btn">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="collaboration-hero">
+            <div class="hero-content">
+                <h1>Empower Through Collaboration</h1>
+                <p>Take your business to the next level by collaborating with Pro-Lance</p>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <h2>Collaboration Benefits</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Reliable Partnership</h3>
+                    <p>Secure your projects with long-term, reliable, and sustainable collaboration.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Expert Team</h3>
+                    <p>Manage your projects professionally with our experienced and expert team.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Growth Opportunity</h3>
+                    <p>Expand into new markets and grow your business through collaboration.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Time Savings</h3>
+                    <p>Save time and costs by optimizing operational processes.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Innovation</h3>
+                    <p>Gain competitive advantage with innovative solutions.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Global Access</h3>
+                    <p>Access international markets and grow on a global scale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="contact-form-wrapper">
+                    <h2>Collaboration Request</h2>
+                    <p class="form-description">Fill out the form to collaborate with us</p>
+                    <form id="collaborationForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="companyName">Company Name*</label>
+                            <input type="text" id="companyName" name="companyName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactPerson">Contact Person*</label>
+                            <input type="text" id="contactPerson" name="contactPerson" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email*</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone*</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industry">Industry*</label>
+                            <input type="text" id="industry" name="industry" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="collaborationType">Collaboration Type*</label>
+                            <select id="collaborationType" name="collaborationType" required>
+                                <option value="">Select</option>
+                                <option value="project">Project-Based Collaboration</option>
+                                <option value="longTerm">Long-Term Partnership</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message*</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="attachment">
+                                <i class="fas fa-paperclip"></i> 
+                                Attach File (Optional)
+                                <small style="display: block; color: #666; margin-top: 0.25rem;">
+                                    Maximum file size: 10MB
+                                </small>
+                            </label>
+                            <input type="file" 
+                                   id="attachment" 
+                                   name="attachment" 
+                                   accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                                   style="padding: 0.5rem 0;">
+                            <div id="fileInfo" style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"></div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit
+                        </button>
+                    </form>
+                </div>
+
+                <div class="meeting-request">
+                    <div class="meeting-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Schedule an Online Meeting</h3>
+                    <p>Request an online meeting to discuss your projects and needs in detail.</p>
+                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                        <i class="fas fa-video"></i>
+                        Schedule Meeting
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Your trusted partner in the freelance world</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Pro-Lance. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html> 
