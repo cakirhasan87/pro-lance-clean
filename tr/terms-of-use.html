@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanım Koşulları | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
+
+    <main>
+        <!-- Terms of Use Content -->
+        <section class="legal-content">
+            <h1>Kullanım Koşulları</h1>
+            <p class="last-updated">Son güncelleme: 15 Mart 2024</p>
+
+            <div class="legal-section">
+                <h2>1. Koşulların Kabulü</h2>
+                <p>Pro-Lance'ın web sitesine ve hizmetlerine erişerek ve kullanarak, bu Kullanım Koşullarına bağlı olmayı kabul etmiş olursunuz. Bu koşulları kabul etmiyorsanız, lütfen hizmetlerimizi kullanmayın.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. Tanımlar</h2>
+                <ul>
+                    <li>"Hizmet" Pro-Lance platformunu ve ilgili tüm hizmetleri ifade eder</li>
+                    <li>"Kullanıcı" hizmetimizi kullanan herhangi bir birey veya kuruluşu ifade eder</li>
+                    <li>"İçerik" platformumuzda bulunan tüm bilgi ve materyalleri ifade eder</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Kullanıcı Hesapları</h2>
+                <p>Hizmetimizin belirli özelliklerini kullanmak için bir hesap oluşturmanız gerekir. Hesap bilgilerinizin gizliliğini korumak ve hesabınız altındaki tüm faaliyetlerden sorumludur.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. Fikri Mülkiyet</h2>
+                <p>Web sitemizdeki metin, grafik, logo ve yazılım dahil tüm içerik, Pro-Lance'ın mülkiyetidir ve fikri mülkiyet yasaları tarafından korunmaktadır.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. Kullanıcı Davranışı</h2>
+                <p>Kullanıcılar aşağıdaki davranışlarda bulunmayı kabul etmez:</p>
+                <ul>
+                    <li>Geçerli yasa ve yönetmelikleri ihlal etmek</li>
+                    <li>Herhangi bir kişi veya kuruluşu taklit etmek</li>
+                    <li>Hizmetimizin düzgün işleyişini engellemek</li>
+                    <li>Zararlı veya kötü niyetli faaliyetlerde bulunmak</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Hizmet Değişiklikleri</h2>
+                <p>Pro-Lance, hizmetimizin herhangi bir bölümünü herhangi bir zamanda, bildirimde bulunmaksızın değiştirme veya sonlandırma hakkını saklı tutar.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. Sorumluluk Sınırlaması</h2>
+                <p>Pro-Lance, hizmetimizin kullanımından kaynaklanan dolaylı, arızi, özel, sonuç olarak ortaya çıkan veya cezai zararlardan sorumlu değildir.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. Koşullarda Değişiklik</h2>
+                <p>Bu Kullanım Koşullarını herhangi bir zamanda güncelleme hakkını saklı tutuyoruz. Bu tür değişikliklerden sonra hizmetimizi kullanmaya devam etmeniz, yeni koşulları kabul ettiğiniz anlamına gelir.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. İletişim Bilgileri</h2>
+                <p>Bu Kullanım Koşulları hakkında sorularınız için bize ulaşın:</p>
+                <p>E-posta: support@pro-lance.com<br>
+                Adres: 123 İş Merkezi Caddesi, Kat 100, New York, NY 10001</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Freelance dünyasında güvenilir adresiniz</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Linkler</h3>
+                <ul>
+                    <li><a href="index.html#about">Hakkımızda</a></li>
+                    <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
+                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html> 

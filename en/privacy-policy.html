@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Pro-Lance</title>
+    <title>Privacy Policy | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -46,28 +47,58 @@
             text-align: right;
             margin-top: 2rem;
         }
+        .nav-links a {
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul li a {
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            
+            .footer-section ul li a {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Pro-Lance</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <div class="language-selector">
-                    <a href="../privacy-policy.html">TR</a>
-                    <a href="#" class="active">EN</a>
-                </div>
-                   </div>
-        </nav>
-    </header>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
 
     <main>
         <section class="privacy-section">
@@ -156,9 +187,10 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
+                <ul class="nav-links">
+                    <li><a href="index.html#about">About</a></li>
                     <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
@@ -183,5 +215,7 @@
             <p>&copy; 2025 Pro-Lance. All rights reserved.</p>
         </div>
     </footer>
+
+    <script src="../script.js"></script>
 </body>
 </html> 

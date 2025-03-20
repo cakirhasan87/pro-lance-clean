@@ -3,40 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro-Lance | Collaboration</title>
+    <title>Collaboration | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Pro-Lance</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="collaboration.html" class="active">Collaboration</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <div class="language-selector">
-                    <a href="../collaboration.html">TR</a>
-                    <a href="#" class="active">EN</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
 
     <main>
         <!-- Hero Section -->
         <section class="collaboration-hero">
-            <div class="hero-content">
-                <h1>Empower Through Collaboration</h1>
-                <p>Take your business to the next level by collaborating with Pro-Lance</p>
-            </div>
+            <h1>Empower Through Collaboration</h1>
+            <p>Take your business to the next level by collaborating with Pro-Lance</p>
         </section>
 
         <!-- Benefits Section -->
@@ -61,7 +71,7 @@
                 <div class="benefit-card">
                     <i class="fas fa-clock"></i>
                     <h3>Time Savings</h3>
-                    <p>Save time and costs by optimizing operational processes.</p>
+                    <p>Save time and resources with our efficient project management.</p>
                 </div>
                 <div class="benefit-card">
                     <i class="fas fa-lightbulb"></i>
@@ -71,7 +81,7 @@
                 <div class="benefit-card">
                     <i class="fas fa-globe"></i>
                     <h3>Global Access</h3>
-                    <p>Access international markets and grow on a global scale.</p>
+                    <p>Access international markets and expand your reach.</p>
                 </div>
             </div>
         </section>
@@ -172,17 +182,10 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="terms-of-use.html">Terms of Use</a></li>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -193,6 +196,13 @@
                     <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
                         <i class="fab fa-linkedin"></i></a>
                 </div>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">

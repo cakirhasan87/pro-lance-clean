@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gizlilik Politikası | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
+
+    <main>
+        <!-- Privacy Policy Content -->
+        <section class="legal-content">
+            <h1>Gizlilik Politikası</h1>
+            <p class="last-updated">Son güncelleme: 15 Mart 2024</p>
+
+            <div class="legal-section">
+                <h2>1. Giriş</h2>
+                <p>Pro-Lance olarak gizliliğinizi ciddiye alıyoruz. Bu Gizlilik Politikası, platformumuzu ve hizmetlerimizi kullandığınızda bilgilerinizi nasıl topladığımızı, kullandığımızı, açıkladığımızı ve koruduğumuzu açıklamaktadır.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. Topladığımız Bilgiler</h2>
+                <h3>Kişisel Bilgiler</h3>
+                <ul>
+                    <li>Ad ve iletişim bilgileri</li>
+                    <li>E-posta adresi</li>
+                    <li>Telefon numarası</li>
+                    <li>Ödeme bilgileri</li>
+                    <li>Profesyonel bilgiler</li>
+                </ul>
+
+                <h3>Kullanım Bilgileri</h3>
+                <ul>
+                    <li>Kayıt verileri</li>
+                    <li>Cihaz bilgileri</li>
+                    <li>IP adresi</li>
+                    <li>Tarayıcı türü</li>
+                    <li>Ziyaret edilen sayfalar</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Bilgilerinizi Nasıl Kullanıyoruz</h2>
+                <p>Toplanan bilgileri çeşitli amaçlar için kullanıyoruz:</p>
+                <ul>
+                    <li>Hizmetlerimizi sağlamak ve sürdürmek için</li>
+                    <li>İşlemlerinizi işlemek için</li>
+                    <li>Güncellemeler ve pazarlama iletişimleri göndermek için</li>
+                    <li>Hizmetlerimizi geliştirmek için</li>
+                    <li>Yasal yükümlülüklere uymak için</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. Bilgi Paylaşımı</h2>
+                <p>Bilgilerinizi şunlarla paylaşabiliriz:</p>
+                <ul>
+                    <li>Hizmet sağlayıcıları</li>
+                    <li>İş ortakları</li>
+                    <li>Gerektiğinde yasal makamlar</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. Veri Güvenliği</h2>
+                <p>Kişisel bilgilerinizi yetkisiz erişim, değiştirme, ifşa veya imhadan korumak için uygun güvenlik önlemleri uyguluyoruz.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Haklarınız</h2>
+                <p>Şu haklara sahipsiniz:</p>
+                <ul>
+                    <li>Kişisel verilerinize erişim</li>
+                    <li>Yanlış verileri düzeltme</li>
+                    <li>Verilerinizin silinmesini talep etme</li>
+                    <li>Veri işlemeye itiraz etme</li>
+                    <li>Veri taşınabilirliği</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. Çerezler</h2>
+                <p>Platformumuzdaki aktiviteyi takip etmek ve belirli bilgileri tutmak için çerezler ve benzer izleme teknolojileri kullanıyoruz. Tarayıcınızı tüm çerezleri reddetmek veya bir çerez gönderildiğinde bunu belirtmek için yapılandırabilirsiniz.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. Bu Politikada Değişiklikler</h2>
+                <p>Gizlilik Politikamızı zaman zaman güncelleyebiliriz. Yeni Gizlilik Politikasını bu sayfaya göndererek ve "Son güncelleme" tarihini güncelleyerek sizi herhangi bir değişiklikten haberdar edeceğiz.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. Bize Ulaşın</h2>
+                <p>Bu Gizlilik Politikası hakkında sorularınız varsa, lütfen bizimle iletişime geçin:</p>
+                <p>E-posta: privacy@pro-lance.com<br>
+                Adres: 123 İş Merkezi Caddesi, Kat 100, New York, NY 10001</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Freelance dünyasında güvenilir adresiniz</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Linkler</h3>
+                <ul>
+                    <li><a href="index.html#about">Hakkımızda</a></li>
+                    <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
+                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html> 

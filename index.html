@@ -13,27 +13,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header Bölümü -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Pro-Lance</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Ana Sayfa</a></li>
-                <li><a href="services.html">Hizmetler</a></li>
-                <li><a href="collaboration.html">İş Birliği</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">İletişim</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <div class="language-selector">
-                    <a href="#" class="active">TR</a>
-                    <a href="en/index.html">EN</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
 
     <!-- Ana Bölüm -->
     <main>

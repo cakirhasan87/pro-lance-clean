@@ -1,0 +1,564 @@
+{
+	"name": "Bito",
+	"displayName": "ChatGPT GPT-4o - Bito AI Code Assistant",
+	"description": "Top-rated AI code assistant supports GPT-4o & mini, Claude Sonnet 3.5 for the best AI code generation, code reviews, test creation, and explanation. Trusted by 100K+ devs from Amazon, Apple, Google, & more. Offers a limited Free Plan and a 10X Developer Plan—no API key required.",
+	"icon": "media/bito_logo_mark.png",
+	"version": "1.5.6",
+	"engines": {
+		"vscode": "^1.72.0"
+	},
+	"extensionKind": [
+		"workspace"
+	],
+	"author": {
+		"name": "Bito © 2021",
+		"url": "https://www.bito.ai/"
+	},
+	"license": "SEE LICENSE IN LICENSE.md",
+	"private": "true",
+	"homepage": "https://www.bito.ai/",
+	"publisher": "Bito",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/gitbito/bitoai"
+	},
+	"bugs": {
+		"url": "https://github.com/gitbito/bitoai/issues",
+		"email": "support@bito.ai"
+	},
+	"categories": [
+		"Programming Languages",
+		"Linters",
+		"Formatters",
+		"Machine Learning",
+		"Education",
+		"Testing"
+	],
+	"keywords": [
+		"chatGPT",
+		"code generation",
+		"code explanation",
+		"code summary",
+		"security",
+		"performance",
+		"style check",
+		"debugging",
+		"ai",
+		"code transform",
+		"copilot",
+		"qa",
+		"unit testing"
+	],
+	"activationEvents": [
+		"onCustomEditor:bito.diffView",
+		"onStartupFinished",
+		"onCommand:editor.bito.showBitoWebview"
+	],
+	"main": "./dist/vscode/extension.js",
+	"contributes": {
+		"customEditors": [
+			{
+				"viewType": "bito.diffView",
+				"displayName": "Bito Diff View",
+				"selector": [
+					{
+						"filenamePattern": "*.bito-diff"
+					}
+				]
+			}
+		],
+		"configuration": [
+			{
+				"id": "Bito Settings",
+				"title": "Bito",
+				"properties": {
+					"bitoAI.allowSelfSignedCertificates": {
+						"type": "boolean",
+						"default": true,
+						"description": "Allow downloading from servers with self-signed certificates (not recommended for production)"
+					},
+					"bitoAI.codeCompletion.enableAutoCompletion": {
+						"type": "boolean",
+						"default": false,
+						"markdownDescription": "Enable inline code suggestion in the editor",
+						"order": 0
+					},
+					"bitoAI.codeCompletion.enableCommentToCode": {
+						"type": "boolean",
+						"default": false,
+						"markdownDescription": "Enable generating code from comment in the editor",
+						"order": 1
+					},
+					"bitoAI.codeCompletion.setAutoCompletionTriggerLogic": {
+						"type": "number",
+						"default": 250,
+						"markdownDescription": "Bito AI suggests code in the editor while typing. Set the pause time in milliseconds. Lower value makes suggestions more often.",
+						"order": 2
+					},
+					"bitoAI.appearance.theme": {
+						"type": "string",
+						"enum": [
+							"Always Light",
+							"Always Dark",
+							"\"Light\" or \"Dark\" matching IDE",
+							"Adaptive"
+						],
+						"default": "Always Dark",
+						"markdownDescription": "Select the predefined 'Light' or 'Dark' theme, or opt for an 'Adaptive' theme that adjusts to your IDE's custom theme.",
+						"order": 3
+					},
+					"bitoAI.appearance.fontSize (Match with IDE Font)": {
+						"type": "boolean",
+						"default": true,
+						"markdownDescription": "Enable to match the font size with that of the IDE. **This will override any specific numeric value set in the font size config below.**",
+						"order": 4
+					},
+					"bitoAI.appearance.fontSize": {
+						"type": "number",
+						"default": 13,
+						"markdownDescription": "Specify the base font size in pixels. **Enabling the option to match with the IDE’s font size, as mentioned above, will override this setting.**",
+						"order": 5
+					},
+					"bitoAI.openInExtendedWindow.enableExtendedWindow": {
+						"type": "string",
+						"enum": [
+							"Open in side panel view",
+							"Open in separate tab",
+							"Open in new window"
+						],
+						"default": "Open in side panel view",
+						"markdownDescription": "Open the Bito extension in your preferred view: side panel, new window, or separate code file view.",
+						"order": 6
+					}
+				}
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "bito-activitybar",
+					"title": "Bito",
+					"icon": "media/bito_logo_bold_mark.svg"
+				}
+			]
+		},
+		"views": {
+			"bito-activitybar": [
+				{
+					"id": "activateBito.sidebar",
+					"name": "Bito",
+					"type": "webview"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "bito.updateBinary",
+				"title": "Bito: Install BitoWingman",
+				"category": "Bito"
+			},
+			{
+				"command": "bito.show.wingman",
+				"title": "Bito: Show Wingman"
+			},
+			{
+				"command": "bito.showInSeparateTab",
+				"title": "Show Bito Extension in Separate Tab"
+			},
+			{
+				"command": "bito.diffView.acceptChange",
+				"title": "Accept Change"
+			},
+			{
+				"command": "bito.diffView.rejectChange",
+				"title": "Reject Change"
+			},
+			{
+				"command": "bito.menu.explainThisCode",
+				"title": "Explain this Code"
+			},
+			{
+				"command": "bito.menu.generateComment",
+				"title": "Generate Comment"
+			},
+			{
+				"command": "bito.menu.performanceCheck",
+				"title": "Performance Check"
+			},
+			{
+				"command": "bito.menu.securityCheck",
+				"title": "Security Check"
+			},
+			{
+				"command": "bito.menu.styleCheck",
+				"title": "Style Check"
+			},
+			{
+				"command": "bito.menu.improveReadability",
+				"title": "Improve Readability"
+			},
+			{
+				"command": "bito.menu.cleanCode",
+				"title": "Clean Code"
+			},
+			{
+				"command": "bito.menu.generateUnitTest",
+				"title": "Generate Unit Test"
+			},
+			{
+				"command": "bito.menu.runCustomPromptTemplate",
+				"title": "Run Custom Prompt Template"
+			},
+			{
+				"command": "bito.menu.insertCodeIntoBito",
+				"title": "Insert Code Into Bito"
+			},
+			{
+				"command": "bito.palette.explainThisCodePalette",
+				"title": "Bito: Explain this Code"
+			},
+			{
+				"command": "bito.palette.generateCommentPalette",
+				"title": "Bito: Generate Comment"
+			},
+			{
+				"command": "bito.palette.performanceCheckPalette",
+				"title": "Bito: Performance Check"
+			},
+			{
+				"command": "bito.palette.securityCheckPalette",
+				"title": "Bito: Security Check"
+			},
+			{
+				"command": "bito.palette.styleCheckPalette",
+				"title": "Bito: Style Check"
+			},
+			{
+				"command": "bito.palette.improveReadabilityPalette",
+				"title": "Bito: Improve Readability"
+			},
+			{
+				"command": "bito.palette.cleanCodePalette",
+				"title": "Bito: Clean Code"
+			},
+			{
+				"command": "bito.palette.generateUnitTestPalette",
+				"title": "Bito: Generate Unit Test"
+			},
+			{
+				"command": "bito.palette.runCustomPromptPalette",
+				"title": "Bito: Run Custom Prompt Template"
+			},
+			{
+				"command": "bito.palette.insertCodeIntoBitoPalette",
+				"title": "Bito: Insert Code Into Bito"
+			},
+			{
+				"command": "Bito.code-completion.get-suggestion",
+				"title": "Bito: Get Suggestions for Code Completion"
+			},
+			{
+				"command": "bito.statusbar.click",
+				"title": "Bito: Status Bar"
+			},
+			{
+				"command": "bito.menu.localCodeChanges",
+				"title": "Local Changes"
+			},
+			{
+				"command": "bito.menu.stagedCodeChanges",
+				"title": "Staged Changes"
+			},
+			{
+				"command": "bito.menu.lastCommitCodeChanges",
+				"title": "Last Commit Changes"
+			},
+			{
+				"command": "bito.menu.multipleCommitCodeChanges",
+				"title": "Commit Changes"
+			},
+			{
+				"command": "bito.menu.createPullRequest",
+				"title": "Create Pull Request"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "bito.showInSeparateTab",
+				"key": "alt+shift+n"
+			},
+			{
+				"command": "bito.diffView.acceptChange",
+				"key": "ctrl+y",
+				"when": "activeCustomEditorId == bito.diffView"
+			},
+			{
+				"command": "bito.diffView.rejectChange",
+				"key": "ctrl+n",
+				"when": "activeCustomEditorId == bito.diffView"
+			},
+			{
+				"command": "Bito.code-completion.get-suggestion",
+				"key": "alt+shift+k"
+			},
+			{
+				"command": "bito.menu.explainThisCode",
+				"key": "alt+shift+e"
+			},
+			{
+				"command": "bito.menu.generateComment",
+				"key": "alt+shift+v"
+			},
+			{
+				"command": "bito.menu.performanceCheck",
+				"key": "alt+shift+q"
+			},
+			{
+				"command": "bito.menu.securityCheck",
+				"key": "alt+shift+z"
+			},
+			{
+				"command": "bito.menu.styleCheck",
+				"key": "alt+shift+u"
+			},
+			{
+				"command": "editor.bito.showBitoWebview",
+				"win": "ctrl+shift+o",
+				"mac": "ctrl+shift+o"
+			}
+		],
+		"menus": {
+			"explorer/context": [],
+			"editor/context": [
+				{
+					"submenu": "bito/editor/context/menuItems",
+					"group": "navigation"
+				}
+			],
+			"bito/editor/context/menuItems": [
+				{
+					"command": "bito.menu.insertCodeIntoBito",
+					"group": "1_navigation@1"
+				},
+				{
+					"command": "bito.menu.explainThisCode",
+					"group": "2_navigation@1"
+				},
+				{
+					"command": "bito.menu.generateComment",
+					"group": "2_navigation@2"
+				},
+				{
+					"command": "bito.menu.performanceCheck",
+					"group": "3_navigation@1"
+				},
+				{
+					"command": "bito.menu.securityCheck",
+					"group": "3_navigation@2"
+				},
+				{
+					"command": "bito.menu.styleCheck",
+					"group": "3_navigation@3"
+				},
+				{
+					"command": "bito.menu.improveReadability",
+					"group": "4_navigation@1"
+				},
+				{
+					"command": "bito.menu.cleanCode",
+					"group": "4_navigation@2"
+				},
+				{
+					"command": "bito.menu.generateUnitTest",
+					"group": "4_navigation@3"
+				},
+				{
+					"command": "bito.menu.runCustomPromptTemplate",
+					"group": "5_navigation@1"
+				}
+			],
+			"bito/editor/context/codeReviewMenu": [
+				{
+					"command": "bito.menu.localCodeChanges",
+					"group": "6_navigation@1"
+				},
+				{
+					"command": "bito.menu.stagedCodeChanges",
+					"group": "6_navigation@2"
+				},
+				{
+					"command": "bito.menu.multipleCommitCodeChanges",
+					"group": "6_navigation@3"
+				},
+				{
+					"command": "bito.menu.lastCommitCodeChanges",
+					"group": "6_navigation@4"
+				},
+				{
+					"command": "bito.menu.createPullRequest",
+					"group": "7_navigation@1",
+					"when": "!git.providerIsBitbucket"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "bito.palette.explainThisCodePalette"
+				},
+				{
+					"command": "bito.palette.generateCommentPalette"
+				},
+				{
+					"command": "bito.palette.performanceCheckPalette"
+				},
+				{
+					"command": "bito.palette.securityCheckPalette"
+				},
+				{
+					"command": "bito.palette.styleCheckPalette"
+				},
+				{
+					"command": "bito.palette.improveReadabilityPalette"
+				},
+				{
+					"command": "bito.palette.cleanCodePalette"
+				},
+				{
+					"command": "bito.palette.generateUnitTestPalette"
+				},
+				{
+					"command": "bito.palette.runCustomPromptPalette"
+				},
+				{
+					"command": "bito.palette.insertCodeIntoBitoPalette"
+				},
+				{
+					"command": "bito.updateBinary",
+					"when": "showWingmanCommand"
+				},
+				{
+					"command": "bito.show.wingman",
+					"when": "showWingmanCommand"
+				}
+			]
+		},
+		"submenus": [
+			{
+				"id": "bito/editor/context/menuItems",
+				"label": "Bito AI"
+			},
+			{
+				"id": "bito/editor/context/codeReviewMenu",
+				"label": "Bito Code Review Agent"
+			}
+		],
+		"icons": {
+			"bito-logo-icon": {
+				"description": "Bito logo icon",
+				"default": {
+					"fontPath": "media/BitoIcon.woff",
+					"fontCharacter": "\\E900"
+				}
+			},
+			"bito-cra-complete": {
+				"description": "code review complete icon",
+				"default": {
+					"fontPath": "media/CheckIcon.woff",
+					"fontCharacter": "\\E901"
+				}
+			},
+			"bito-cra-inprogress": {
+				"description": "code review in progress icon",
+				"default": {
+					"fontPath": "media/ProgressIcon.woff",
+					"fontCharacter": "\\E900"
+				}
+			},
+			"bito-cra-error": {
+				"description": "cod review error icon",
+				"default": {
+					"fontPath": "media/CloseIcon.woff",
+					"fontCharacter": "\\E900"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"watch": "webpack --watch",
+		"compile": "webpack",
+		"bito:package": "webpack",
+		"vsce:version": "vsce --version",
+		"create:installer": "vsce package --no-dependencies",
+		"buildUi": "npm run build --prefix ../ui-code/",
+		"deleteUi": "rm -r dist/bito-ui",
+		"copyUi": "cp -r ../ui-code/dist dist/bito-ui",
+		"copyAssests": "cp -r assets/js dist/bito-ui/js",
+		"buildCompletely": "npm run buildUi && npm run deleteUi && npm run copyUi && npm run bito:package && npm run copyAssests && npm run create:installer",
+		"vscode:uninstall": "node ./dist/vscode/uninstall"
+	},
+	"extensionDependencies": [
+		"vscode.git"
+	],
+	"devDependencies": {
+		"@angular-devkit/build-angular": "^16.1.3",
+		"@angular/cli": "^16.1.3",
+		"@types/adm-zip": "^0.5.7",
+		"@types/fs-extra": "^11.0.4",
+		"@types/ip": "^1.1.0",
+		"@types/request-promise": "^4.1.48",
+		"@types/vscode": "^1.64.0",
+		"@types/workerpool": "^6.4.2",
+		"@types/yauzl": "^2.10.3",
+		"@typescript-eslint/eslint-plugin": "^5.1.0",
+		"@typescript-eslint/parser": "^5.1.0",
+		"adm-zip": "^0.5.16",
+		"cheerio": "^1.0.0-rc.10",
+		"clean-webpack-plugin": "^4.0.0",
+		"compare-versions": "^6.0.0-rc.1",
+		"eslint": "^8.1.0",
+		"fs-extra": "^11.2.0",
+		"ts-loader": "^9.2.5",
+		"tslib": "^2.6.1",
+		"typescript": "^4.4.4",
+		"vsce": "^2.15.0",
+		"webpack": "^5.52.1",
+		"webpack-cli": "^4.9.2",
+		"webpack-node-externals": "^3.0.0",
+		"yauzl": "^3.2.0"
+	},
+	"dependencies": {
+		"@bito/localcodesearchdev": "1.1.65",
+		"async-mutex": "^0.4.0",
+		"axios": "^0.26.1",
+		"cors": "^2.8.5",
+		"diff": "^7.0.0",
+		"express": "^4.17.3",
+		"gpt-tokenizer": "^2.5.1",
+		"helmet": "^5.0.2",
+		"ip": "^1.1.8",
+		"isbinaryfile": "5.0.0",
+		"moment": "^2.29.4",
+		"morgan": "^1.10.0",
+		"node-fetch": "^3.3.0",
+		"node-machine-id": "^1.1.12",
+		"properties-reader": "^2.2.0",
+		"request": "^2.88.2",
+		"request-promise": "^4.2.6",
+		"tslib": "^2.6.0",
+		"uuid": "^9.0.0",
+		"workerpool": "^6.5.0"
+	},
+	"__metadata": {
+		"id": "c89f47de-3269-415c-99ed-bb853a3f0fe7",
+		"publisherId": "e9849850-6ca1-4582-904c-c191feb62fed",
+		"publisherDisplayName": "Bito",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"isPreReleaseVersion": false,
+		"hasPreReleaseVersion": false,
+		"installedTimestamp": 1742212172187,
+		"pinned": false,
+		"preRelease": false,
+		"source": "gallery",
+		"size": 55510088
+	}
+}

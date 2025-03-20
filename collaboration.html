@@ -3,46 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro-Lance | İş Birliği</title>
+    <title>İş Birliği | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Pro-Lance</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="services.html">Hizmetler</a></li>
-                <li><a href="collaboration.html" class="active">İş Birliği</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">İletişim</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <div class="language-selector">
-                    <a href="#" class="active">TR</a>
-                    <a href="en/collaboration.html">EN</a>
-                </div>
-               
-            </div>
-        </nav>
-    </header>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
 
     <main>
-        <!-- Hero Section -->
+        <!-- Collaboration Content -->
         <section class="collaboration-hero">
-            <div class="hero-content">
-                <h1>İş Birliği ile Güçlenin</h1>
-                <p>Pro-Lance ile iş birliği yaparak işletmenizi bir üst seviyeye taşıyın</p>
-            </div>
+            <h1>Bizimle İş Birliği Yapın</h1>
+            <p>Profesyoneller ağımıza katılın ve birlikte büyüyelim</p>
         </section>
 
-        <!-- Benefits Section -->
         <section class="benefits-section">
-            <h2>İş Birliği Avantajları</h2>
+            <h2>Neden Bizimle İş Birliği Yapmalısınız?</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
                     <i class="fas fa-handshake"></i>
@@ -171,13 +179,22 @@
                 <p>Freelance dünyasında güvenilir adresiniz</p>
             </div>
             <div class="footer-section">
-                <h3>Hızlı Bağlantılar</h3>
+                <h3>Hızlı Linkler</h3>
                 <ul>
-                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="index.html#about">Hakkımızda</a></li>
                     <li><a href="services.html">Hizmetler</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
             <div class="footer-section">
                 <h3>Yasal</h3>
@@ -185,15 +202,6 @@
                     <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
                     <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
-                <h3>İletişim</h3>
-                <p>E-posta: support@pro-lance.com</p>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
-                        <i class="fab fa-linkedin"></i></a>
-                </div>
             </div>
         </div>
         <div class="footer-bottom">

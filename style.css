@@ -14,45 +14,149 @@ body {
 }
 
 /* Header Styles */
-nav {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: fixed;
     width: 100%;
     top: 0;
+    left: 0;
     z-index: 1000;
+    box-sizing: border-box;
 }
 
 .logo a {
     font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    text-decoration: none;
-}
-
-.nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    margin-left: auto;
-    margin-right: 3.5rem;
-}
-
-.nav-links li a {
     color: #333;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    font-size: 18px;
+    font-weight: bold;
 }
 
-.nav-links li a:hover {
+.nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.nav-list a:hover {
     color: #007bff;
+}
+
+.language-switch {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 2rem;
+}
+
+.language-switch a, .language-selector a {
+    text-decoration: none;
+    color: #888888;
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 0 2px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.language-switch a.active, .language-selector a.active {
+    color: white;
+    background-color: #4CAF50;
+    font-weight: bold;
+}
+
+.language-switch a:hover, .language-selector a:hover {
+    background-color: #e0e0e0;
+}
+
+.language-switch a.active:hover, .language-selector a.active:hover {
+    background-color: #3d8b40;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+/* Add margin to main content to account for fixed header */
+main {
+    margin-top: 80px;
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .nav.active {
+        display: block;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .language-switch {
+        margin-left: 1rem;
+    }
+
+    /* Hamburger animation */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
 }
 
 .auth-buttons {
@@ -72,25 +176,6 @@ nav {
     height: 24px;
     width: 1px;
     background-color: #ddd;
-}
-
-.language-selector {
-    display: flex;
-    gap: 0.5rem;
-    margin-right: 1rem;
-}
-
-.language-selector a {
-    text-decoration: none;
-    color: #666;
-    font-weight: 500;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-}
-
-.language-selector a.active {
-    background-color: #3498db;
-    color: white;
 }
 
 .login-btn, .register-btn {
@@ -521,7 +606,7 @@ footer {
     color: #ecf0f1;
     text-decoration: none;
     transition: color 0.3s ease;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
 }
 
 .footer-section a:hover {

@@ -4,82 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Pro-Lance</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .blog-card {
-            margin-bottom: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            background-color: #fff;
-            transition: transform 0.3s ease;
-        }
-        .blog-card:hover {
-            transform: translateY(-5px);
-        }
-        .blog-image {
-            height: 200px;
-            overflow: hidden;
-        }
-        .blog-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .blog-card:hover .blog-image img {
-            transform: scale(1.05);
-        }
-        .blog-content {
-            padding: 20px;
-        }
-        .blog-content h2 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .blog-content p {
-            color: #666;
-            margin-bottom: 15px;
-        }
-        .read-more {
-            display: inline-block;
-            color: #007bff;
-            font-weight: 500;
-            text-decoration: none;
-        }
-        .read-more:hover {
-            text-decoration: underline;
-        }
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .blog-hero {
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 80px 20px 40px;
-            margin-top: 60px;
-        }
-        .blog-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        @media (max-width: 768px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- Static Header -->
+    <!-- Header -->
     <header class="header">
         <div class="logo">
             <a href="index.html">Pro-Lance</a>
@@ -90,17 +20,17 @@
                 <li><a href="index.html">Ana Sayfa</a></li>
                 <li><a href="services.html">Hizmetler</a></li>
                 <li><a href="collaboration.html">İş Birliği</a></li>
-                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="blog.html">Blog</a></li>
                 <li><a href="contact.html">İletişim</a></li>
             </ul>
         </nav>
 
         <div class="language-switch">
             <a href="#" class="active">TR</a>
-            <a href="en/blog.html">EN</a>
+            <a href="../en/blog.html">EN</a>
         </div>
 
-        <button class="hamburger" aria-label="Menü">
+        <button class="hamburger" aria-label="Menu">
             <span></span>
             <span></span>
             <span></span>
@@ -121,62 +51,62 @@
             <div class="blog-grid">
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Why Clients are Opting.webp" alt="Müşteriler Neden Freelance Kaynakları Tercih Ediyor">
+                        <img src="../images/modern-freelance.webp" alt="Modern İş Dünyasında Freelancer Kaynakları">
                     </div>
                     <div class="blog-content">
-                        <h2>Müşteriler Neden Freelance Kaynakları Tercih Ediyor</h2>
-                        <p>Dinamik pandemi sonrası dünyada, işletmeler yetenek edinimini yeniden tanımlıyor, özellikle kısa vadeli projeler için. İşte müşterilerin neden freelancer'ları tercih ettiği...</p>
+                        <h2>Müşteriler Neden Freelancer Kaynakları Tercih Ediyor?</h2>
+                        <p>Pandemi sonrası dinamik dünyada, işletmeler özellikle kısa vadeli projeler için yetenek edinimini yeniden tanımlıyor. İşte müşterilerin freelancer'ları tercih etmelerinin nedenleri...</p>
                         <a href="blog-posts/why-clients-choose-freelancers.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Mastering Project Management.webp" alt="Proje Yönetimi">
+                        <img src="../images/project-management.webp" alt="Proje Yönetimi">
                     </div>
                     <div class="blog-content">
                         <h2>Kısa Vadeli Projelerde Proje Yönetiminde Uzmanlaşma</h2>
-                        <p>Hızlı tempolu ERP dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği sağlamada çok önemlidir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir...</p>
+                        <p>ERP'nin hızlı dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği yönlendirmede çok önemlidir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir...</p>
                         <a href="blog-posts/short-term-project-management.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/SAP ECC Support Discountinuation.webp" alt="SAP Geçiş">
+                        <img src="../images/sap-migration.webp" alt="SAP Migration">
                     </div>
                     <div class="blog-content">
-                        <h2>SAP ECC Desteğinin Sona Ermesi: S/4HANA'ya Geçiş</h2>
-                        <p>SAP, ECC (ERP Central Component) sistemi için desteğini 2027 yılına kadar sonlandıracağını duyurdu. Bu kararın, hala ECC'ye bağlı işletmeler için önemli etkileri var ve SAP'nin yeni nesil ERP paketi S/4HANA'ya geçişin aciliyetini vurguluyor...</p>
+                        <h2>SAP ECC Desteğinin Sonlandırılması: S/4HANA'ya Geçiş</h2>
+                        <p>SAP, 2027 yılına kadar ECC (ERP Central Component) sistemi için desteğini sonlandıracağını duyurdu. Bu karar, hala ECC'ye bağlı olan işletmeler için önemli etkilere sahip olup, SAP'nin yeni nesil ERP paketi S/4HANA'ya geçişin aciliyetini vurguluyor...</p>
                         <a href="blog-posts/sap-ecc-discontinuation.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/remote-office.webp" alt="Uzaktan Çalışma">
+                        <img src="../images/remote-work.webp" alt="Uzaktan Çalışma">
                     </div>
                     <div class="blog-content">
-                        <h2>Uzaktan Proje Yönetimi ile Olağanüstü Sonuçlar Elde Edin</h2>
-                        <p>Günümüzün hızlı tempolu iş dünyasında, uzaktan çalışma artık sadece bir trend değil - en iyi yeteneğe erişmenin ve olağanüstü sonuçlar elde etmenin anahtarıdır...</p>
+                        <h2>Uzaktan Proje Yönetimi ile Olağanüstü Sonuçlar</h2>
+                        <p>Günümüzün hızlı iş dünyasında, uzaktan çalışma artık sadece bir trend değil - en iyi yeteneklere ulaşmanın ve olağanüstü sonuçlar elde etmenin anahtarıdır...</p>
                         <a href="blog-posts/remote-project-management.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/sap-clean-core.jpg" alt="SAP Clean Core">
+                        <img src="../images/sap-clean-core.webp" alt="SAP Clean Core">
                     </div>
                     <div class="blog-content">
                         <h2>SAP Clean Core: Büyüme için Optimize Edilmiş Çözüm</h2>
-                        <p>SAP sistemlerindeki Clean Core yaklaşımı, işletmelerin daha verimli ve sürdürülebilir bir büyüme elde etmelerini sağlar...</p>
+                        <p>SAP sistemlerinde Clean Core yaklaşımı, işletmelerin daha verimli ve sürdürülebilir bir büyüme elde etmelerini sağlar...</p>
                         <a href="blog-posts/sap-clean-core.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/AI Driven Software Development.webp" alt="AI Yazılım Geliştirme">
+                        <img src="../images/ai-development.webp" alt="AI Yazılım Geliştirme">
                     </div>
                     <div class="blog-content">
                         <h2>Daha Hızlı, Daha Akıllı Çözümler için AI Destekli Yazılım Geliştirme</h2>
@@ -187,10 +117,10 @@
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Tips and Strategies for Digital Transformation in Manufacturing.webp" alt="Dijital Dönüşüm">
+                        <img src="../images/digital-transformation.webp" alt="Dijital Dönüşüm">
                     </div>
                     <div class="blog-content">
-                        <h2>Üretimde Dijital Dönüşüm İçin İpuçları ve Stratejiler</h2>
+                        <h2>Üretimde Dijital Dönüşüm için İpuçları ve Stratejiler</h2>
                         <p>Üretim sektörü, şirketlerin rekabetçi kalmak, operasyonel verimliliği artırmak ve artan müşteri taleplerini karşılamak için dijital dönüşümü benimsemesiyle önemli bir değişim geçiriyor...</p>
                         <a href="blog-posts/manufacturing-digital-transformation.html" class="read-more">Devamını Oku</a>
                     </div>
@@ -198,7 +128,7 @@
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/AI and ML.webp" alt="Üretimde AI ve ML">
+                        <img src="../images/ai-ml-manufacturing.webp" alt="AI ve ML Üretimde">
                     </div>
                     <div class="blog-content">
                         <h2>Yapay Zeka ve Makine Öğrenimi: Üretimin Geleceği</h2>
@@ -209,77 +139,77 @@
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Embracing Change.webp" alt="Değişim Yönetimi">
+                        <img src="../images/change-management.webp" alt="Değişim Yönetimi">
                     </div>
                     <div class="blog-content">
-                        <h2>Değişimi Benimsemek: Başarılı Proje Tesliminin Temel Taşı</h2>
-                        <p>Yeni BT sistemleri uygularken veya mevcut olanları güncellerken, değişim yönetimi, sorunsuz geçişler sağlamak ve yatırımınızın değerini en üst düzeye çıkarmak için çok önemlidir...</p>
+                        <h2>Değişimi Kucaklamak: Başarılı Proje Teslimatının Temel Taşı</h2>
+                        <p>Yeni BT sistemlerini uygularken veya mevcut sistemleri güncellerken, değişim yönetimi sorunsuz geçişleri sağlamak ve yatırımınızın değerini en üst düzeye çıkarmak için çok önemlidir...</p>
                         <a href="blog-posts/change-management.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Top Agile Project Management Tools.webp" alt="Çevik Proje Yönetimi">
+                        <img src="../images/agile-tools.webp" alt="Çevik Proje Yönetimi">
                     </div>
                     <div class="blog-content">
-                        <h2>SAP Projeleri İçin En İyi Çevik Proje Yönetim Araçları</h2>
-                        <p>Başarılı SAP uygulamaları için vazgeçilmez olduğu kanıtlanan en iyi Çevik proje yönetim araçlarını keşfedin...</p>
+                        <h2>SAP Projeleri için En İyi Çevik Proje Yönetimi Araçları</h2>
+                        <p>Başarılı SAP uygulamaları için vazgeçilmez olduğunu kanıtlamış en iyi Çevik proje yönetimi araçlarını keşfedin...</p>
                         <a href="blog-posts/agile-project-management-tools.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Future Of SAP.webp" alt="SAP'nin Geleceği">
+                        <img src="../images/sap-future.webp" alt="SAP'nin Geleceği">
                     </div>
                     <div class="blog-content">
                         <h2>SAP'nin Geleceği: Yeni Trendler ve Teknolojiler</h2>
-                        <p>İş dünyası hızla evrim geçirmeye devam ederken, organizasyonların rekabet avantajlarını koruyabilmeleri için gelişmelerin önünde olmak hayati önem taşıyor...</p>
+                        <p>İş dünyası hızla evrilmeye devam ederken, rekabet avantajını korumak için gelişmelerin önünde olmak organizasyonlar için hayati önem taşıyor...</p>
                         <a href="blog-posts/sap-future-trends.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Common Challenges In SAP.webp" alt="SAP Zorlukları">
+                        <img src="../images/sap-challenges.webp" alt="SAP Zorlukları">
                     </div>
                     <div class="blog-content">
-                        <h2>SAP Uygulamasında Yaygın Zorluklar ve Çözümleri</h2>
-                        <p>Bir SAP uygulama sürecine başlamak hem heyecan verici hem de zorlu olabilir. Organizasyonlar operasyonlarını optimize etmeye ve yeni olanakları keşfetmeye çalışırken, süreç boyunca yaygın zorlukları ele almak çok önemlidir...</p>
+                        <h2>SAP Uygulamasında Yaygın Zorluklar ve Çözüm Yolları</h2>
+                        <p>SAP uygulama sürecine başlamak hem heyecan verici hem de zorlayıcı olabilir. Organizasyonlar operasyonlarını optimize etmeye ve yeni olanakları keşfetmeye çalışırken, süreç boyunca ortaya çıkabilecek yaygın zorlukları ele almak çok önemlidir...</p>
                         <a href="blog-posts/sap-implementation-challenges.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Driving Digital Transformation.webp" alt="SAP İş Çevikliği">
+                        <img src="../images/sap-agility.webp" alt="SAP İş Çevikliği">
                     </div>
                     <div class="blog-content">
-                        <h2>Dijital Dönüşümü Yönlendirmek: SAP İş Çevikliğini Nasıl Sağlar</h2>
-                        <p>Günümüzün hızlı tempolu iş dünyasında, organizasyonların çevik, uyarlanabilir ve dijital dönüşüme hazır olması gerekiyor. İşte SAP burada devreye giriyor!</p>
+                        <h2>Dijital Dönüşümü Yönlendirmek: SAP İş Çevikliğini Nasıl Sağlıyor</h2>
+                        <p>Günümüzün hızlı iş dünyasında, organizasyonların çevik, uyarlanabilir ve dijital dönüşüme hazır olması gerekiyor. İşte tam burada SAP devreye giriyor!</p>
                         <a href="blog-posts/sap-digital-transformation.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Rise-Of-Stream-Names.webp" alt="SAP Stream Adlandırma">
+                        <img src="../images/Rise-Of-Stream-Names.webp" alt="SAP Stream İsimlendirme">
                     </div>
                     <div class="blog-content">
-                        <h2>Stream Adlandırmasının Yükselişi ve Geleneksel SAP Modül Referansları</h2>
-                        <p>MM (Malzeme Yönetimi) veya PP (Üretim Planlaması) gibi modül adlarını SAP içindeki belirli süreçleri tanımlamak için kullanma günlerine veda edin...</p>
+                        <h2>Geleneksel SAP Modül Referanslarına Karşı Stream İsimlendirmesinin Yükselişi</h2>
+                        <p>SAP içindeki belirli süreçleri tanımlamak için MM (Malzeme Yönetimi) veya PP (Üretim Planlaması) gibi modül isimlerini kullanma günlerine veda edin...</p>
                         <a href="blog-posts/sap-stream-naming.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
 
                 <article class="blog-card">
                     <div class="blog-image">
-                        <img src="images/Bluefield Approach In A Nutshell.webp" alt="Bluefield Yaklaşımı">
+                        <img src="../images/bluefield.webp" alt="Bluefield Yaklaşımı">
                     </div>
                     <div class="blog-content">
                         <h2>SAP S/4HANA Geçişinde Bluefield Yaklaşımı</h2>
-                        <p>Bluefield yaklaşımı, SAP S/4HANA'ya geçerken benzersiz avantajlar sunar...</p>
+                        <p>SAP S/4HANA'ya geçiş yaparken Bluefield yaklaşımı, işletmelere benzersiz avantajlar sunar...</p>
                         <a href="blog-posts/bluefield-approach.html" class="read-more">Devamını Oku</a>
                     </div>
                 </article>
@@ -347,5 +277,7 @@
             }
         });
     </script>
+
+    <script src="../script.js"></script>
 </body>
 </html> 

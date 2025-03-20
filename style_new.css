@@ -310,3 +310,29 @@ footer {
         font-size: 2rem;
     }
 }
+
+/* Language Switcher Styling */
+.language-switch a, .language-selector a {
+    text-decoration: none;
+    color: #888888;
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 0 2px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.language-switch a.active, .language-selector a.active {
+    color: white;
+    background-color: #4CAF50;
+    font-weight: bold;
+}
+
+.language-switch a:hover, .language-selector a:hover {
+    background-color: #e0e0e0;
+}
+
+.language-switch a.active:hover, .language-selector a.active:hover {
+    background-color: #3d8b40;
+}
