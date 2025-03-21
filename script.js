@@ -289,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove success message after 5 seconds
         setTimeout(() => successMessage.remove(), 5000);
     });
+<<<<<<< HEAD
 
     // Language switcher functionality
     const languageSwitchers = document.querySelectorAll('.language-switch a, .language-selector a');
@@ -388,6 +389,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 hamburger.classList.remove('active');
                 nav.classList.remove('active');
                 body.style.overflow = '';
+=======
+});
+
+// Mobile Menu Toggle for new header
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    const navList = document.querySelector('.nav-list');
+    
+    if(hamburger && nav && navList) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            nav.classList.toggle('active');
+            navList.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close menu when a link is clicked
+        navList.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                nav.classList.remove('active');
+                navList.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && 
+                !nav.contains(event.target) && 
+                nav.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                nav.classList.remove('active');
+                navList.classList.remove('active');
+                document.body.style.overflow = '';
+>>>>>>> 033515f (blog ve supabase dışında ok)
             }
         });
     }
