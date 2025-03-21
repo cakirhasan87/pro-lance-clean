@@ -62,6 +62,10 @@ body {
     color: #007bff;
 }
 
+.nav-list a.active {
+    color: #007bff;
+}
+
 .language-switch {
     display: flex;
     gap: 0.5rem;
@@ -99,6 +103,8 @@ body {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
+    z-index: 1010;
+    margin-left: 1rem;
 }
 
 .hamburger span {
@@ -116,38 +122,68 @@ main {
 }
 
 @media screen and (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
+
     .hamburger {
         display: block;
     }
 
     .nav {
         display: none;
-        position: absolute;
-        top: 100%;
+        position: fixed;
+        top: 0;
         left: 0;
         right: 0;
+        bottom: 0;
         background-color: #fff;
-        padding: 1rem;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding: 4rem 1rem 1rem;
+        box-shadow: none;
     }
 
     .nav.active {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
     }
 
     .nav-list {
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        width: 100%;
+        padding-top: 2rem;
+    }
+
+    .nav-list li {
+        width: 100%;
+        text-align: center;
+        margin: 0.75rem 0;
+    }
+
+    .nav-list a {
+        display: block;
+        padding: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .nav-list a:hover,
+    .nav-list a.active {
+        color: #007bff;
     }
 
     .language-switch {
-        margin-left: 1rem;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     /* Hamburger animation */
     .hamburger.active span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+        transform: rotate(45deg) translate(5px, 6px);
     }
 
     .hamburger.active span:nth-child(2) {
@@ -155,7 +191,7 @@ main {
     }
 
     .hamburger.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(7px, -6px);
+        transform: rotate(-45deg) translate(5px, -6px);
     }
 }
 

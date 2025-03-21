@@ -1,3 +1,36 @@
+// Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const overlay = document.querySelector('.overlay');
+    
+    if(mobileMenuToggle && navLinks && overlay) {
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        overlay.addEventListener('click', function() {
+            mobileMenuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+});
+
 // Form validation and submission handler
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('collaborationForm');
@@ -289,8 +322,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove success message after 5 seconds
         setTimeout(() => successMessage.remove(), 5000);
     });
+});
 
-    // Language switcher functionality
+// Language switcher functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle both types of language selector classes
     const languageSwitchers = document.querySelectorAll('.language-switch a, .language-selector a');
     
     if (languageSwitchers.length === 0) return;
@@ -360,35 +396,14 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = newPath;
         });
     });
+});
 
-    // Hamburger menu functionality
-    const hamburger = document.querySelector('.hamburger');
-    const nav = document.querySelector('.nav');
-    const body = document.body;
-    
-    if (hamburger && nav) {
-        hamburger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('active');
-            
-            // Prevent scrolling when menu is open
-            if (nav.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        });
-
-        // Only close mobile menu when clicking outside the menu and the hamburger button
-        document.addEventListener('click', (e) => {
-            if (nav.classList.contains('active') && 
-                !nav.contains(e.target) && 
-                !hamburger.contains(e.target)) {
-                hamburger.classList.remove('active');
-                nav.classList.remove('active');
-                body.style.overflow = '';
-            }
-        });
-    }
+// Handle image loading errors
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.blog-image img');
+    images.forEach(img => {
+        img.onerror = function() {
+            this.style.display = 'none';
+        };
+    });
 }); 
