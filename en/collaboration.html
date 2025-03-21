@@ -3,46 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collaboration | Pro-Lance</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>Pro-Lance | Collaboration</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<<<<<<< HEAD
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
-
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
-=======
     <!-- Header -->
 <header class="header flex">
     <div class="logo">
@@ -96,13 +61,14 @@
 
 
 
->>>>>>> 033515f (blog ve supabase dışında ok)
 
     <main>
         <!-- Hero Section -->
         <section class="collaboration-hero">
-            <h1>Empower Through Collaboration</h1>
-            <p>Take your business to the next level by collaborating with Pro-Lance</p>
+            <div class="hero-content">
+                <h1>Empower Through Collaboration</h1>
+                <p>Take your business to the next level by collaborating with Pro-Lance</p>
+            </div>
         </section>
 
         <!-- Benefits Section -->
@@ -127,11 +93,7 @@
                 <div class="benefit-card">
                     <i class="fas fa-clock"></i>
                     <h3>Time Savings</h3>
-<<<<<<< HEAD
-                    <p>Save time and resources with our efficient project management.</p>
-=======
                     <p>Save time and cost by optimizing operational processes.</p>
->>>>>>> 033515f (blog ve supabase dışında ok)
                 </div>
                 <div class="benefit-card">
                     <i class="fas fa-lightbulb"></i>
@@ -140,13 +102,8 @@
                 </div>
                 <div class="benefit-card">
                     <i class="fas fa-globe"></i>
-<<<<<<< HEAD
-                    <h3>Global Access</h3>
-                    <p>Access international markets and expand your reach.</p>
-=======
                     <h3>Global Reach</h3>
                     <p>Access international markets and grow on a global scale.</p>
->>>>>>> 033515f (blog ve supabase dışında ok)
                 </div>
             </div>
         </section>
@@ -191,10 +148,17 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -205,13 +169,6 @@
                     <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
                         <i class="fab fa-linkedin"></i></a>
                 </div>
-            </div>
-            <div class="footer-section">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="terms-of-use.html">Terms of Use</a></li>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                </ul>
             </div>
         </div>
         <div class="footer-bottom">

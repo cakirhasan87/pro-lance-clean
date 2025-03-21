@@ -289,107 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove success message after 5 seconds
         setTimeout(() => successMessage.remove(), 5000);
     });
-<<<<<<< HEAD
-
-    // Language switcher functionality
-    const languageSwitchers = document.querySelectorAll('.language-switch a, .language-selector a');
-    
-    if (languageSwitchers.length === 0) return;
-    
-    languageSwitchers.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const currentLang = this.getAttribute('data-lang') || this.textContent.trim();
-            if (currentLang !== 'TR' && currentLang !== 'EN' && 
-                currentLang !== 'tr' && currentLang !== 'en') {
-                console.error('Invalid language code:', currentLang);
-                return;
-            }
-            
-            const isEnTarget = currentLang.toLowerCase() === 'en';
-            
-            // Get the current path and determine if we're in English section
-            const currentPath = window.location.pathname;
-            const isInEnglishSection = currentPath.includes('/en/');
-            
-            // If already in the target language section, do nothing
-            if ((isEnTarget && isInEnglishSection) || (!isEnTarget && !isInEnglishSection)) {
-                return;
-            }
-            
-            // Get the current page name (e.g., index.html, contact.html)
-            let pathParts = currentPath.split('/');
-            // Remove empty parts
-            pathParts = pathParts.filter(part => part.length > 0);
-            
-            let currentPage = pathParts[pathParts.length - 1] || 'index.html';
-            if (!currentPage.includes('.')) {
-                currentPage = 'index.html';
-            }
-            
-            // Build the new path
-            let newPath;
-            if (isEnTarget) {
-                // Switching to English
-                newPath = '/en/' + currentPage;
-            } else {
-                // Switching to Turkish - additional handling for index page
-                if (isInEnglishSection) {
-                    // Fix for english to turkish navigation
-                    if (pathParts.includes('en')) {
-                        // If we're in /en/ folder, remove it from the path
-                        const pageIndex = pathParts.indexOf('en') + 1;
-                        if (pageIndex < pathParts.length) {
-                            currentPage = pathParts[pageIndex];
-                        }
-                    }
-                }
-                newPath = '/' + currentPage;
-            }
-            
-            // Update active classes for visual feedback
-            languageSwitchers.forEach(function(l) {
-                l.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            // Log the navigation for debugging
-            console.log('Navigating from', currentPath, 'to', newPath);
-            
-            // Navigate to the new URL
-            window.location.href = newPath;
-        });
-    });
-
-    // Hamburger menu functionality
-    const hamburger = document.querySelector('.hamburger');
-    const nav = document.querySelector('.nav');
-    const body = document.body;
-    
-    if (hamburger && nav) {
-        hamburger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('active');
-            
-            // Prevent scrolling when menu is open
-            if (nav.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        });
-
-        // Only close mobile menu when clicking outside the menu and the hamburger button
-        document.addEventListener('click', (e) => {
-            if (nav.classList.contains('active') && 
-                !nav.contains(e.target) && 
-                !hamburger.contains(e.target)) {
-                hamburger.classList.remove('active');
-                nav.classList.remove('active');
-                body.style.overflow = '';
-=======
 });
 
 // Mobile Menu Toggle for new header
@@ -425,7 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 nav.classList.remove('active');
                 navList.classList.remove('active');
                 document.body.style.overflow = '';
->>>>>>> 033515f (blog ve supabase dışında ok)
             }
         });
     }

@@ -1,62 +1,18 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro-Lance | Freelancer Platform</title>
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<<<<<<< HEAD
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    const buttons = document.querySelectorAll('.language-switch button');
-                    const links = document.querySelectorAll('.nav-list a');
-
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
-
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-
-                    // Language switching
-                    buttons.forEach(button => {
-                        button.addEventListener('click', () => {
-                            const lang = button.id;
-                            buttons.forEach(btn => btn.classList.remove('active'));
-                            button.classList.add('active');
-                            links.forEach(link => {
-                                link.textContent = link.getAttribute(`data-${lang}`);
-                            });
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
-=======
     <!-- Header -->
 <header class="header flex">
     <div class="logo">
@@ -73,8 +29,8 @@
     </nav>
     <div class="right-header">
         <div class="lang-switch">
-            <a href="/index.html" style="color: #777;">TR</a>
-            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">EN</a>
+            <a href="/index.html">TR</a>
+            <a href="#" class="active">EN</a>
         </div>
         <button class="hamburger">
             <span></span>
@@ -84,33 +40,16 @@
     </div>
 </header>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 033515f (blog ve supabase dışında ok)
+<script>
+    // Mobile menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+</script>
 
     <!-- Main Content -->
     <main>

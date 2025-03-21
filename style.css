@@ -13,30 +13,20 @@ body {
     padding: 0;
 }
 
-<<<<<<< HEAD
-/* Header Styles */
-=======
 /* New Header Styles */
->>>>>>> 033515f (blog ve supabase dışında ok)
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.8rem 2rem;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
     box-sizing: border-box;
-<<<<<<< HEAD
-}
-
-.logo a {
-    font-size: 1.5rem;
-=======
 }
 
 .flex {
@@ -90,204 +80,24 @@ body {
 }
 
 .nav-list li a {
->>>>>>> 033515f (blog ve supabase dışında ok)
     color: #333;
     text-decoration: none;
-    font-weight: bold;
-}
-
-<<<<<<< HEAD
-.nav {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-
-.nav-list {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 2rem;
-}
-
-.nav-list a {
-    text-decoration: none;
-    color: #333;
     font-weight: 500;
     transition: color 0.3s ease;
-    font-size: 1.2rem;
+    font-size: 18px;
 }
 
-.nav-list a:hover {
-    color: #007bff;
-}
-
-.nav-list a.active {
-    color: #007bff;
-}
-
-.language-switch {
-    display: flex;
-    gap: 0.5rem;
-    margin-left: 2rem;
-}
-
-.language-switch a, .language-selector a {
-    text-decoration: none;
-    color: #888888;
-    background-color: #f0f0f0;
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin: 0 2px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.language-switch a.active, .language-selector a.active {
-    color: white;
-    background-color: #4CAF50;
-    font-weight: bold;
-}
-
-.language-switch a:hover, .language-selector a:hover {
-    background-color: #e0e0e0;
-}
-
-.language-switch a.active:hover, .language-selector a.active:hover {
-    background-color: #3d8b40;
-}
-
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    z-index: 1010;
-    margin-left: 1rem;
-}
-
-.hamburger span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: #333;
-    margin: 5px 0;
-    transition: all 0.3s ease;
-}
-
-/* Add margin to main content to account for fixed header */
-main {
-    margin-top: 80px;
-}
-
-@media screen and (max-width: 768px) {
-    .header {
-        padding: 1rem;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .nav {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #fff;
-        z-index: 1000;
-        padding: 4rem 1rem 1rem;
-        box-shadow: none;
-    }
-
-    .nav.active {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .nav-list {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        padding-top: 2rem;
-    }
-
-    .nav-list li {
-        width: 100%;
-        text-align: center;
-        margin: 0.75rem 0;
-    }
-
-    .nav-list a {
-        display: block;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: #333;
-    }
-
-    .nav-list a:hover,
-    .nav-list a.active {
-        color: #007bff;
-    }
-
-    .language-switch {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    /* Hamburger animation */
-    .hamburger.active span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 6px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(5px, -6px);
-    }
-}
-
-.auth-buttons {
-=======
 .nav-list li a:hover,
 .nav-list li a.active {
     color: #007bff;
 }
 
 .right-header {
->>>>>>> 033515f (blog ve supabase dışında ok)
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
-<<<<<<< HEAD
-.auth-buttons::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 24px;
-    width: 1px;
-    background-color: #ddd;
-}
-
-.login-btn, .register-btn {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 500;
-=======
 .lang-switch {
     display: flex;
     gap: 0.5rem;
@@ -295,13 +105,12 @@ main {
 
 .lang-switch a {
     text-decoration: none;
-    color: #888888;
+    color: #777;
     background-color: #f0f0f0;
     padding: 4px 8px;
     border-radius: 4px;
     margin: 0 2px;
     font-size: 0.9rem;
->>>>>>> 033515f (blog ve supabase dışında ok)
     transition: all 0.3s ease;
 }
 
@@ -878,7 +687,7 @@ footer {
     color: #ecf0f1;
     text-decoration: none;
     transition: color 0.3s ease;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
 }
 
 .footer-section a:hover {

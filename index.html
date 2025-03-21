@@ -13,40 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<<<<<<< HEAD
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
-
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
-=======
     <!-- Header -->
 <header class="header flex">
     <div class="logo">
@@ -63,8 +29,8 @@
     </nav>
     <div class="right-header">
         <div class="lang-switch">
-            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">TR</a>
-            <a href="/en/index.html" style="color: #777;">EN</a>
+            <a href="#" class="active">TR</a>
+            <a href="/en/index.html">EN</a>
         </div>
         <button class="hamburger">
             <span></span>
@@ -74,25 +40,16 @@
     </div>
 </header>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 033515f (blog ve supabase dışında ok)
+<script>
+    // Mobile menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+</script>
 
     <!-- Ana Bölüm -->
     <main>
