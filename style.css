@@ -1082,31 +1082,20 @@ footer {
 }
 
 .calendly-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7rem;
-    background-color: #3498db;
+    display: inline-block;
+    background-color: #4CAF50;
     color: white;
-    padding: 1rem 2rem;
-    border-radius: 30px;
     text-decoration: none;
+    padding: 1rem 6rem;
+    border-radius: 30px !important;
     font-weight: 500;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 400px;
-    margin: 0;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    text-align: center;
 }
 
 .calendly-btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-}
-
-.calendly-btn i {
-    font-size: 1.2rem;
+    background-color: #45a049;
 }
 
 @media (max-width: 1200px) {
