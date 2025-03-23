@@ -3,7 +3,7 @@
 	"displayName": "ChatGPT GPT-4o - Bito AI Code Assistant",
 	"description": "Top-rated AI code assistant supports GPT-4o & mini, Claude Sonnet 3.5 for the best AI code generation, code reviews, test creation, and explanation. Trusted by 100K+ devs from Amazon, Apple, Google, & more. Offers a limited Free Plan and a 10X Developer Plan—no API key required.",
 	"icon": "media/bito_logo_mark.png",
-	"version": "1.5.6",
+	"version": "1.5.7",
 	"engines": {
 		"vscode": "^1.72.0"
 	},
@@ -555,10 +555,10 @@
 		"isApplicationScoped": false,
 		"isPreReleaseVersion": false,
 		"hasPreReleaseVersion": false,
-		"installedTimestamp": 1742212172187,
+		"installedTimestamp": 1742620785348,
 		"pinned": false,
 		"preRelease": false,
 		"source": "gallery",
-		"size": 55510088
+		"size": 55960027
 	}
 }

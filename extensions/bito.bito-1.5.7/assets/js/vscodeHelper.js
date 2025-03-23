@@ -40,7 +40,7 @@ let vscode;
   // Handle the message inside the webview
   window.addEventListener("message", (event) => {
     let message = event.data;
-    console.log('add event listener ==  ' , message);
+    // console.log('add event listener ==  ' , message);
     switch (message.command) {
       case "active_fileInfo":
         fireAngularEvent("active_fileInfo", [message.transferObj]);
