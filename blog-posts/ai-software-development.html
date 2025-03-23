@@ -18,14 +18,14 @@
             <li><a href="/" class="">Ana Sayfa</a></li>
             <li><a href="/services.html" class="">Hizmetler</a></li>
             <li><a href="/collaboration.html" class="">İş Birliği</a></li>
-            <li><a href="/blog.html" class="">Blog</a></li>
+            <li><a href="/blog.html" class="active">Blog</a></li>
             <li><a href="/contact.html" class="">İletişim</a></li>
         </ul>
     </nav>
     <div class="right-header">
         <div class="lang-switch">
             <a href="#" class="active">TR</a>
-            <a href="/en/blog-postsi-software-development.html">EN</a>
+            <a href="/en/blog-posts/ai-software-development.html">EN</a>
         </div>
         <button class="hamburger">
             <span></span>
@@ -35,39 +35,16 @@
     </div>
 </header>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script>
+    // Mobile menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+</script>
 
     <main>
         <article class="blog-post full-post">

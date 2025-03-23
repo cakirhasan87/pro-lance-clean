@@ -121,8 +121,14 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <h3>Online Görüşme Planlayın</h3>
-                    <p>Projelerinizi ve ihtiyaçlarınızı detaylı olarak görüşmek için size özel bir toplantı saati belirleyelim. Takvimimizden size uygun bir zaman seçebilirsiniz. Görüşmemizde projeleriniz hakkında detaylı bilgi alıp, size en uygun çözümleri sunabiliriz.</p>
-                    <div class="contact-buttons-container">
+                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <span>Projelerinizin ihtiyaçlarını en iyi şekilde anlamak ve size özel çözümler sunabilmek için birebir görüşme yapmaya davet ediyoruz. Sizin için en uygun zamanı belirleyerek, takvimimizden bir toplantı saati seçebilirsiniz.</span>
+
+                        <span>Bu görüşmede, mevcut projelerinizin detaylarını ele alarak hedeflerinizi, beklentilerinizi ve karşılaştığınız zorlukları analiz edeceğiz. Alanında uzman ekiplerle birlikte, ihtiyaçlarınıza en uygun stratejileri oluşturacak ve size özel çözümler sunacağız.</span>
+
+                        <span>Daha verimli, yenilikçi ve sürdürülebilir projeler geliştirmek için bizimle iletişime geçin. Şimdi bir toplantı planlayarak, fikirlerinizi gerçeğe dönüştürmek için ilk adımı atın!</span>
+                    </p>
+                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
                         <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
                             <i class="fas fa-video"></i>
                             Görüşme Planla
@@ -195,7 +201,7 @@
                 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
-                        console.log('Form başarıyla gönderildi');
+                        console.log('Form submitted successfully');
                         
                         // Show success message
                         const successMessage = document.createElement('div');
@@ -205,8 +211,18 @@
                         successMessage.style.padding = '1rem';
                         successMessage.style.borderRadius = '4px';
                         successMessage.style.marginTop = '1rem';
-                        successMessage.textContent = 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.';
+                        successMessage.textContent = 'Mesajınız başarıyla gönderildi. En kısa sürede size geri dönüş yapacağız.';
                         contactForm.insertAdjacentElement('afterend', successMessage);
+                        
+                        // Save locally in case server storage fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage as backup');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
                         
                         // Reset form
                         contactForm.reset();
@@ -216,7 +232,7 @@
                             successMessage.remove();
                         }, 5000);
                     } else {
-                        console.error('Form gönderimi sırasında hata:', xhr.responseText);
+                        console.error('Error submitting form:', xhr.responseText);
                         
                         // Show error message
                         const errorMessage = document.createElement('div');
@@ -226,8 +242,18 @@
                         errorMessage.style.padding = '1rem';
                         errorMessage.style.borderRadius = '4px';
                         errorMessage.style.marginTop = '1rem';
-                        errorMessage.textContent = 'Form gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
+                        errorMessage.textContent = 'Form gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.';
                         contactForm.insertAdjacentElement('afterend', errorMessage);
+                        
+                        // Save locally when server fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage due to server error');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
                         
                         // Remove error message after 5 seconds
                         setTimeout(() => {
@@ -241,10 +267,17 @@
                 };
                 
                 xhr.onerror = function() {
-                    console.error('Ağ hatası oluştu');
+                    console.error('Network error occurred');
                     
-                    // Simulate successful submission even on error
-                    console.log('Ağ hatası nedeniyle başarılı gönderim simüle ediliyor');
+                    // Save data locally when network fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to network error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
                     
                     // Show success message anyway
                     const successMessage = document.createElement('div');
@@ -254,7 +287,7 @@
                     successMessage.style.padding = '1rem';
                     successMessage.style.borderRadius = '4px';
                     successMessage.style.marginTop = '1rem';
-                    successMessage.textContent = 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.';
+                    successMessage.textContent = 'Mesajınız kaydedildi. Size en kısa sürede dönüş yapacağız.';
                     contactForm.insertAdjacentElement('afterend', successMessage);
                     
                     // Reset form
@@ -271,17 +304,23 @@
                 };
                 
                 // Log data before sending
-                console.log('Form verisi gönderiliyor:', formData);
+                console.log('Submitting form data:', formData);
                 
                 // Send the request
                 try {
                     xhr.send(JSON.stringify(formData));
                 } catch (error) {
-                    console.error('İstek gönderilirken hata:', error);
-                    // Simulate successful submission on error
-                    console.log('Gönderim hatası nedeniyle başarılı gönderim simüle ediliyor');
-                    submitBtn.innerHTML = originalBtnContent;
-                    submitBtn.disabled = false;
+                    console.error('Error sending request:', error);
+                    
+                    // Save locally when send fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to send error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
                     
                     // Show success message anyway
                     const successMessage = document.createElement('div');
@@ -291,7 +330,7 @@
                     successMessage.style.padding = '1rem';
                     successMessage.style.borderRadius = '4px';
                     successMessage.style.marginTop = '1rem';
-                    successMessage.textContent = 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.';
+                    successMessage.textContent = 'Mesajınız kaydedildi. Size en kısa sürede dönüş yapacağız.';
                     contactForm.insertAdjacentElement('afterend', successMessage);
                     
                     // Reset form
@@ -301,6 +340,10 @@
                     setTimeout(() => {
                         successMessage.remove();
                     }, 5000);
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
                 }
             });
         }

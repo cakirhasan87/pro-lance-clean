@@ -127,8 +127,14 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <h3>Schedule an Online Meeting</h3>
-                    <p>Let's set a personalized meeting time to discuss your projects and requirements in detail. You can select a time that works best for you from our calendar. During our meeting, we can gather detailed information about your projects and offer you the most suitable solutions for your needs.</p>
-                    <div class="contact-buttons-container">
+                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <span>We invite you to a one-on-one meeting to best understand your project requirements and provide you with tailored solutions. You can select a meeting time from our calendar that works best for you.</span>
+
+                        <span>During this meeting, we will analyze your goals, expectations, and challenges by reviewing the details of your current projects. Together with our expert teams, we will develop the most appropriate strategies for your needs and offer you customized solutions.</span>
+
+                        <span>Contact us to develop more efficient, innovative, and sustainable projects. Take the first step towards turning your ideas into reality by scheduling a meeting now!</span>
+                    </p>
+                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
                         <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
                             <i class="fas fa-video"></i>
                             Schedule a Meeting
@@ -214,6 +220,16 @@
                         successMessage.textContent = 'Your message has been sent successfully. We will get back to you shortly.';
                         contactForm.insertAdjacentElement('afterend', successMessage);
                         
+                        // Save locally in case server storage fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage as backup');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
+                        
                         // Reset form
                         contactForm.reset();
                         
@@ -235,6 +251,16 @@
                         errorMessage.textContent = 'An error occurred while submitting the form. Please try again later.';
                         contactForm.insertAdjacentElement('afterend', errorMessage);
                         
+                        // Save locally when server fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage due to server error');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
+                        
                         // Remove error message after 5 seconds
                         setTimeout(() => {
                             errorMessage.remove();
@@ -249,8 +275,15 @@
                 xhr.onerror = function() {
                     console.error('Network error occurred');
                     
-                    // Simulate successful submission even on error
-                    console.log('Simulating successful submission due to network error');
+                    // Save data locally when network fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to network error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
                     
                     // Show success message anyway
                     const successMessage = document.createElement('div');
@@ -260,7 +293,7 @@
                     successMessage.style.padding = '1rem';
                     successMessage.style.borderRadius = '4px';
                     successMessage.style.marginTop = '1rem';
-                    successMessage.textContent = 'Your message has been sent successfully. We will get back to you shortly.';
+                    successMessage.textContent = 'Your message has been saved. We will get back to you as soon as possible.';
                     contactForm.insertAdjacentElement('afterend', successMessage);
                     
                     // Reset form
@@ -284,10 +317,16 @@
                     xhr.send(JSON.stringify(formData));
                 } catch (error) {
                     console.error('Error sending request:', error);
-                    // Simulate successful submission on error
-                    console.log('Simulating successful submission due to send error');
-                    submitBtn.innerHTML = originalBtnContent;
-                    submitBtn.disabled = false;
+                    
+                    // Save locally when send fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to send error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
                     
                     // Show success message anyway
                     const successMessage = document.createElement('div');
@@ -297,7 +336,7 @@
                     successMessage.style.padding = '1rem';
                     successMessage.style.borderRadius = '4px';
                     successMessage.style.marginTop = '1rem';
-                    successMessage.textContent = 'Your message has been sent successfully. We will get back to you shortly.';
+                    successMessage.textContent = 'Your message has been saved. We will get back to you as soon as possible.';
                     contactForm.insertAdjacentElement('afterend', successMessage);
                     
                     // Reset form
@@ -307,6 +346,10 @@
                     setTimeout(() => {
                         successMessage.remove();
                     }, 5000);
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
                 }
             });
         }

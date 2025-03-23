@@ -8,6 +8,9 @@ import time
 import glob
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+import uuid
+from datetime import datetime
+import platform
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -53,16 +56,35 @@ SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 ALT_SUPABASE_PROJECT_ID = 'dslfetbnvbhrdxvkuhzq'
 ALT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzbGZldGJudmJocmR4dmt1aHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYyOTA5ODIsImV4cCI6MjAzMTg2Njk4Mn0.TQXPQKmkP2wr-EuF6BwR-D6mSOWKKtl1yJkQhXX1-ko'
 
+# New direct Supabase project ID and key for updated access
+NEW_SUPABASE_PROJECT_ID = 'hhudczwbcjejxvbxglkv'
+NEW_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhodWRjendiejZqZWp4dmJ4Z2xrdiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzA5NzQ3MTU3LCJleHAiOjIwMjUzMjMxNTd9.P_C70m_yEY0H9M72_QvEVX-HSY0nPipJrWpvrdmxQ0M'
+
 # Try multiple domain variations for better chances of connection
 SUPABASE_DOMAINS = [
-    f'https://{SUPABASE_PROJECT_ID}.supabase.co/rest/v1',  # Standard domain
-    f'https://{SUPABASE_PROJECT_ID}.supabase.io/rest/v1',  # Alternative domain
-    f'https://{ALT_SUPABASE_PROJECT_ID}.supabase.co/rest/v1',  # Standard domain for alt project
-    f'https://{ALT_SUPABASE_PROJECT_ID}.supabase.io/rest/v1',  # Alternative domain for alt project
+    # Standard domain format for REST API - preferred
+    f'https://{NEW_SUPABASE_PROJECT_ID}.supabase.co/rest/v1',
+    f'https://{SUPABASE_PROJECT_ID}.supabase.co/rest/v1',
+    f'https://{ALT_SUPABASE_PROJECT_ID}.supabase.co/rest/v1',
+    
+    # Alternative supavisor session mode connection (6543 port for transaction mode)
+    f'https://{NEW_SUPABASE_PROJECT_ID}.pooler.supabase.com:6543/rest/v1',
 ]
 
-# Global session
-http_session = create_requests_session()
+# Function to get the appropriate API key based on the domain
+def get_api_key_for_domain(domain):
+    if NEW_SUPABASE_PROJECT_ID in domain:
+        return NEW_SUPABASE_KEY
+    elif SUPABASE_PROJECT_ID in domain:
+        return SUPABASE_KEY
+    elif ALT_SUPABASE_PROJECT_ID in domain:
+        return ALT_SUPABASE_KEY
+    else:
+        # Default to main key if domain pattern not recognized
+        return NEW_SUPABASE_KEY  # Use the new key as default
+
+# Global session with increased timeout and retries
+http_session = create_requests_session(retries=7, backoff_factor=0.5)
 
 @app.route('/')
 @app.route('/index.html')
@@ -94,11 +116,103 @@ def serve_en_blog_posts(filename):
 def options_submit_contact():
     return '', 204
 
-# Route to manually sync saved submissions to Supabase
-@app.route('/sync-submissions', methods=['GET'])
+@app.route('/sync-submissions')
 def sync_submissions():
-    results = sync_local_submissions_to_supabase()
-    return jsonify(results), 200
+    """Attempt to sync locally saved submissions to Supabase"""
+    results = {
+        "success": True,
+        "message": "Sync process completed",
+        "total": 0,
+        "attempted": 0,
+        "succeeded": 0,
+        "failed": 0,
+        "details": []
+    }
+    
+    try:
+        # Find all local submission files
+        submission_files = glob.glob('local_submissions/contact_*.json')
+        results["total"] = len(submission_files)
+        
+        if len(submission_files) == 0:
+            results["message"] = "No local submissions found to sync"
+            return jsonify(results)
+        
+        # Process each file
+        for file_path in submission_files:
+            file_result = {
+                "file": os.path.basename(file_path),
+                "attempted": False,
+                "success": False,
+                "message": ""
+            }
+            
+            try:
+                # Load the submission data
+                with open(file_path, 'r') as f:
+                    data = json.load(f)
+                
+                # Extract submission ID from filename if possible
+                submission_id = os.path.basename(file_path).split('_')[-1].split('.')[0]
+                if not is_valid_uuid(submission_id):
+                    submission_id = str(uuid.uuid4())
+                
+                # Attempt to submit to Supabase
+                results["attempted"] += 1
+                file_result["attempted"] = True
+                
+                # Submit to Supabase with detailed reporting
+                supabase_result = submit_to_supabase_with_details(data, submission_id)
+                
+                if supabase_result["success"]:
+                    # If successful, move the file to a success directory
+                    results["succeeded"] += 1
+                    file_result["success"] = True
+                    file_result["message"] = f"Successfully synced to Supabase"
+                    
+                    # Move file to synced directory
+                    os.makedirs('local_submissions/synced', exist_ok=True)
+                    new_path = os.path.join('local_submissions/synced', os.path.basename(file_path))
+                    os.rename(file_path, new_path)
+                    file_result["moved_to"] = new_path
+                else:
+                    # If failed, keep the file for later retry
+                    results["failed"] += 1
+                    file_result["success"] = False
+                    file_result["message"] = supabase_result["message"]
+            
+            except Exception as e:
+                results["failed"] += 1
+                file_result["success"] = False
+                file_result["message"] = f"Error processing file: {str(e)}"
+                logging.error(f"Error syncing {file_path}: {str(e)}")
+                logging.exception(e)
+            
+            results["details"].append(file_result)
+        
+        # Update overall message
+        if results["succeeded"] > 0 and results["failed"] > 0:
+            results["message"] = f"Synced {results['succeeded']} of {results['attempted']} submissions. {results['failed']} failed."
+        elif results["succeeded"] > 0:
+            results["message"] = f"Successfully synced {results['succeeded']} submissions."
+        elif results["failed"] > 0:
+            results["message"] = f"Failed to sync {results['failed']} submissions."
+    
+    except Exception as e:
+        results["success"] = False
+        results["message"] = f"Error during sync process: {str(e)}"
+        logging.error(f"Error in sync_submissions: {str(e)}")
+        logging.exception(e)
+    
+    return jsonify(results)
+
+def is_valid_uuid(uuid_string):
+    """Check if a string is a valid UUID"""
+    try:
+        uuid_obj = uuid.UUID(uuid_string)
+        return str(uuid_obj) == uuid_string
+    except (ValueError, AttributeError):
+        return False
 
 # Route to test Supabase connection
 @app.route('/test-supabase', methods=['GET'])
@@ -107,14 +221,21 @@ def test_supabase():
     for domain in SUPABASE_DOMAINS:
         try:
             # Use a simple API call to test connectivity
-            url = f"{domain}/health"
+            table_path = '/contacts' if not domain.endswith('/rest/v1') else '/contacts'
+            test_url = f"{domain}{table_path}" if not domain.endswith('/contacts') else domain
+            
             start_time = time.time()
+            api_key = get_api_key_for_domain(domain)
+            
             response = http_session.get(
-                url,
+                test_url,
                 headers={
-                    'apikey': SUPABASE_KEY if domain.find(SUPABASE_PROJECT_ID) >= 0 else ALT_SUPABASE_KEY,
+                    'apikey': api_key,
+                    'Authorization': f'Bearer {api_key}',
+                    'Content-Type': 'application/json',
+                    'Prefer': 'count=exact'
                 },
-                timeout=5
+                timeout=8
             )
             elapsed = time.time() - start_time
             
@@ -122,13 +243,15 @@ def test_supabase():
                 "status": response.status_code,
                 "response_time": f"{elapsed:.2f}s",
                 "working": response.status_code < 400,
-                "content": response.text[:100] if response.text else "No content"
+                "content": response.text[:100] if response.text else "No content",
+                "url_tested": test_url
             }
         except Exception as e:
             results[domain] = {
                 "status": "error",
                 "error": str(e),
-                "working": False
+                "working": False,
+                "url_tested": test_url if 'test_url' in locals() else domain
             }
     
     # Find the first working domain
@@ -144,248 +267,461 @@ def test_supabase():
         "dns_test": test_dns_resolution()
     }), 200
 
-def test_dns_resolution():
+def test_dns_resolution(domains=None):
     """Test DNS resolution for various domains"""
-    domains_to_test = ['supabase.com', 'google.com', 'example.com', 
-                       f'{SUPABASE_PROJECT_ID}.supabase.co',
-                       f'{SUPABASE_PROJECT_ID}.supabase.io']
     results = {}
-    
-    for domain in domains_to_test:
+    if domains is None:
+        domains = ['supabase.com', 'google.com', 'example.com'] + SUPABASE_DOMAINS
+        
+    for domain in domains:
         try:
             ip = socket.gethostbyname(domain)
             results[domain] = {
-                "resolved": True,
-                "ip": ip
+                'resolved': True,
+                'ip': ip
             }
-        except Exception as e:
+        except socket.gaierror as e:
             results[domain] = {
-                "resolved": False,
-                "error": str(e)
+                'resolved': False,
+                'error': str(e)
             }
     
     return results
 
-# Fixed route for contact form submission
 @app.route('/submit-contact', methods=['POST'])
 def submit_contact():
+    """Submit contact form data to Supabase"""
     try:
-        logger.info(f"Received {request.method} request to /submit-contact")
-        logger.info(f"Request headers: {dict(request.headers)}")
-        logger.info(f"Request data: {request.data.decode('utf-8') if request.data else 'No data'}")
+        # Get the form data from the request
+        data = request.json
         
-        # Try different methods to parse the request data
-        if request.is_json:
-            form_data = request.json
-            logger.info("Parsed JSON data from request")
-        elif request.form:
-            form_data = request.form.to_dict()
-            logger.info("Parsed form data from request")
-        else:
-            try:
-                form_data = json.loads(request.data.decode('utf-8'))
-                logger.info("Parsed raw JSON data from request")
-            except json.JSONDecodeError as e:
-                logger.error(f"Failed to parse request data: {e}")
-                return jsonify({"success": False, "message": "Invalid request format"}), 400
+        # Log received data
+        logging.info(f"Received contact form submission: {data}")
         
-        logger.info(f"Processed form data: {form_data}")
+        # Create a unique ID for the submission
+        submission_id = str(uuid.uuid4())
         
-        # Validate required fields
-        required_fields = ['name', 'email', 'subject', 'message']
-        for field in required_fields:
-            if field not in form_data or not form_data[field]:
-                logger.error(f"Missing required field: {field}")
-                return jsonify({"success": False, "message": f"Missing required field: {field}"}), 400
-        
-        # Add timestamp if not present
-        if 'created_at' not in form_data:
-            form_data['created_at'] = time.strftime('%Y-%m-%dT%H:%M:%S.%fZ', time.gmtime())
+        # Add created_at if it doesn't exist
+        if 'created_at' not in data:
+            data['created_at'] = datetime.now().isoformat()
             
-        # Add language if not present
-        if 'language' not in form_data:
-            form_data['language'] = 'en'
+        # Save locally regardless of Supabase availability
+        # This ensures we don't lose data if Supabase is down
+        save_locally(data, submission_id)
         
-        # Always save locally first as a backup
-        local_file = save_locally(form_data)
+        # Mark if this is a test submission
+        is_test = data.get('test', False)
+        
+        # Attempt to submit to Supabase with detailed error handling
+        supabase_result = submit_to_supabase_with_details(data, submission_id, is_test)
+        
+        # Build response with detailed information
+        response = {
+            'success': True,
+            'message': 'Form submitted successfully',
+            'id': submission_id,
+            'local_save': True,
+            'supabase': supabase_result
+        }
+        
+        return jsonify(response)
+    
+    except Exception as e:
+        logging.error(f"Error processing contact form: {str(e)}")
+        logging.exception(e)
+        return jsonify({
+            'success': False,
+            'message': f'Error processing request: {str(e)}',
+            'local_save': False
+        }), 500
 
-        # Try all Supabase domains until one works
-        success = False
-        last_error = None
-        response_content = None
-        
-        for domain in SUPABASE_DOMAINS:
-            supabase_url = f"{domain}/contacts"
-            api_key = SUPABASE_KEY if domain.find(SUPABASE_PROJECT_ID) >= 0 else ALT_SUPABASE_KEY
+def submit_to_supabase_with_details(data, submission_id, is_test=False):
+    """
+    Submit data to Supabase with detailed error information
+    Returns a dictionary with detailed success/failure information
+    """
+    result = {
+        'success': False,
+        'attempted': False,
+        'message': 'No attempt made',
+        'domain_tried': None,
+        'response_code': None,
+        'response_text': None,
+        'error': None,
+        'elapsed_ms': 0
+    }
+    
+    # Try each Supabase domain
+    for domain in SUPABASE_DOMAINS:
+        try:
+            result['domain_tried'] = domain
+            result['attempted'] = True
             
+            # Determine which key to use based on domain
+            supabase_key = get_api_key_for_domain(domain)
+            
+            if not supabase_key:
+                result['message'] = f'No API key available for domain {domain}'
+                continue
+                
+            # Construct the request URL
+            request_url = f"https://{domain}/rest/v1/contacts"
+            
+            # Log attempt
+            logging.info(f"Attempting Supabase submission to {domain}")
+            start_time = time.time()
+            
+            # Make the request with a timeout
             headers = {
-                'apikey': api_key,
-                'Authorization': f'Bearer {api_key}',
+                'apikey': supabase_key,
+                'Authorization': f'Bearer {supabase_key}',
                 'Content-Type': 'application/json',
                 'Prefer': 'return=minimal'
             }
             
-            logger.info(f"Trying to send to Supabase at {supabase_url}")
+            # Include test flag in request data if applicable
+            request_data = {**data, 'id': submission_id}
+            if is_test:
+                request_data['is_test'] = True
             
-            try:
-                response = http_session.post(
-                    supabase_url, 
-                    json=form_data, 
-                    headers=headers,
-                    timeout=8
-                )
+            # Make the request with a timeout
+            response = requests.post(
+                request_url,
+                json=request_data,
+                headers=headers,
+                timeout=10
+            )
+            
+            # Calculate elapsed time
+            elapsed_time = time.time() - start_time
+            result['elapsed_ms'] = int(elapsed_time * 1000)
+            
+            # Record response details
+            result['response_code'] = response.status_code
+            
+            # Limit response text size to avoid huge logs
+            response_text = response.text[:500]
+            result['response_text'] = response_text
+            
+            # Check if the request was successful
+            if response.status_code in [200, 201, 204]:
+                result['success'] = True
+                result['message'] = 'Successfully submitted to Supabase'
+                logging.info(f"Successfully submitted to Supabase ({domain}) in {result['elapsed_ms']}ms")
+                return result
+            else:
+                result['message'] = f'Supabase returned status code {response.status_code}'
+                logging.warning(f"Supabase submission failed ({domain}): {response.status_code} - {response_text}")
                 
-                logger.info(f"Supabase response from {domain}: Status {response.status_code}")
-                response_content = response.text
-                
-                if response.status_code >= 200 and response.status_code < 300:
-                    logger.info(f"Form successfully submitted to Supabase via {domain}")
-                    success = True
-                    # If successful submission to Supabase, we can remove the local file
-                    try:
-                        if local_file and os.path.exists(local_file):
-                            os.remove(local_file)
-                            logger.info(f"Removed local file {local_file} after successful Supabase submission")
-                    except Exception as e:
-                        logger.error(f"Error removing local file: {e}")
-                    break
-                else:
-                    logger.error(f"Supabase error on {domain}: Status {response.status_code}, Response: {response.text}")
-                    last_error = response.text
-            except Exception as e:
-                logger.error(f"Request error to {domain}: {e}")
-                last_error = str(e)
-        
-        # Return response based on whether any attempt succeeded
-        if success:
-            return jsonify({
-                "success": True, 
-                "message": "Form submitted successfully",
-                "details": {
-                    "saved_to_supabase": True,
-                    "domain_used": domain
-                }
-            }), 200
-        else:
-            # If all attempts failed, still return success to user but with fallback message
-            return jsonify({
-                "success": True, 
-                "message": "Form submitted successfully. We'll process it shortly.",
-                "details": {
-                    "saved_locally": True,
-                    "error": last_error,
-                    "response": response_content
-                }
-            }), 200
+        except requests.exceptions.ConnectTimeout:
+            result['error'] = 'Connection timeout'
+            result['message'] = f'Connection to {domain} timed out'
+            logging.warning(f"Supabase connection timeout ({domain})")
+            
+        except requests.exceptions.ConnectionError as e:
+            result['error'] = f'Connection error: {str(e)}'
+            result['message'] = f'Cannot connect to {domain}'
+            logging.warning(f"Supabase connection error ({domain}): {str(e)}")
+            
+        except Exception as e:
+            result['error'] = str(e)
+            result['message'] = f'Error connecting to {domain}: {str(e)}'
+            logging.error(f"Supabase submission error ({domain}): {str(e)}")
+            logging.exception(e)
     
-    except Exception as e:
-        logger.error(f"Error in submit_contact: {str(e)}")
-        return jsonify({"success": False, "message": "Server error", "details": str(e)}), 500
+    # If we've tried all domains and none worked, update the message
+    if result['attempted']:
+        result['message'] = f"Tried all Supabase domains, last error: {result['message']}"
+    
+    return result
 
-def save_locally(form_data):
-    """Save form data locally when Supabase is unreachable"""
+def save_locally(form_data, submission_id=None):
+    """Save form submission locally as a backup"""
     try:
-        os.makedirs('form_submissions', exist_ok=True)
-        timestamp = form_data.get('created_at', str(int(time.time())))
-        safe_timestamp = timestamp.replace(':', '-').replace('.', '-') if isinstance(timestamp, str) else timestamp
-        filename = f"form_submissions/submission_{safe_timestamp}.json"
+        # Create the submissions directory if it doesn't exist
+        os.makedirs('local_submissions', exist_ok=True)
         
+        # Generate a filename with timestamp and optional ID
+        if not submission_id:
+            submission_id = str(uuid.uuid4())
+            
+        timestamp = time.strftime('%Y%m%d_%H%M%S')
+        filename = f"local_submissions/contact_{timestamp}_{submission_id}.json"
+        
+        # Save the form data to the file
         with open(filename, 'w') as f:
             json.dump(form_data, f, indent=2)
-            
-        logger.info(f"Form data saved locally to {filename}")
+        
+        logging.info(f"Saved submission locally to {filename}")
         return filename
     except Exception as e:
-        logger.error(f"Error saving form locally: {e}")
+        logging.error(f"Error saving submission locally: {str(e)}")
+        logging.exception(e)
         return None
 
-def sync_local_submissions_to_supabase():
-    """Attempt to sync all locally saved submissions to Supabase using all available domains"""
-    results = {
-        "total": 0,
-        "success": 0,
-        "failed": 0,
-        "details": []
-    }
-    
-    # Find all local submission files
-    submission_files = glob.glob('form_submissions/submission_*.json')
-    results["total"] = len(submission_files)
-    
-    if len(submission_files) == 0:
-        logger.info("No local submissions to sync")
-        return results
-    
-    logger.info(f"Found {len(submission_files)} local submissions to sync")
-    
-    # Try to submit each file to Supabase
-    for file_path in submission_files:
+@app.route('/test-supabase-connection', methods=['GET'])
+def test_supabase_connection():
+    """Route to test Supabase connection and provide detailed diagnostics"""
+    try:
+        results = {
+            "success": True,
+            "message": "Supabase connection diagnostics completed",
+            "timestamp": datetime.now().isoformat(),
+            "dns_resolution": {},
+            "domains": {},
+            "network_info": {},
+            "system_info": {
+                "os": platform.system(),
+                "version": platform.version(),
+                "python": platform.python_version()
+            }
+        }
+        
+        # Test DNS resolution for various domains
+        results["dns_resolution"] = test_dns_resolution()
+        
+        # Test network connectivity
         try:
-            with open(file_path, 'r') as f:
-                form_data = json.load(f)
+            import socket
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            results["network_info"]["primary_ip"] = s.getsockname()[0]
+            s.close()
+        except Exception as e:
+            results["network_info"]["primary_ip_error"] = str(e)
+        
+        # Try ping (HTTP GET) test to each domain
+        for domain in SUPABASE_DOMAINS:
+            domain_result = {
+                "ping": {
+                    "success": False,
+                    "time_ms": None,
+                    "error": None
+                },
+                "post": {
+                    "success": False,
+                    "time_ms": None,
+                    "status_code": None,
+                    "response": None,
+                    "error": None
+                }
+            }
             
-            # Try all domains for each submission
-            synced = False
+            # Get the API key for this domain
+            api_key = get_api_key_for_domain(domain)
+            domain_result["api_key_available"] = api_key is not None
             
-            for domain in SUPABASE_DOMAINS:
-                if synced:
-                    break
-                    
-                api_key = SUPABASE_KEY if domain.find(SUPABASE_PROJECT_ID) >= 0 else ALT_SUPABASE_KEY
-                supabase_url = f"{domain}/contacts"
+            if not api_key:
+                domain_result["ping"]["error"] = "No API key available for this domain"
+                results["domains"][domain] = domain_result
+                continue
+            
+            # Test ping (GET request)
+            try:
+                start_time = time.time()
+                response = http_session.get(
+                    f"https://{domain}/rest/v1/", 
+                    headers={
+                        'apikey': api_key
+                    },
+                    timeout=5
+                )
+                elapsed_time = time.time() - start_time
                 
-                headers = {
-                    'apikey': api_key,
-                    'Authorization': f'Bearer {api_key}',
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
+                domain_result["ping"]["success"] = 200 <= response.status_code < 300
+                domain_result["ping"]["time_ms"] = int(elapsed_time * 1000)
+                domain_result["ping"]["status_code"] = response.status_code
+                domain_result["ping"]["response"] = response.text[:200] if response.text else None
+            except Exception as e:
+                domain_result["ping"]["error"] = str(e)
+            
+            # Test POST request
+            try:
+                start_time = time.time()
+                test_data = {
+                    "id": str(uuid.uuid4()),
+                    "name": "Connection Test",
+                    "email": "test@example.com",
+                    "message": "This is a connection test",
+                    "created_at": datetime.now().isoformat(),
+                    "is_test": True
                 }
                 
-                try:
-                    response = http_session.post(
-                        supabase_url, 
-                        json=form_data, 
-                        headers=headers,
-                        timeout=10
-                    )
-                    
-                    if response.status_code >= 200 and response.status_code < 300:
-                        logger.info(f"Successfully synced {file_path} to Supabase via {domain}")
-                        # Remove the local file after successful submission
-                        os.remove(file_path)
-                        results["success"] += 1
-                        results["details"].append({
-                            "file": file_path,
-                            "status": "success",
-                            "domain": domain,
-                            "response": response.status_code
-                        })
-                        synced = True
-                        break
-                    else:
-                        logger.error(f"Failed to sync {file_path} via {domain}: {response.status_code} - {response.text}")
-                except Exception as e:
-                    logger.error(f"Error attempting to sync {file_path} via {domain}: {str(e)}")
-            
-            # If all domains failed
-            if not synced:
-                results["failed"] += 1
-                results["details"].append({
-                    "file": file_path,
-                    "status": "failed",
-                    "error": "All domains failed"
-                })
+                response = http_session.post(
+                    f"https://{domain}/rest/v1/contacts", 
+                    json=test_data,
+                    headers={
+                        'apikey': api_key,
+                        'Authorization': f'Bearer {api_key}',
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    timeout=10
+                )
+                elapsed_time = time.time() - start_time
                 
-        except Exception as e:
-            logger.error(f"Error processing {file_path}: {str(e)}")
-            results["failed"] += 1
-            results["details"].append({
-                "file": file_path,
-                "status": "error",
-                "error": str(e)
-            })
-    
-    return results
+                domain_result["post"]["success"] = 200 <= response.status_code < 300
+                domain_result["post"]["time_ms"] = int(elapsed_time * 1000)
+                domain_result["post"]["status_code"] = response.status_code
+                domain_result["post"]["response"] = response.text[:200] if response.text else None
+            except Exception as e:
+                domain_result["post"]["error"] = str(e)
+            
+            results["domains"][domain] = domain_result
+        
+        # Check if any domain succeeded
+        any_domain_succeeded = False
+        for domain_result in results["domains"].values():
+            if domain_result["post"]["success"]:
+                any_domain_succeeded = True
+                break
+        
+        if any_domain_succeeded:
+            results["message"] = "Supabase connection successful for at least one domain"
+        else:
+            results["message"] = "Supabase connection failed for all domains"
+            
+        return jsonify(results)
+        
+    except Exception as e:
+        logging.error(f"Error in test_supabase_connection: {str(e)}")
+        logging.exception(e)
+        return jsonify({
+            "success": False,
+            "message": f"Error during connection test: {str(e)}",
+            "error_type": type(e).__name__,
+            "timestamp": datetime.now().isoformat()
+        }), 500
+
+@app.route('/test-form')
+def test_form():
+    """Simple page with test form for Supabase testing"""
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Supabase Connection Test</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+            .form-group { margin-bottom: 15px; }
+            label { display: block; margin-bottom: 5px; font-weight: bold; }
+            input[type="text"], input[type="email"], textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+            button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+            button:hover { background-color: #45a049; }
+            .message { margin-top: 20px; padding: 10px; border-radius: 4px; }
+            .success { background-color: #d4edda; color: #155724; }
+            .error { background-color: #f8d7da; color: #721c24; }
+            .loading { display: none; margin-top: 20px; }
+            .diagnostics { margin-top: 20px; padding: 10px; background-color: #f5f5f5; border-radius: 4px; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+        </style>
+    </head>
+    <body>
+        <h1>Supabase Connection Test</h1>
+        
+        <div>
+            <a href="/test-supabase-connection" target="_blank">Run Connection Diagnostics</a>
+        </div>
+        
+        <h2>Test Form</h2>
+        <form id="testForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="Test User" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="test@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <select id="subject" name="subject" required>
+                    <option value="test">Test Message</option>
+                    <option value="general">General Information</option>
+                    <option value="business">Business Collaboration</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required>This is a test message to verify Supabase connectivity.</textarea>
+            </div>
+            
+            <button type="submit">Submit Test</button>
+        </form>
+        
+        <div id="loading" class="loading">
+            Submitting form data...
+        </div>
+        
+        <div id="responseMessage" class="message" style="display: none;"></div>
+        
+        <div class="diagnostics">
+            <h3>Response Details:</h3>
+            <pre id="responseDetails"></pre>
+        </div>
+        
+        <script>
+            document.getElementById('testForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const loading = document.getElementById('loading');
+                const responseMessage = document.getElementById('responseMessage');
+                const responseDetails = document.getElementById('responseDetails');
+                
+                // Show loading
+                loading.style.display = 'block';
+                responseMessage.style.display = 'none';
+                
+                // Get form data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value,
+                    created_at: new Date().toISOString(),
+                    language: 'test_form',
+                    test: true
+                };
+                
+                // Send request
+                fetch('/submit-contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loading.style.display = 'none';
+                    responseMessage.style.display = 'block';
+                    
+                    if (data.success) {
+                        responseMessage.className = 'message success';
+                        responseMessage.textContent = 'Form submitted successfully!';
+                    } else {
+                        responseMessage.className = 'message error';
+                        responseMessage.textContent = 'Error: ' + data.message;
+                    }
+                    
+                    responseDetails.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    loading.style.display = 'none';
+                    responseMessage.style.display = 'block';
+                    responseMessage.className = 'message error';
+                    responseMessage.textContent = 'Error: ' + error.message;
+                    responseDetails.textContent = error.toString();
+                });
+            });
+        </script>
+    </body>
+    </html>
+    """
+    return html
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -401,12 +737,19 @@ if __name__ == '__main__':
 
 # Log startup
 logger.info('Pro-Lance startup')
-# Try to sync any existing submissions on startup
+# On startup
 try:
-    dns_results = test_dns_resolution()
+    # Create local submissions directory
+    os.makedirs('local_submissions', exist_ok=True)
+    os.makedirs('local_submissions/synced', exist_ok=True)
+    
+    # Run a DNS resolution test at startup
+    dns_results = test_dns_resolution(['supabase.com', 'google.com', 'example.com'] + SUPABASE_DOMAINS)
     logger.info(f"DNS resolution test: {dns_results}")
     
-    sync_results = sync_local_submissions_to_supabase()
-    logger.info(f"Startup sync results: {sync_results}")
+    # Run sync within app context
+    with app.app_context():
+        sync_results = sync_submissions()
+        logger.info(f"Startup sync results: {sync_results}")
 except Exception as e:
-    logger.error(f"Error during startup procedures: {e}") 
+    logger.error(f"Error during startup tasks: {str(e)}") 
