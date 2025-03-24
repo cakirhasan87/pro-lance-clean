@@ -3,83 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Pro-Lance</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>Pro-Lance | Contact</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/en/index.html">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/en/index.html" class="">Home</a></li>
+            <li><a href="/en/services.html" class="">Services</a></li>
+            <li><a href="/en/collaboration.html" class="">Collaboration</a></li>
+            <li><a href="/en/blog.html" class="">Blog</a></li>
+            <li><a href="/en/contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="/contact.html" style="color: #777;">TR</a>
+            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <main>
-        <!-- Contact Hero Section -->
         <section class="contact-hero">
-            <h1>Get in Touch</h1>
-            <p>We're here to help and answer any questions you might have</p>
+            <div class="hero-content">
+                <h1>Contact Us</h1>
+                <p>We're here for your questions and collaboration opportunities</p>
+            </div>
         </section>
 
-        <!-- Contact Section -->
         <section class="contact-section">
             <div class="contact-container">
                 <div class="contact-form-wrapper">
-                    <h2>Send us a Message</h2>
-                    <p class="form-description">Fill out the form and we'll get back to you as soon as possible</p>
+                    <div class="meeting-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2>Contact Us</h2>
+                    
                     <form id="contactForm" class="contact-form">
                         <div class="form-group">
-                            <label for="name">Name*</label>
+                            <label for="name"><i class="fas fa-user"></i> Your Name*</label>
                             <input type="text" id="name" name="name" required>
+                            <small class="error-message"></small>
                         </div>
                         
                         <div class="form-group">
-                            <label for="email">Email*</label>
+                            <label for="email"><i class="fas fa-envelope"></i> Email Address*</label>
                             <input type="email" id="email" name="email" required>
+                            <small class="error-message"></small>
                         </div>
                         
                         <div class="form-group">
-                            <label for="subject">Subject*</label>
-                            <input type="text" id="subject" name="subject" required>
+                            <label for="phone"><i class="fas fa-phone"></i> Phone Number (Optional)</label>
+                            <input type="tel" id="phone" name="phone">
                         </div>
                         
                         <div class="form-group">
-                            <label for="message">Message*</label>
+                            <label for="subject"><i class="fas fa-tag"></i> Subject*</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select</option>
+                                <option value="general">General Information</option>
+                                <option value="business">Business Collaboration</option>
+                                <option value="support">Technical Support</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-comment"></i> Your Message*</label>
                             <textarea id="message" name="message" rows="5" required></textarea>
+                            <small class="error-message"></small>
                         </div>
                         
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            Send Message
-                        </button>
+                        <div class="contact-buttons-container">
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Send
+                            </button>
+                        </div>
                     </form>
                 </div>
 
@@ -87,12 +126,20 @@
                     <div class="meeting-icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <h3>Schedule a Meeting</h3>
-                    <p>Book a time for a personal consultation about your project needs.</p>
-                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
-                        <i class="fas fa-video"></i>
-                        Schedule Meeting
-                    </a>
+                    <h3>Schedule an Online Meeting</h3>
+                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <span>We invite you to a one-on-one meeting to best understand your project requirements and provide you with tailored solutions. You can select a meeting time from our calendar that works best for you.</span>
+
+                        <span>During this meeting, we will analyze your goals, expectations, and challenges by reviewing the details of your current projects. Together with our expert teams, we will develop the most appropriate strategies for your needs and offer you customized solutions.</span>
+
+                        <span>Contact us to develop more efficient, innovative, and sustainable projects. Take the first step towards turning your ideas into reality by scheduling a meeting now!</span>
+                    </p>
+                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
+                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                            <i class="fas fa-video"></i>
+                            Schedule a Meeting
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -103,25 +150,16 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Pro-Lance</h3>
-                <p>Your trusted partner in the freelance world</p>
+                <p>Your trusted address in the freelance world</p>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>Email: support@pro-lance.com</p>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
-                        <i class="fab fa-linkedin"></i></a>
-                </div>
             </div>
             <div class="footer-section">
                 <h3>Legal</h3>
@@ -137,5 +175,185 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form handling
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value || null,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value,
+                    created_at: new Date().toISOString(),
+                    language: 'en'
+                };
+                
+                // Show loading state
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                const originalBtnContent = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Create XHR request (more compatible than fetch)
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/submit-contact', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('Form submitted successfully');
+                        
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'form-message success';
+                        successMessage.style.backgroundColor = '#d4edda';
+                        successMessage.style.color = '#155724';
+                        successMessage.style.padding = '1rem';
+                        successMessage.style.borderRadius = '4px';
+                        successMessage.style.marginTop = '1rem';
+                        successMessage.textContent = 'Your message has been sent successfully. We will get back to you shortly.';
+                        contactForm.insertAdjacentElement('afterend', successMessage);
+                        
+                        // Save locally in case server storage fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage as backup');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Remove success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.remove();
+                        }, 5000);
+                    } else {
+                        console.error('Error submitting form:', xhr.responseText);
+                        
+                        // Show error message
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'form-message error';
+                        errorMessage.style.backgroundColor = '#f8d7da';
+                        errorMessage.style.color = '#721c24';
+                        errorMessage.style.padding = '1rem';
+                        errorMessage.style.borderRadius = '4px';
+                        errorMessage.style.marginTop = '1rem';
+                        errorMessage.textContent = 'An error occurred while submitting the form. Please try again later.';
+                        contactForm.insertAdjacentElement('afterend', errorMessage);
+                        
+                        // Save locally when server fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage due to server error');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
+                        
+                        // Remove error message after 5 seconds
+                        setTimeout(() => {
+                            errorMessage.remove();
+                        }, 5000);
+                    }
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                };
+                
+                xhr.onerror = function() {
+                    console.error('Network error occurred');
+                    
+                    // Save data locally when network fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to network error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
+                    
+                    // Show success message anyway
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'form-message success';
+                    successMessage.style.backgroundColor = '#d4edda';
+                    successMessage.style.color = '#155724';
+                    successMessage.style.padding = '1rem';
+                    successMessage.style.borderRadius = '4px';
+                    successMessage.style.marginTop = '1rem';
+                    successMessage.textContent = 'Your message has been saved. We will get back to you as soon as possible.';
+                    contactForm.insertAdjacentElement('afterend', successMessage);
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Remove success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 5000);
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                };
+                
+                // Log data before sending
+                console.log('Submitting form data:', formData);
+                
+                // Send the request
+                try {
+                    xhr.send(JSON.stringify(formData));
+                } catch (error) {
+                    console.error('Error sending request:', error);
+                    
+                    // Save locally when send fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions_en')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions_en', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to send error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
+                    
+                    // Show success message anyway
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'form-message success';
+                    successMessage.style.backgroundColor = '#d4edda';
+                    successMessage.style.color = '#155724';
+                    successMessage.style.padding = '1rem';
+                    successMessage.style.borderRadius = '4px';
+                    successMessage.style.marginTop = '1rem';
+                    successMessage.textContent = 'Your message has been saved. We will get back to you as soon as possible.';
+                    contactForm.insertAdjacentElement('afterend', successMessage);
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Remove success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 5000);
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html> 

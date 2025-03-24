@@ -74,26 +74,42 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="../index.html">Pro-Lance</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Ana Sayfa</a></li>
-                <li><a href="../services.html">Hizmetler</a></li>
-                <li><a href="../collaboration.html">İş Birliği</a></li>
-                <li><a href="../blog.html">Blog</a></li>
-                <li><a href="../contact.html">İletişim</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <div class="language-selector">
-                    <a href="#" class="active">TR</a>
-                    <a href="../en/blog-posts/mastering-project-management.html">EN</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+<header class="header flex">
+    <div class="logo">
+        <a href="/">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/" class="">Ana Sayfa</a></li>
+            <li><a href="/services.html" class="">Hizmetler</a></li>
+            <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+            <li><a href="/blog.html" class="">Blog</a></li>
+            <li><a href="/contact.html" class="">İletişim</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">TR</a>
+            <a href="/en/blog-posts/mastering-project-management.html" style="color: #777;">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+<script>
+    // Mobile menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+</script>
 
     <main>
         <article class="blog-post">
@@ -110,11 +126,9 @@
             </div>
 
             <div class="blog-content">
-                <div class="blog-image">
-                    <img src="../images/what we do image.webp" alt="Proje Yönetiminde Uzmanlaşma" class="featured-image">
-                </div>
+                <img src="../images/Mastering Project Management.webp" alt="Kısa Vadeli Projelerde Proje Yönetimi" class="blog-image">
 
-                <p>ERP'nin hızlı tempolu dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği yönlendirmede hayati öneme sahiptir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir. İşte kısa vadeli ERP projelerini ustaca yönetmenin 6 temel yolu:</p>
+                <p>ERP'nin hızlı dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği yönlendirmede çok önemlidir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir. İşte bu dinamik ortamda proje yönetiminin inceliklerini ele alıyoruz:</p>
 
                 <h2>🎯 Net Hedef Belirleme</h2>
                 <p>İlerlemeyi etkili bir şekilde takip edebilmek için proje kapsamını ve hedeflerini hassasiyetle tanımlayın.</p>

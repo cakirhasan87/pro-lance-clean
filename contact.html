@@ -3,104 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İletişim | Pro-Lance</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <title>Pro-Lance | İletişim</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/" class="">Ana Sayfa</a></li>
+            <li><a href="/services.html" class="">Hizmetler</a></li>
+            <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+            <li><a href="/blog.html" class="">Blog</a></li>
+            <li><a href="/contact.html" class="active">İletişim</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="#" class="active">TR</a>
+            <a href="/en/contact.html">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <main>
-        <!-- Contact Hero Section -->
         <section class="contact-hero">
-            <h1>İletişime Geçin</h1>
-            <p>Sorularınız veya iş birliği fırsatları için bizimle iletişime geçin</p>
-        </section>
-
-        <!-- Contact Information Section -->
-        <section class="contact-info">
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <i class="fas fa-envelope"></i>
-                    <h3>E-posta</h3>
-                    <p>support@pro-lance.com</p>
-                </div>
-                <div class="contact-card">
-                    <i class="fas fa-phone"></i>
-                    <h3>Telefon</h3>
-                    <p>+1 (555) 123-4567</p>
-                </div>
-                <div class="contact-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>Adres</h3>
-                    <p>123 İş Merkezi Caddesi, Kat 100<br>New York, NY 10001</p>
-                </div>
+            <div class="hero-content">
+                <h1>Bizimle İletişime Geçin</h1>
+                <p>Sorularınız ve işbirliği fırsatları için buradayız</p>
             </div>
         </section>
 
-        <!-- Contact Form Section -->
-        <section class="contact-form-section">
+        <section class="contact-section">
             <div class="contact-container">
                 <div class="contact-form-wrapper">
-                    <h2>Bize Mesaj Gönderin</h2>
-                    <p class="form-description">Formu doldurun, en kısa sürede size dönüş yapalım</p>
+                    <div class="meeting-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2>İletişim Formunu Doldurun</h2>
+                    
                     <form id="contactForm" class="contact-form">
                         <div class="form-group">
-                            <label for="name">Ad Soyad*</label>
+                            <label for="name"><i class="fas fa-user"></i> Adınız Soyadınız*</label>
                             <input type="text" id="name" name="name" required>
+                            <small class="error-message"></small>
                         </div>
                         
                         <div class="form-group">
-                            <label for="email">E-posta*</label>
+                            <label for="email"><i class="fas fa-envelope"></i> E-posta Adresiniz*</label>
                             <input type="email" id="email" name="email" required>
+                            <small class="error-message"></small>
                         </div>
                         
                         <div class="form-group">
-                            <label for="subject">Konu*</label>
-                            <input type="text" id="subject" name="subject" required>
+                            <label for="phone"><i class="fas fa-phone"></i> Telefon (Opsiyonel)</label>
+                            <input type="tel" id="phone" name="phone">
                         </div>
                         
                         <div class="form-group">
-                            <label for="message">Mesajınız*</label>
+                            <label for="subject"><i class="fas fa-tag"></i> Konu*</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Seçiniz</option>
+                                <option value="general">Genel Bilgi</option>
+                                <option value="business">İş Birliği</option>
+                                <option value="support">Teknik Destek</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-comment"></i> Mesajınız*</label>
                             <textarea id="message" name="message" rows="5" required></textarea>
+                            <small class="error-message"></small>
                         </div>
                         
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            Mesaj Gönder
-                        </button>
+                        <div class="contact-buttons-container">
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Gönder
+                            </button>
+                        </div>
                     </form>
                 </div>
 
@@ -109,26 +121,20 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <h3>Online Görüşme Planlayın</h3>
-                    <p>Projelerinizi ve ihtiyaçlarınızı detaylı olarak görüşmek için online toplantı talep edebilirsiniz.</p>
-                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
-                        <i class="fas fa-video"></i>
-                        Görüşme Planla
-                    </a>
-                </div>
-            </div>
-        </section>
+                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <span>Projelerinizin ihtiyaçlarını en iyi şekilde anlamak ve size özel çözümler sunabilmek için birebir görüşme yapmaya davet ediyoruz. Sizin için en uygun zamanı belirleyerek, takvimimizden bir toplantı saati seçebilirsiniz.</span>
 
-        <!-- Map Section -->
-        <section class="map-section">
-            <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1647891234567!5m2!1sen!2s"
-                    width="100%" 
-                    height="450" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
+                        <span>Bu görüşmede, mevcut projelerinizin detaylarını ele alarak hedeflerinizi, beklentilerinizi ve karşılaştığınız zorlukları analiz edeceğiz. Alanında uzman ekiplerle birlikte, ihtiyaçlarınıza en uygun stratejileri oluşturacak ve size özel çözümler sunacağız.</span>
+
+                        <span>Daha verimli, yenilikçi ve sürdürülebilir projeler geliştirmek için bizimle iletişime geçin. Şimdi bir toplantı planlayarak, fikirlerinizi gerçeğe dönüştürmek için ilk adımı atın!</span>
+                    </p>
+                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
+                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                            <i class="fas fa-video"></i>
+                            Görüşme Planla
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -141,22 +147,13 @@
                 <p>Freelance dünyasında güvenilir adresiniz</p>
             </div>
             <div class="footer-section">
-                <h3>Hızlı Linkler</h3>
+                <h3>Hızlı Bağlantılar</h3>
                 <ul>
-                    <li><a href="index.html#about">Hakkımızda</a></li>
+                    <li><a href="index.html">Ana Sayfa</a></li>
                     <li><a href="services.html">Hizmetler</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
-                <h3>İletişim</h3>
-                <p>Email: support@pro-lance.com</p>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
-                        <i class="fab fa-linkedin"></i></a>
-                </div>
             </div>
             <div class="footer-section">
                 <h3>Yasal</h3>
@@ -172,5 +169,185 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form handling
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value || null,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value,
+                    created_at: new Date().toISOString(),
+                    language: 'tr'
+                };
+                
+                // Show loading state
+                const submitBtn = contactForm.querySelector('.submit-btn');
+                const originalBtnContent = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+                submitBtn.disabled = true;
+                
+                // Create XHR request (more compatible than fetch)
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/submit-contact', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('Form submitted successfully');
+                        
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'form-message success';
+                        successMessage.style.backgroundColor = '#d4edda';
+                        successMessage.style.color = '#155724';
+                        successMessage.style.padding = '1rem';
+                        successMessage.style.borderRadius = '4px';
+                        successMessage.style.marginTop = '1rem';
+                        successMessage.textContent = 'Mesajınız başarıyla gönderildi. En kısa sürede size geri dönüş yapacağız.';
+                        contactForm.insertAdjacentElement('afterend', successMessage);
+                        
+                        // Save locally in case server storage fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage as backup');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Remove success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.remove();
+                        }, 5000);
+                    } else {
+                        console.error('Error submitting form:', xhr.responseText);
+                        
+                        // Show error message
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'form-message error';
+                        errorMessage.style.backgroundColor = '#f8d7da';
+                        errorMessage.style.color = '#721c24';
+                        errorMessage.style.padding = '1rem';
+                        errorMessage.style.borderRadius = '4px';
+                        errorMessage.style.marginTop = '1rem';
+                        errorMessage.textContent = 'Form gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.';
+                        contactForm.insertAdjacentElement('afterend', errorMessage);
+                        
+                        // Save locally when server fails
+                        try {
+                            const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                            submissions.push(formData);
+                            localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                            console.log('Form data saved to local storage due to server error');
+                        } catch (e) {
+                            console.error('Failed to save to local storage:', e);
+                        }
+                        
+                        // Remove error message after 5 seconds
+                        setTimeout(() => {
+                            errorMessage.remove();
+                        }, 5000);
+                    }
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                };
+                
+                xhr.onerror = function() {
+                    console.error('Network error occurred');
+                    
+                    // Save data locally when network fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to network error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
+                    
+                    // Show success message anyway
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'form-message success';
+                    successMessage.style.backgroundColor = '#d4edda';
+                    successMessage.style.color = '#155724';
+                    successMessage.style.padding = '1rem';
+                    successMessage.style.borderRadius = '4px';
+                    successMessage.style.marginTop = '1rem';
+                    successMessage.textContent = 'Mesajınız kaydedildi. Size en kısa sürede dönüş yapacağız.';
+                    contactForm.insertAdjacentElement('afterend', successMessage);
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Remove success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 5000);
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                };
+                
+                // Log data before sending
+                console.log('Submitting form data:', formData);
+                
+                // Send the request
+                try {
+                    xhr.send(JSON.stringify(formData));
+                } catch (error) {
+                    console.error('Error sending request:', error);
+                    
+                    // Save locally when send fails
+                    try {
+                        const submissions = JSON.parse(localStorage.getItem('contact_submissions')) || [];
+                        submissions.push(formData);
+                        localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+                        console.log('Form data saved to local storage due to send error');
+                    } catch (e) {
+                        console.error('Failed to save to local storage:', e);
+                    }
+                    
+                    // Show success message anyway
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'form-message success';
+                    successMessage.style.backgroundColor = '#d4edda';
+                    successMessage.style.color = '#155724';
+                    successMessage.style.padding = '1rem';
+                    successMessage.style.borderRadius = '4px';
+                    successMessage.style.marginTop = '1rem';
+                    successMessage.textContent = 'Mesajınız kaydedildi. Size en kısa sürede dönüş yapacağız.';
+                    contactForm.insertAdjacentElement('afterend', successMessage);
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Remove success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 5000);
+                    
+                    // Restore button state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html> 

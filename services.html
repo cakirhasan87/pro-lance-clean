@@ -9,33 +9,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Static Header -->
-    <header class="header">
+    <!-- Header -->
+    <header class="header flex">
         <div class="logo">
-            <a href="index.html">Pro-Lance</a>
+            <a href="/">Pro-Lance</a>
         </div>
-        
         <nav class="nav">
             <ul class="nav-list">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="services.html" class="active">Hizmetler</a></li>
-                <li><a href="collaboration.html">İş Birliği</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">İletişim</a></li>
+                <li><a href="/" class="">Ana Sayfa</a></li>
+                <li><a href="/services.html" class="active">Hizmetler</a></li>
+                <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+                <li><a href="/blog.html" class="">Blog</a></li>
+                <li><a href="/contact.html" class="">İletişim</a></li>
             </ul>
         </nav>
-
-        <div class="language-switch">
-            <a href="#" class="active">TR</a>
-            <a href="en/services.html">EN</a>
+        <div class="right-header">
+            <div class="lang-switch">
+                <a href="#" class="active">TR</a>
+                <a href="/en/services.html">EN</a>
+            </div>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-
-        <button class="hamburger" aria-label="Menü">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
     </header>
+
+    <script>
+        // Mobile menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('.nav');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+    </script>
 
     <main>
         <!-- Services Section -->
@@ -247,28 +257,5 @@
             <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
         </div>
     </footer>
-
-    <script>
-        // Hamburger menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.querySelector('.hamburger');
-            const nav = document.querySelector('.nav');
-            
-            if (hamburger && nav) {
-                hamburger.addEventListener('click', () => {
-                    hamburger.classList.toggle('active');
-                    nav.classList.toggle('active');
-                });
-
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                        nav.classList.remove('active');
-                        hamburger.classList.remove('active');
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html> 

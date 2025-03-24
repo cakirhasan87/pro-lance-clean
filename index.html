@@ -13,38 +13,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/" class="active">Ana Sayfa</a></li>
+            <li><a href="/services.html" class="">Hizmetler</a></li>
+            <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+            <li><a href="/blog.html" class="">Blog</a></li>
+            <li><a href="/contact.html" class="">İletişim</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="#" class="active">TR</a>
+            <a href="/en/index.html">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
+<script>
+    // Mobile menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+</script>
 
     <!-- Ana Bölüm -->
     <main>
@@ -52,7 +57,7 @@
         <section class="hero-section" style="background-image: url('images/remote-office.webp');">
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>Freelance Dünyasında Güvenilir Adresiniz</h1>
+                <h1>Yetenekler Buluşur, Projeler Büyür</h1>
                 <p>Pro-Lance ile yeteneklerinizi keşfedin ve Online bir görüşme planlayın</p>
                 <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
                     <i class="far fa-calendar-alt"></i> 30 Dakikalık Görüşme Planla

@@ -3,54 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İş Birliği | Pro-Lance</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <title>Pro-Lance | İş Birliği</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/" class="">Ana Sayfa</a></li>
+            <li><a href="/services.html" class="">Hizmetler</a></li>
+            <li><a href="/collaboration.html" class="active">İş Birliği</a></li>
+            <li><a href="/blog.html" class="">Blog</a></li>
+            <li><a href="/contact.html" class="">İletişim</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="#" class="active">TR</a>
+            <a href="/en/collaboration.html">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <main>
-        <!-- Collaboration Content -->
+        <!-- Hero Section -->
         <section class="collaboration-hero">
-            <h1>Bizimle İş Birliği Yapın</h1>
-            <p>Profesyoneller ağımıza katılın ve birlikte büyüyelim</p>
+            <div class="hero-content">
+                <h1>İş Birliği ile Güçlenin</h1>
+                <p>Pro-Lance ile iş birliği yaparak işletmenizi bir üst seviyeye taşıyın</p>
+            </div>
         </section>
 
+        <!-- Benefits Section -->
         <section class="benefits-section">
-            <h2>Neden Bizimle İş Birliği Yapmalısınız?</h2>
+            <h2>İş Birliği Avantajları</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
                     <i class="fas fa-handshake"></i>
@@ -89,83 +106,29 @@
         <section class="contact-section">
             <div class="contact-container">
                 <div class="contact-form-wrapper">
+                    <div class="meeting-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
                     <h2>İş Birliği Talebi</h2>
-                    <p class="form-description">Bizimle iş birliği yapmak için formu doldurun</p>
-                    <form id="collaborationForm" class="contact-form">
-                        <div class="form-group">
-                            <label for="companyName">Firma Adı*</label>
-                            <input type="text" id="companyName" name="companyName" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="contactPerson">İletişim Kişisi*</label>
-                            <input type="text" id="contactPerson" name="contactPerson" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">E-posta*</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone">Telefon*</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="industry">Sektör*</label>
-                            <input type="text" id="industry" name="industry" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="collaborationType">İş Birliği Türü*</label>
-                            <select id="collaborationType" name="collaborationType" required>
-                                <option value="">Seçiniz</option>
-                                <option value="project">Proje Bazlı İş Birliği</option>
-                                <option value="longTerm">Uzun Vadeli İş Birliği</option>
-                                <option value="consulting">Danışmanlık</option>
-                                <option value="other">Diğer</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">Mesajınız*</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="attachment">
-                                <i class="fas fa-paperclip"></i> 
-                                Dosya Ekle (İsteğe bağlı)
-                                <small style="display: block; color: #666; margin-top: 0.25rem;">
-                                    Maksimum dosya boyutu: 10MB
-                                </small>
-                            </label>
-                            <input type="file" 
-                                   id="attachment" 
-                                   name="attachment" 
-                                   accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
-                                   style="padding: 0.5rem 0;">
-                            <div id="fileInfo" style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;"></div>
-                        </div>
-                        
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            Gönder
-                        </button>
-                    </form>
+                    <p class="form-description">İş birliği talebinizi iletişim formumuz üzerinden gönderebilirsiniz. Size en kısa sürede dönüş yapacağız.</p>
+                    <a href="contact.html" class="cta-button" style="margin: 0;">
+                        <i class="fas fa-envelope"></i>
+                        İletişim Formu
+                    </a>
                 </div>
 
                 <div class="meeting-request">
                     <div class="meeting-icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <h3>Online Görüşme Planlayın</h3>
+                    <h2>Online Görüşme Planlayın</h2>
                     <p>Projelerinizi ve ihtiyaçlarınızı detaylı olarak görüşmek için online toplantı talep edebilirsiniz.</p>
-                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
-                        <i class="fas fa-video"></i>
-                        Görüşme Planla
-                    </a>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                            <i class="fas fa-video"></i>
+                            Görüşme Planla
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -179,22 +142,13 @@
                 <p>Freelance dünyasında güvenilir adresiniz</p>
             </div>
             <div class="footer-section">
-                <h3>Hızlı Linkler</h3>
+                <h3>Hızlı Bağlantılar</h3>
                 <ul>
-                    <li><a href="index.html#about">Hakkımızda</a></li>
+                    <li><a href="index.html">Ana Sayfa</a></li>
                     <li><a href="services.html">Hizmetler</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
-                <h3>İletişim</h3>
-                <p>Email: support@pro-lance.com</p>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
-                        <i class="fab fa-linkedin"></i></a>
-                </div>
             </div>
             <div class="footer-section">
                 <h3>Yasal</h3>
@@ -202,6 +156,15 @@
                     <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
                     <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
                 </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>E-posta: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">

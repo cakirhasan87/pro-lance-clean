@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | Pro-Lance</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <title>Privacy Policy - Pro-Lance</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -47,58 +46,62 @@
             text-align: right;
             margin-top: 2rem;
         }
-        .nav-links a {
-            font-size: 1.2rem;
-        }
-        
-        .footer-section ul li a {
-            font-size: 1.1rem;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links a {
-                font-size: 1.1rem;
-            }
-            
-            .footer-section ul li a {
-                font-size: 1rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Include the header -->
-    <div id="header"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('header').innerHTML = data;
-                    
-                    const hamburger = document.querySelector('.hamburger');
-                    const nav = document.querySelector('.nav');
-                    
-                    if (hamburger && nav) {
-                        hamburger.addEventListener('click', () => {
-                            hamburger.classList.toggle('active');
-                            nav.classList.toggle('active');
-                        });
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/en/index.html">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/en/index.html" class="">Home</a></li>
+            <li><a href="/en/services.html" class="">Services</a></li>
+            <li><a href="/en/collaboration.html" class="">Collaboration</a></li>
+            <li><a href="/en/blog.html" class="">Blog</a></li>
+            <li><a href="/en/contact.html" class="">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="/privacy-policy.html" style="color: #777;">TR</a>
+            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 
-                        // Close mobile menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-                                nav.classList.remove('active');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                });
-        });
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <main>
         <section class="privacy-section">
@@ -187,10 +190,9 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <ul class="nav-links">
-                    <li><a href="index.html#about">About</a></li>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="services.html">Services</a></li>
-                    <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
@@ -215,7 +217,5 @@
             <p>&copy; 2025 Pro-Lance. All rights reserved.</p>
         </div>
     </footer>
-
-    <script src="../script.js"></script>
 </body>
 </html> 
