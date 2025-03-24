@@ -193,6 +193,7 @@ body {
     
     .hamburger {
         display: block;
+        z-index: 1050;
     }
     
     .nav {
@@ -206,6 +207,9 @@ body {
         transition: right 0.3s ease;
         z-index: 1000;
         padding-top: 80px;
+        overflow-y: auto;
+        display: block;
+        justify-content: flex-start;
     }
     
     .nav.active {
@@ -213,9 +217,11 @@ body {
     }
     
     .nav-list {
-    flex-direction: column;
+        flex-direction: column;
         width: 100%;
         padding: 0 20px;
+        display: flex;
+        gap: 0;
     }
     
     .nav-list li {
@@ -224,8 +230,8 @@ body {
         border-bottom: 1px solid #f0f0f0;
     }
     
-    .nav-link {
-    display: block;
+    .nav-list li a {
+        display: block;
         padding: 15px 0;
         font-size: 16px;
     }
@@ -1850,8 +1856,8 @@ footer {
 }
 
 /* Blog Page Styles */
-    .blog-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/blog-hero.webp');
+.blog-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/remote-office.webp');
     background-size: cover;
     background-position: center;
     color: white;
@@ -1859,18 +1865,18 @@ footer {
     padding: 6rem 2rem;
     margin-bottom: 0;
     position: relative;
-    }
-    
-    .blog-hero h1 {
+}
+
+.blog-hero h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 2;
-    }
-    
-    .blog-hero p {
+}
+
+.blog-hero p {
     font-size: 1.2rem;
     opacity: 0.9;
     max-width: 700px;
@@ -1879,9 +1885,9 @@ footer {
     position: relative;
     z-index: 2;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    }
-    
-    .blog-posts {
+}
+
+.blog-posts {
     padding: 4rem 5%;
     background-color: #f8f9fa;
 }
