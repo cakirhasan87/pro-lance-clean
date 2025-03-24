@@ -871,7 +871,6 @@ def direct_supabase_post(data, submission_id=None):
     return result
 
 # Start background sync thread when app starts
-@app.before_first_request
 def start_background_sync():
     # Disable SSL warnings since we're using verify=False
     import urllib3
@@ -881,6 +880,10 @@ def start_background_sync():
     sync_thread = threading.Thread(target=background_sync_thread, daemon=True)
     sync_thread.start()
     logging.info("Background sync thread started")
+
+# Initialize the background sync when the app is created
+with app.app_context():
+    start_background_sync()
 
 # Add a route to manually trigger sync
 @app.route('/trigger-sync', methods=['GET'])
