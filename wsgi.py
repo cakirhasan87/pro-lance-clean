@@ -11,6 +11,8 @@ from urllib3.util.retry import Retry
 import uuid
 from datetime import datetime
 import platform
+import threading
+from urllib.parse import urlparse
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -60,14 +62,20 @@ ALT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 NEW_SUPABASE_PROJECT_ID = 'hhudczwbcjejxvbxglkv'
 NEW_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhodWRjendiejZqZWp4dmJ4Z2xrdiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzA5NzQ3MTU3LCJleHAiOjIwMjUzMjMxNTd9.P_C70m_yEY0H9M72_QvEVX-HSY0nPipJrWpvrdmxQ0M'
 
-# Try multiple domain variations for better chances of connection
+# Add DNS resolution improvements at the top of the file (just after imports)
+import socket
+socket.setdefaulttimeout(20)  # Increase timeout for connections
+
+# Update SUPABASE_DOMAINS with direct IPs
 SUPABASE_DOMAINS = [
-    # Standard domain format for REST API - preferred
+    # Direct IP addresses for Supabase
+    'https://104.18.38.10/rest/v1',
+    'https://172.64.149.246/rest/v1',
+    
+    # Original domains as fallback
     f'https://{NEW_SUPABASE_PROJECT_ID}.supabase.co/rest/v1',
     f'https://{SUPABASE_PROJECT_ID}.supabase.co/rest/v1',
     f'https://{ALT_SUPABASE_PROJECT_ID}.supabase.co/rest/v1',
-    
-    # Alternative supavisor session mode connection (6543 port for transaction mode)
     f'https://{NEW_SUPABASE_PROJECT_ID}.pooler.supabase.com:6543/rest/v1',
 ]
 
@@ -85,6 +93,22 @@ def get_api_key_for_domain(domain):
 
 # Global session with increased timeout and retries
 http_session = create_requests_session(retries=7, backoff_factor=0.5)
+
+# Modify request headers to include Host header when using direct IPs
+def get_headers_for_domain(domain, api_key):
+    """Get appropriate headers for the domain, including Host header for IPs"""
+    headers = {
+        'apikey': api_key,
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+    }
+    
+    # Add Host header for IP addresses
+    if domain.startswith('https://104.18.38.10') or domain.startswith('https://172.64.149.246'):
+        headers['Host'] = 'drxstcmoroaupedsynhq.supabase.co'
+    
+    return headers
 
 @app.route('/')
 @app.route('/index.html')
@@ -365,54 +389,62 @@ def submit_to_supabase_with_details(data, submission_id, is_test=False):
                 continue
                 
             # Construct the request URL
-            request_url = f"https://{domain}/rest/v1/contacts"
+            request_url = f"{domain}/contact_messages"
             
             # Log attempt
-            logging.info(f"Attempting Supabase submission to {domain}")
+            logging.info(f"Attempting Supabase submission to {request_url}")
             start_time = time.time()
-            
-            # Make the request with a timeout
-            headers = {
-                'apikey': supabase_key,
-                'Authorization': f'Bearer {supabase_key}',
-                'Content-Type': 'application/json',
-                'Prefer': 'return=minimal'
-            }
             
             # Include test flag in request data if applicable
             request_data = {**data, 'id': submission_id}
             if is_test:
                 request_data['is_test'] = True
-            
-            # Make the request with a timeout
-            response = requests.post(
-                request_url,
-                json=request_data,
-                headers=headers,
-                timeout=10
-            )
-            
-            # Calculate elapsed time
-            elapsed_time = time.time() - start_time
-            result['elapsed_ms'] = int(elapsed_time * 1000)
-            
-            # Record response details
-            result['response_code'] = response.status_code
-            
-            # Limit response text size to avoid huge logs
-            response_text = response.text[:500]
-            result['response_text'] = response_text
-            
-            # Check if the request was successful
-            if response.status_code in [200, 201, 204]:
-                result['success'] = True
-                result['message'] = 'Successfully submitted to Supabase'
-                logging.info(f"Successfully submitted to Supabase ({domain}) in {result['elapsed_ms']}ms")
-                return result
-            else:
-                result['message'] = f'Supabase returned status code {response.status_code}'
-                logging.warning(f"Supabase submission failed ({domain}): {response.status_code} - {response_text}")
+
+            # Make the request with a timeout and better error handling
+            try:
+                headers = get_headers_for_domain(domain, supabase_key)
+                logging.info(f"Sending request to {request_url} with data: {request_data}")
                 
+                response = requests.post(
+                    request_url,
+                    json=request_data,
+                    headers=headers,
+                    timeout=15,
+                    verify=True  # SSL verification
+                )
+                
+                # Calculate elapsed time
+                elapsed_time = time.time() - start_time
+                result['elapsed_ms'] = int(elapsed_time * 1000)
+                
+                # Record response details
+                result['response_code'] = response.status_code
+                
+                # Limit response text size to avoid huge logs
+                response_text = response.text[:500]
+                result['response_text'] = response_text
+                
+                # Check if the request was successful
+                if response.status_code in [200, 201, 204]:
+                    result['success'] = True
+                    result['message'] = 'Successfully submitted to Supabase'
+                    logging.info(f"Successfully submitted to Supabase ({domain}) in {result['elapsed_ms']}ms")
+                    return result
+                else:
+                    result['message'] = f'Supabase returned status code {response.status_code}'
+                    logging.warning(f"Supabase submission failed ({domain}): {response.status_code} - {response_text}")
+            
+            except requests.exceptions.RequestException as e:
+                result['error'] = f'Request error: {str(e)}'
+                result['message'] = f'Error making request to {domain}: {str(e)}'
+                logging.error(f"Supabase request error ({domain}): {str(e)}")
+                
+            except Exception as e:
+                result['error'] = str(e)
+                result['message'] = f'Error connecting to {domain}: {str(e)}'
+                logging.error(f"Supabase submission error ({domain}): {str(e)}")
+                logging.exception(e)
+            
         except requests.exceptions.ConnectTimeout:
             result['error'] = 'Connection timeout'
             result['message'] = f'Connection to {domain} timed out'
@@ -423,12 +455,6 @@ def submit_to_supabase_with_details(data, submission_id, is_test=False):
             result['message'] = f'Cannot connect to {domain}'
             logging.warning(f"Supabase connection error ({domain}): {str(e)}")
             
-        except Exception as e:
-            result['error'] = str(e)
-            result['message'] = f'Error connecting to {domain}: {str(e)}'
-            logging.error(f"Supabase submission error ({domain}): {str(e)}")
-            logging.exception(e)
-    
     # If we've tried all domains and none worked, update the message
     if result['attempted']:
         result['message'] = f"Tried all Supabase domains, last error: {result['message']}"
@@ -723,6 +749,10 @@ def test_form():
     """
     return html
 
+@app.route('/test-validation')
+def test_validation():
+    return send_from_directory('.', 'test-validation.html')
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -730,6 +760,197 @@ def page_not_found(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
+# Add background sync functionality
+def background_sync_thread():
+    """Background thread that syncs local submissions to Supabase"""
+    while True:
+        try:
+            # Sleep for a while before syncing
+            time.sleep(300)  # 5 minutes
+            
+            # Log sync attempt
+            logging.info("Running background sync of local submissions...")
+            
+            # Get all local submission files
+            local_dir = 'local_submissions'
+            if not os.path.exists(local_dir):
+                logging.info("No local submissions directory found")
+                continue
+                
+            # Find all submission files
+            submission_files = glob.glob(os.path.join(local_dir, 'contact_*.json'))
+            if not submission_files:
+                logging.info("No local submissions found to sync")
+                continue
+                
+            # Count stats
+            total_files = len(submission_files)
+            synced_files = 0
+            failed_files = 0
+            
+            logging.info(f"Found {total_files} local submissions to sync")
+            
+            # Process each file
+            for file_path in submission_files:
+                try:
+                    # Load the submission data
+                    with open(file_path, 'r') as f:
+                        data = json.load(f)
+                    
+                    # Extract submission ID from filename
+                    submission_id = os.path.basename(file_path).split('_')[-1].split('.')[0]
+                    
+                    # Try direct API call with simplified approach and SSL verification disabled
+                    result = direct_supabase_post(data, submission_id)
+                    
+                    if result['success']:
+                        # Move file to synced directory
+                        synced_dir = os.path.join(local_dir, 'synced')
+                        os.makedirs(synced_dir, exist_ok=True)
+                        new_path = os.path.join(synced_dir, os.path.basename(file_path))
+                        os.rename(file_path, new_path)
+                        
+                        synced_files += 1
+                        logging.info(f"Successfully synced {file_path} to Supabase")
+                    else:
+                        failed_files += 1
+                        logging.warning(f"Failed to sync {file_path}: {result['message']}")
+                        
+                except Exception as e:
+                    failed_files += 1
+                    logging.error(f"Error processing {file_path}: {str(e)}")
+            
+            logging.info(f"Sync completed: {synced_files} synced, {failed_files} failed out of {total_files} total")
+            
+        except Exception as e:
+            logging.error(f"Error in background sync thread: {str(e)}")
+            logging.exception(e)
+
+def direct_supabase_post(data, submission_id=None):
+    """Direct API call to Supabase with simplified approach and SSL verification disabled"""
+    result = {
+        'success': False,
+        'message': 'No attempt made'
+    }
+    
+    try:
+        # Use the correct domain
+        api_url = 'https://drxstcmoroaupedsynhq.supabase.co/rest/v1/contact_messages'
+        api_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k'
+        
+        headers = {
+            'apikey': api_key,
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json'
+        }
+        
+        # Ensure we have an ID
+        request_data = data.copy()
+        if submission_id:
+            request_data['id'] = submission_id
+        
+        # Make the request with SSL verification disabled
+        response = requests.post(
+            api_url,
+            json=request_data,
+            headers=headers,
+            timeout=30,
+            verify=False  # Disable SSL verification as a last resort
+        )
+        
+        if response.status_code in [200, 201, 204]:
+            result['success'] = True
+            result['message'] = f'Successfully submitted (Status: {response.status_code})'
+        else:
+            result['message'] = f'API Error: {response.status_code} - {response.text[:200]}'
+            
+    except Exception as e:
+        result['message'] = f'Exception: {str(e)}'
+        
+    return result
+
+# Start background sync thread when app starts
+@app.before_first_request
+def start_background_sync():
+    # Disable SSL warnings since we're using verify=False
+    import urllib3
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    
+    # Start the background thread
+    sync_thread = threading.Thread(target=background_sync_thread, daemon=True)
+    sync_thread.start()
+    logging.info("Background sync thread started")
+
+# Add a route to manually trigger sync
+@app.route('/trigger-sync', methods=['GET'])
+def trigger_sync():
+    """Manually trigger a sync of local submissions to Supabase"""
+    try:
+        # Find all local submission files
+        local_dir = 'local_submissions'
+        if not os.path.exists(local_dir):
+            return jsonify({'success': False, 'message': 'No local submissions directory found'})
+            
+        # Find all submission files
+        submission_files = glob.glob(os.path.join(local_dir, 'contact_*.json'))
+        if not submission_files:
+            return jsonify({'success': True, 'message': 'No local submissions found to sync'})
+            
+        # Count stats
+        total_files = len(submission_files)
+        synced_files = 0
+        failed_files = 0
+        results = []
+        
+        # Process each file
+        for file_path in submission_files:
+            try:
+                # Load the submission data
+                with open(file_path, 'r') as f:
+                    data = json.load(f)
+                
+                # Extract submission ID from filename
+                submission_id = os.path.basename(file_path).split('_')[-1].split('.')[0]
+                
+                # Try direct API call with simplified approach
+                result = direct_supabase_post(data, submission_id)
+                result['file'] = os.path.basename(file_path)
+                
+                if result['success']:
+                    # Move file to synced directory
+                    synced_dir = os.path.join(local_dir, 'synced')
+                    os.makedirs(synced_dir, exist_ok=True)
+                    new_path = os.path.join(synced_dir, os.path.basename(file_path))
+                    os.rename(file_path, new_path)
+                    
+                    synced_files += 1
+                    result['moved_to'] = new_path
+                else:
+                    failed_files += 1
+                    
+                results.append(result)
+                    
+            except Exception as e:
+                failed_files += 1
+                results.append({
+                    'file': os.path.basename(file_path),
+                    'success': False,
+                    'message': f'Error: {str(e)}'
+                })
+        
+        return jsonify({
+            'success': True,
+            'total': total_files,
+            'synced': synced_files,
+            'failed': failed_files,
+            'results': results
+        })
+        
+    except Exception as e:
+        logging.error(f"Error in manual sync: {str(e)}")
+        logging.exception(e)
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'})
 
 if __name__ == '__main__':
     # Run the app on all network interfaces

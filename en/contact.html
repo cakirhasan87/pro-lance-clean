@@ -183,16 +183,25 @@
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form data
+                // Get form data - simplified version with only required fields
                 const formData = {
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value || null,
                     subject: document.getElementById('subject').value,
                     message: document.getElementById('message').value,
-                    created_at: new Date().toISOString(),
-                    language: 'en'
+                    language: 'en' // Only include language field for English version
                 };
+                
+                // Only add optional fields if they have values
+                const phone = document.getElementById('phone').value;
+                if (phone) {
+                    formData.phone = phone;
+                }
+                
+                // Let the database handle created_at and status with their defaults
+                // No need to send these fields explicitly
+                
+                console.log("Simplified form data:", formData);
                 
                 // Show loading state
                 const submitBtn = contactForm.querySelector('.submit-btn');
@@ -308,9 +317,6 @@
                     submitBtn.innerHTML = originalBtnContent;
                     submitBtn.disabled = false;
                 };
-                
-                // Log data before sending
-                console.log('Submitting form data:', formData);
                 
                 // Send the request
                 try {

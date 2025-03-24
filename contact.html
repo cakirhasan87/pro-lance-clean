@@ -147,13 +147,23 @@
                 <p>Freelance dünyasında güvenilir adresiniz</p>
             </div>
             <div class="footer-section">
-                <h3>Hızlı Bağlantılar</h3>
+                <h3>Hızlı Linkler</h3>
                 <ul>
-                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="index.html#about">Hakkımızda</a></li>
                     <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="collaboration.html">İş Birliği</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>E-posta: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
             <div class="footer-section">
                 <h3>Yasal</h3>
@@ -177,16 +187,24 @@
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form data
+                // Get form data - simplified version with only required fields
                 const formData = {
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value || null,
                     subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value,
-                    created_at: new Date().toISOString(),
-                    language: 'tr'
+                    message: document.getElementById('message').value
                 };
+                
+                // Only add optional fields if they have values
+                const phone = document.getElementById('phone').value;
+                if (phone) {
+                    formData.phone = phone;
+                }
+                
+                // Let the database handle created_at and status with their defaults
+                // No need to send these fields explicitly
+                
+                console.log("Simplified form data:", formData);
                 
                 // Show loading state
                 const submitBtn = contactForm.querySelector('.submit-btn');
