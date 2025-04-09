@@ -1,0 +1,45 @@
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hi there! 👋\n\nMy name is Nathan. How can I assist you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        botName: 'Nathan',
+        debug: true
+    });
+</script>
+
+<style>
+/* Custom styles for chat widget to match website's theme */
+:root {
+    --chat--toggle--background: #4CAF50;
+    --chat--toggle--hover--background: #45a049;
+    --chat--toggle--active--background: #3d8b40;
+    --chat--message--user--background: #4CAF50;
+    --chat--message--user--color: #ffffff;
+    --chat--header--background: #4CAF50;
+}
+
+.n8n-chat-widget {
+    --chat--window-wrapper--background: #4CAF50 !important;
+}
+
+.chat-window-wrapper,
+.n8n-chat-widget .chat-window-wrapper {
+    background-color: #4CAF50 !important;
+}
+
+/* Additional styles to ensure consistent background */
+.n8n-chat-widget .chat-messages-container {
+    background-color: #4CAF50 !important;
+}
+</style> 

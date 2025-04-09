@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Editor - Admin Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-title {
+            margin: 0;
+        }
+        
+        .admin-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .admin-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .admin-btn.delete {
+            background-color: #dc3545;
+        }
+        
+        .admin-btn.delete:hover {
+            background-color: #c82333;
+        }
+        
+        .admin-btn.edit {
+            background-color: #007bff;
+        }
+        
+        .admin-btn.edit:hover {
+            background-color: #0069d9;
+        }
+        
+        .login-required {
+            text-align: center;
+            padding: 3rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+        
+        .login-form {
+            margin-top: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            margin-top: 1rem;
+        }
+        
+        .success-message {
+            color: #28a745;
+            margin-top: 1rem;
+        }
+        
+        .blog-list {
+            margin-top: 2rem;
+        }
+        
+        .blog-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .blog-table th,
+        .blog-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            text-align: left;
+        }
+        
+        .blog-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .blog-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .blog-title {
+            font-weight: 600;
+        }
+        
+        .blog-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom-color: #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: cover;
+            margin-top: 1rem;
+        }
+        
+        .thumbnail-col img {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">Blog Editor</h1>
+            <div>
+                <a href="index.html" class="admin-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                <button id="logoutBtn" class="admin-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginContainer" class="login-required">
+            <h2>Admin Login Required</h2>
+            <p>Please enter your credentials to access the blog editor.</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="admin-btn">Log In</button>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+        
+        <!-- Blog Editor Interface -->
+        <div id="editorContainer" style="display: none;">
+            <div class="tabs">
+                <div class="tab active" data-tab="posts">Blog Posts</div>
+                <div class="tab" data-tab="editor">New Post</div>
+            </div>
+            
+            <!-- Blog Posts List -->
+            <div id="postsTab" class="tab-content active">
+                <div class="blog-list">
+                    <table class="blog-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="blogPostsList">
+                            <!-- Blog posts will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Blog Editor Form -->
+            <div id="editorTab" class="tab-content">
+                <form id="blogForm" class="blog-form">
+                    <div class="form-group">
+                        <label for="title">Title*</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">Content*</label>
+                        <textarea id="content" name="content" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="thumbnail">Thumbnail Image</label>
+                        <input type="file" id="thumbnail" name="thumbnail" accept="image/*">
+                        <img id="thumbnailPreview" class="image-preview" style="display: none;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="admin-btn">Save Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentTab = 'posts';
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                showEditorInterface();
+            } else {
+                showLoginForm();
+            }
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+            });
+            
+            // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Blog form submission
+            document.getElementById('blogForm').addEventListener('submit', handleBlogSubmit);
+            
+            // Thumbnail preview
+            const thumbnailInput = document.getElementById('thumbnail');
+            if (thumbnailInput) {
+                thumbnailInput.addEventListener('change', handleThumbnailPreview);
+            }
+        }
+        
+        // Handle login form submission
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple authentication - in a real app, this would be server-side
+            if (username === 'admin' && password === 'admin') {
+                localStorage.setItem('adminLoggedIn', 'true');
+                showEditorInterface();
+            } else {
+                const loginError = document.getElementById('loginError');
+                loginError.textContent = 'Invalid username or password';
+                loginError.style.display = 'block';
+            }
+        }
+        
+        // Show editor interface
+        function showEditorInterface() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('editorContainer').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            loadBlogPosts();
+        }
+        
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('editorContainer').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+        }
+        
+        // Switch between tabs
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab styling
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
+            });
+            
+            // Show/hide content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === `${tab}Tab`);
+            });
+        }
+        
+        // Handle blog form submission
+        async function handleBlogSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData();
+                formData.append('title', document.getElementById('title').value);
+                formData.append('content', document.getElementById('content').value);
+                formData.append('status', document.getElementById('status').value);
+                
+                const thumbnail = document.getElementById('thumbnail').files[0];
+                if (thumbnail) {
+                    formData.append('thumbnail', thumbnail);
+                }
+                
+                const response = await fetch('/api/blog/posts', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    alert('Blog post saved successfully!');
+                    this.reset();
+                    document.getElementById('thumbnailPreview').style.display = 'none';
+                    loadBlogPosts();
+                    switchTab('posts');
+                } else {
+                    throw new Error('Failed to save blog post');
+                }
+            } catch (error) {
+                console.error('Error saving blog post:', error);
+                alert('Error saving blog post: ' + error.message);
+            }
+        }
+        
+        // Handle thumbnail preview
+        function handleThumbnailPreview(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('thumbnailPreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Load blog posts
+        async function loadBlogPosts() {
+            try {
+                const response = await fetch('/api/blog/posts');
+                if (response.ok) {
+                    const posts = await response.json();
+                    renderBlogPosts(posts);
+                } else {
+                    throw new Error('Failed to load blog posts');
+                }
+            } catch (error) {
+                console.error('Error loading blog posts:', error);
+                document.getElementById('blogPostsList').innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #dc3545;">
+                            Error loading blog posts: ${error.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Render blog posts
+        function renderBlogPosts(posts) {
+            const tbody = document.getElementById('blogPostsList');
+            tbody.innerHTML = '';
+            
+            if (posts.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            No blog posts found. Click the "New Post" tab to create one.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            posts.forEach(post => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="blog-title">${post.title}</td>
+                    <td class="blog-date">${new Date(post.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <span class="status-badge ${post.status}">
+                            ${post.status.charAt(0).toUpperCase() + post.status.slice(1)}
+                        </span>
+                    </td>
+                    <td class="blog-actions">
+                        <button class="admin-btn edit" onclick="editPost('${post.id}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="admin-btn delete" onclick="deletePost('${post.id}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            window.location.reload();
+        }
+    </script>
+</body>
+</html> 

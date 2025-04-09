@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+Allow: /en/
+Allow: /tr/
+Allow: /blog-posts/
+Allow: /en/blog-posts/
+Allow: /tr/blog-posts/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Disallow admin and test pages
+Disallow: /admin/
+Disallow: /test/
+Disallow: /test-*
+Disallow: /*test.*
+Disallow: /flask_app/test*
+
+# Disallow temporary and development files
+Disallow: /*.sql$
+Disallow: /*.log$
+Disallow: /*.txt$
+Disallow: /*.json$
+Disallow: /*.md$
+Disallow: /extensions/
+Disallow: /flask_app/templates/
+Disallow: /flask_app/static/
+
+# Sitemap
+Sitemap: https://pro-lance.com/sitemap.xml 

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Contact Messages</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-title {
+            margin: 0;
+        }
+        
+        .message-list {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .message-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .message-table th, 
+        .message-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .message-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .message-row.unread {
+            background-color: #f0f7ff;
+        }
+        
+        .message-row:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .message-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .message-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-unread {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-read {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-synced {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-local {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #6c757d;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        
+        .action-btn.delete:hover {
+            color: #dc3545;
+        }
+        
+        .action-btn.view:hover {
+            color: #0d6efd;
+        }
+        
+        .action-btn.mark-read:hover {
+            color: #198754;
+        }
+        
+        .message-detail {
+            display: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .message-detail.active {
+            display: block;
+        }
+        
+        .detail-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .detail-content {
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+            margin-right: 0.5rem;
+        }
+        
+        .detail-value {
+            color: #212529;
+        }
+        
+        .detail-row {
+            margin-bottom: 0.5rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination-btn:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .pagination-btn.active {
+            background-color: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+        
+        .no-messages {
+            padding: 3rem;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .spinner {
+            margin-right: 0.5rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-required {
+            text-align: center;
+            padding: 3rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+
+        .login-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 1rem;
+        }
+        
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+        
+        .refresh-btn {
+            padding: 0.5rem 1rem;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .data-source-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">Contact Messages</h1>
+            <button id="logoutBtn" style="display: none;" class="refresh-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginContainer" class="login-required">
+            <h2>Admin Login Required</h2>
+            <p>Please enter your credentials to access the contact messages.</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+        
+        <!-- Data Table (hidden initially) -->
+        <div id="messageListContainer" style="display: none;">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search messages...">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="synced">Synced</option>
+                        <option value="local">Local Only</option>
+                    </select>
+                </div>
+                <div class="data-source-info">
+                    <span id="dataSource">Data Source: </span>
+                </div>
+                <button id="refreshBtn" class="refresh-btn" onclick="loadMessages(true)">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="message-list">
+                <!-- Loading State -->
+                <div id="loadingState" class="loading">
+                    <i class="fas fa-circle-notch spinner"></i> Loading messages...
+                </div>
+                
+                <!-- No Messages State -->
+                <div id="noMessagesState" class="no-messages" style="display: none;">
+                    <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>No contact messages found.</p>
+                </div>
+                
+                <!-- Messages Table -->
+                <table id="messagesTable" class="message-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messagesTableBody">
+                        <!-- Messages will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" class="pagination">
+                <!-- Pagination buttons will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Message Details Modal -->
+        <div id="messageDetails" class="message-detail">
+            <div class="detail-header">
+                <h3 id="detailTitle">Message Details</h3>
+            </div>
+            <div class="detail-content">
+                <div class="detail-row">
+                    <span class="detail-label">From:</span>
+                    <span id="detailFrom" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email:</span>
+                    <span id="detailEmail" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Phone:</span>
+                    <span id="detailPhone" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Subject:</span>
+                    <span id="detailSubject" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date:</span>
+                    <span id="detailDate" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Message:</span>
+                    <div id="detailMessage" class="detail-value" style="margin-top: 0.5rem;"></div>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span id="detailStatus" class="detail-value"></span>
+                </div>
+                <div class="detail-row" id="detailMetaContainer">
+                    <span class="detail-label">Technical Details:</span>
+                    <pre id="detailMeta" class="detail-value" style="margin-top: 0.5rem; font-size: 0.85rem; background: #f0f0f0; padding: 0.5rem; border-radius: 4px; overflow: auto;"></pre>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button id="closeDetailBtn" class="pagination-btn" onclick="closeMessageDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let allMessages = [];
+        let currentPage = 1;
+        let itemsPerPage = 10;
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                showAdminInterface();
+            } else {
+                showLoginForm();
+            }
+            
+            // Set up search input event listener
+            document.getElementById('searchInput').addEventListener('input', filterMessages);
+            document.getElementById('statusFilter').addEventListener('change', filterMessages);
+            
+            // Set up login form submission
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        });
+        
+        // Handle login form submission
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Very simple authentication - in a real app, this would be server-side
+            if (username === 'admin' && password === 'admin') {
+                localStorage.setItem('adminAuth', btoa(`${username}:${password}`));
+                localStorage.setItem('adminLoggedIn', 'true');
+                showAdminInterface();
+            } else {
+                const loginError = document.getElementById('loginError');
+                loginError.textContent = 'Invalid username or password';
+                loginError.style.display = 'block';
+            }
+        }
+        
+        // Show admin interface after login
+        function showAdminInterface() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('messageListContainer').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            
+            // Load messages
+            loadMessages();
+        }
+        
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('messageListContainer').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminAuth');
+            localStorage.removeItem('adminLoggedIn');
+            window.location.reload();
+        }
+        
+        // Load contact messages from API
+        async function loadMessages(showLoading = true) {
+            const loadingState = document.getElementById('loadingState');
+            const noMessagesState = document.getElementById('noMessagesState');
+            const messagesTable = document.getElementById('messagesTable');
+            
+            if (showLoading) {
+                loadingState.style.display = 'flex';
+                noMessagesState.style.display = 'none';
+                messagesTable.style.display = 'none';
+            }
+            
+            try {
+                // Only try to get messages from Supabase API
+                const response = await fetch('/api/contact-messages');
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch messages: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success && Array.isArray(data.messages) && data.messages.length > 0) {
+                    // Store messages globally
+                    allMessages = data.messages;
+                    
+                    // Update data source info
+                    document.getElementById('dataSource').textContent = 
+                        `Data Source: Supabase (${allMessages.length} messages)`;
+                    
+                    // Apply filters and render
+                    filterMessages();
+                } else {
+                    loadingState.style.display = 'none';
+                    noMessagesState.style.display = 'block';
+                    messagesTable.style.display = 'none';
+                    
+                    noMessagesState.innerHTML = `
+                        <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>No messages found in database.</p>
+                        <button onclick="loadMessages(true)" class="refresh-btn" style="margin-top: 1rem;">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                loadingState.style.display = 'none';
+                noMessagesState.style.display = 'block';
+                messagesTable.style.display = 'none';
+                
+                noMessagesState.innerHTML = `
+                    <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; color: #dc3545;"></i>
+                    <p>Error loading messages: ${error.message}</p>
+                    <button onclick="loadMessages(true)" class="refresh-btn" style="margin-top: 1rem;">
+                        <i class="fas fa-sync-alt"></i> Retry
+                    </button>
+                `;
+            }
+        }
+        
+        // Filter and render messages
+        function filterMessages() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            // Apply filters
+            const filteredMessages = allMessages.filter(message => {
+                // Search filter
+                const matchesSearch = 
+                    (message.name && message.name.toLowerCase().includes(searchTerm)) ||
+                    (message.email && message.email.toLowerCase().includes(searchTerm)) ||
+                    (message.subject && message.subject.toLowerCase().includes(searchTerm)) ||
+                    (message.message && message.message.toLowerCase().includes(searchTerm));
+                
+                // Status filter
+                const matchesStatus = 
+                    statusFilter === 'all' || 
+                    (statusFilter === message.status);
+                
+                return matchesSearch && matchesStatus;
+            });
+            
+            renderMessages(filteredMessages);
+        }
+        
+        // Render messages to the table
+        function renderMessages(filteredMessages) {
+            const loadingState = document.getElementById('loadingState');
+            const noMessagesState = document.getElementById('noMessagesState');
+            const messagesTable = document.getElementById('messagesTable');
+            const messagesTableBody = document.getElementById('messagesTableBody');
+            
+            if (!filteredMessages || filteredMessages.length === 0) {
+                loadingState.style.display = 'none';
+                noMessagesState.style.display = 'block';
+                noMessagesState.innerHTML = `
+                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>No messages match your search criteria.</p>
+                `;
+                messagesTable.style.display = 'none';
+                return;
+            }
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredMessages.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredMessages.length);
+            const currentMessages = filteredMessages.slice(startIndex, endIndex);
+            
+            // Clear the table
+            messagesTableBody.innerHTML = '';
+            
+            // Add messages to the table
+            currentMessages.forEach(msg => {
+                const tr = document.createElement('tr');
+                tr.className = `message-row ${msg.status === 'unread' ? 'unread' : ''}`;
+                
+                // Format date
+                const createdDate = msg.created_at ? new Date(msg.created_at) : new Date();
+                const formattedDate = createdDate.toLocaleString();
+                
+                // Create row content
+                tr.innerHTML = `
+                    <td>${msg.name || 'Unknown'}</td>
+                    <td>${msg.email || 'No Email'}</td>
+                    <td>${msg.subject || 'No Subject'}</td>
+                    <td class="message-date">${formattedDate}</td>
+                    <td>
+                        <span class="message-status status-${msg.status || 'unread'}">
+                            ${(msg.status || 'unread').charAt(0).toUpperCase() + (msg.status || 'unread').slice(1)}
+                        </span>
+                    </td>
+                    <td class="message-actions">
+                        <button class="action-btn view" onclick="viewMessageDetail('${msg.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${msg.status === 'unread' ? `
+                            <button class="action-btn mark-read" onclick="markAsRead('${msg.id}')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        ` : ''}
+                    </td>
+                `;
+                
+                messagesTableBody.appendChild(tr);
+            });
+            
+            // Update pagination
+            renderPagination(totalPages);
+            
+            // Show the table
+            loadingState.style.display = 'none';
+            noMessagesState.style.display = 'none';
+            messagesTable.style.display = 'table';
+        }
+        
+        // Mark message as read
+        async function markAsRead(messageId) {
+            try {
+                // Find button and show loading state
+                const buttons = document.querySelectorAll(`.action-btn[onclick="markAsRead('${messageId}')"]`);
+                buttons.forEach(btn => {
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    btn.disabled = true;
+                });
+                
+                // Call API to mark as read
+                const response = await fetch(`/api/mark-as-read/${messageId}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update message status locally
+                    const messageIndex = allMessages.findIndex(m => m.id === messageId);
+                    if (messageIndex !== -1) {
+                        allMessages[messageIndex].status = 'read';
+                        
+                        // Re-render messages to update UI
+                        filterMessages();
+                        
+                        // Show success indicator
+                        buttons.forEach(btn => {
+                            btn.innerHTML = '<i class="fas fa-check"></i>';
+                            btn.style.color = '#28a745';
+                            setTimeout(() => {
+                                btn.style.display = 'none';
+                            }, 1000);
+                        });
+                    }
+                } else {
+                    // Show error state
+                    buttons.forEach(btn => {
+                        btn.innerHTML = '<i class="fas fa-times"></i>';
+                        btn.style.color = '#dc3545';
+                        btn.disabled = false;
+                        
+                        // Restore original after 2 seconds
+                        setTimeout(() => {
+                            btn.innerHTML = '<i class="fas fa-check"></i>';
+                            btn.style.color = '';
+                        }, 2000);
+                    });
+                    
+                    console.error('Error marking as read:', data.message);
+                    alert(`Failed to mark message as read: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error marking message as read:', error);
+                alert(`Error marking message as read: ${error.message}`);
+                
+                // Restore buttons
+                const buttons = document.querySelectorAll(`.action-btn[onclick="markAsRead('${messageId}')"]`);
+                buttons.forEach(btn => {
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.disabled = false;
+                });
+            }
+        }
+        
+        // View message details
+        function viewMessageDetail(messageId) {
+            const message = allMessages.find(m => m.id === messageId);
+            if (!message) return;
+            
+            // Fill in detail fields
+            document.getElementById('detailTitle').textContent = message.subject || 'Message Details';
+            document.getElementById('detailFrom').textContent = message.name || 'Unknown';
+            document.getElementById('detailEmail').textContent = message.email || 'No Email';
+            document.getElementById('detailPhone').textContent = message.phone || 'Not provided';
+            document.getElementById('detailSubject').textContent = message.subject || 'No Subject';
+            document.getElementById('detailDate').textContent = message.created_at ? new Date(message.created_at).toLocaleString() : 'Unknown';
+            document.getElementById('detailMessage').textContent = message.message || 'No message content';
+            document.getElementById('detailStatus').textContent = message.status ? message.status.charAt(0).toUpperCase() + message.status.slice(1) : 'Unread';
+            
+            // Add technical details
+            const metaContainer = document.getElementById('detailMetaContainer');
+            const metaDetails = document.getElementById('detailMeta');
+            
+            // Format meta details in JSON
+            const metaData = {
+                id: message.id,
+                created_at: message.created_at,
+                status: message.status || 'unread',
+                source: message.source || 'unknown'
+            };
+            
+            metaDetails.textContent = JSON.stringify(metaData, null, 2);
+            metaContainer.style.display = 'block';
+            
+            // Show the detail view
+            document.getElementById('messageDetails').classList.add('active');
+        }
+        
+        // Close message detail view
+        function closeMessageDetail() {
+            document.getElementById('messageDetails').classList.remove('active');
+        }
+        
+        // Refresh messages
+        function refreshMessages() {
+            loadMessages(true);
+        }
+        
+        // Render pagination controls
+        function renderPagination(totalPages) {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+            
+            if (totalPages <= 1) {
+                return;
+            }
+            
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    filterMessages();
+                }
+            };
+            paginationContainer.appendChild(prevBtn);
+            
+            // Page buttons
+            const maxButtons = 5;
+            const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    filterMessages();
+                };
+                paginationContainer.appendChild(pageBtn);
+            }
+            
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    filterMessages();
+                }
+            };
+            paginationContainer.appendChild(nextBtn);
+        }
+    </script>
+</body>
+</html> 

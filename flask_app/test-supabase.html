@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Test</title>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <button id="testButton">Test Insertion</button>
+    <div id="result" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        
+        // Initialize Supabase client
+        const supabaseUrl = 'https://drxstcmoroaupedsynhq.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        
+        document.getElementById('testButton').addEventListener('click', async () => {
+            const result = document.getElementById('result')
+            result.innerHTML = 'Testing connection...'
+            
+            try {
+                // List all tables to verify connection
+                console.log("Testing Supabase tables...")
+                const { data: tableData, error: tableError } = await supabase
+                    .from('_tables')
+                    .select('*')
+                
+                console.log("Tables response:", tableData, tableError)
+                
+                // Attempt a direct test insertion
+                const testData = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    phone: '1234567890',
+                    subject: 'Connection Test',
+                    message: 'This is a test message',
+                    created_at: new Date().toISOString(),
+                    status: 'unread'
+                }
+                
+                console.log("Attempting to insert:", testData)
+                const { data, error } = await supabase
+                    .from('contact_messages')
+                    .insert([testData])
+                
+                console.log("Supabase response:", data, error)
+                
+                if (error) {
+                    result.innerHTML = `<div style="color: red">Error: ${error.message}</div>
+                    <pre>${JSON.stringify(error, null, 2)}</pre>`
+                } else {
+                    result.innerHTML = `<div style="color: green">Success! Data inserted.</div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>`
+                }
+            } catch (error) {
+                console.error('Test error:', error)
+                result.innerHTML = `<div style="color: red">Exception: ${error.message}</div>`
+            }
+        })
+    </script>
+</body>
+</html> 

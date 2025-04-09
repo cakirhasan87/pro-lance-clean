@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance | Freelance Platformu</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
+
+    <main>
+        <!-- Rest of the existing content -->
+    </main>
+
+    <!-- Include the footer -->
+    <div id="footer"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer').innerHTML = data;
+                    const footerDiv = document.getElementById('footer');
+                    footerDiv.innerHTML = `
+                        <footer>
+                            <div class="footer-content">
+                                <div class="footer-section">
+                                    <h3>Pro-Lance</h3>
+                                    <p>Yetenekler Buluşur, Projeler Büyür</p>
+                                </div>
+                            </div>
+                        </footer>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error loading footer:', error);
+                });
+        });
+    </script>
+
+    <script src="../script.js"></script>
+    
+    <!-- Start cookiepal banner -->
+    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js"></script>
+    <!-- End cookiepal banner -->
+</body>
+</html> 

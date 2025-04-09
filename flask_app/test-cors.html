@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px; margin: 5px; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Supabase CORS Test</h1>
+    <button id="testCors">Test CORS Headers</button>
+    <button id="testOptions">Test OPTIONS Request</button>
+    <button id="testInsert">Try Simple Insert</button>
+    <pre id="output">Results will appear here...</pre>
+
+    <script>
+        const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k';
+        const apiUrl = 'https://drxstcmoroaupedsynhq.supabase.co';
+        const output = document.getElementById('output');
+
+        // Function to format JSON output
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2);
+        }
+
+        // Test CORS Headers
+        document.getElementById('testCors').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing CORS headers...';
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages?limit=0`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                });
+                
+                const headers = {};
+                for (const [key, value] of response.headers.entries()) {
+                    headers[key] = value;
+                }
+                
+                output.textContent = `Response status: ${response.status}\n\nHeaders:\n${formatJSON(headers)}`;
+                
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+            }
+        });
+        
+        // Test OPTIONS Request
+        document.getElementById('testOptions').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing OPTIONS request...';
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                });
+                
+                const headers = {};
+                for (const [key, value] of response.headers.entries()) {
+                    headers[key] = value;
+                }
+                
+                output.textContent = `OPTIONS Response status: ${response.status}\n\nHeaders:\n${formatJSON(headers)}`;
+                
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+            }
+        });
+        
+        // Test Simple Insert
+        document.getElementById('testInsert').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing simple insert...';
+                
+                // Create minimal test data
+                const testData = {
+                    name: "CORS Test User",
+                    email: "cors-test@example.com",
+                    subject: "CORS Test",
+                    message: "Testing CORS issues"
+                };
+                
+                console.log('Sending test data:', testData);
+                
+                // Set the mode: no-cors to test if CORS is the issue
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    mode: 'cors', // try with 'cors' mode explicitly
+                    credentials: 'omit',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response OK:', response.ok);
+                
+                const headers = {};
+                for (const [key, value] of response.headers.entries()) {
+                    headers[key] = value;
+                }
+                
+                let responseText = '';
+                try {
+                    responseText = await response.text();
+                } catch (e) {
+                    responseText = 'Could not read response body';
+                }
+                
+                output.textContent = `Response status: ${response.status}\n\nHeaders:\n${formatJSON(headers)}\n\nResponse:\n${responseText}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

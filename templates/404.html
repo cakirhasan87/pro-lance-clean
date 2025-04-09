@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="Sayfa bulunamadı - Pro-Lance">
+    <title>404 - Sayfa Bulunamadı | Pro-Lance</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebPage",
+        "name": "404 - Sayfa Bulunamadı",
+        "description": "Aradığınız sayfa bulunamadı veya taşınmış olabilir.",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Pro-Lance",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://pro-lance.com/images/logo.png"
+            }
+        }
+    }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+            text-align: center;
+            padding: 0 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0;
+            color: #dc3545;
+        }
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+        .back-home {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+        }
+        .back-home:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
+        .error-image {
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+        .suggestions {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .suggestions h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .suggestions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .suggestions li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .suggestions li::before {
+            content: "•";
+            color: #dc3545;
+            position: absolute;
+            left: 0;
+        }
+        .search-box {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .search-box input {
+            width: 70%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        .search-box button {
+            padding: 12px 24px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .search-box button:hover {
+            background-color: #218838;
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <img src="/images/404.svg" alt="404 Error" class="error-image">
+    <h1>404</h1>
+    <p>Sayfa Bulunamadı</p>
+    <p>Aradığınız sayfa bulunamadı veya taşınmış olabilir.</p>
+    
+    <div class="search-box">
+        <input type="text" placeholder="Ne aramıştınız?">
+        <button onclick="window.location.href='/search'">Ara</button>
+    </div>
+    
+    <div class="suggestions">
+        <h2>Öneriler:</h2>
+        <ul>
+            <li>URL adresini doğru yazdığınızdan emin olun</li>
+            <li>Ana sayfaya dönüp aradığınız içeriğe menüden ulaşmayı deneyin</li>
+            <li>Sitenin arama özelliğini kullanın</li>
+        </ul>
+    </div>
+    
+    <a href="/" class="back-home">Ana Sayfaya Dön</a>
+</body>
+</html> 

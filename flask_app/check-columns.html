@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Column Structure</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px; margin: 5px; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; }
+        .options { margin: 10px 0; }
+        label { margin-right: 10px; }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Column Structure Check</h1>
+    
+    <div>
+        <button id="checkColumns">Check Column Types</button>
+        <button id="testInsertWithID">Test Insert With ID</button>
+        <button id="testInsertNoID">Test Insert Without ID</button>
+    </div>
+    
+    <div class="options">
+        <label>
+            <input type="checkbox" id="includeNulls"> Include null values for optional fields
+        </label>
+        <label>
+            <input type="checkbox" id="includeTimestamp" checked> Include timestamp
+        </label>
+        <label>
+            <input type="checkbox" id="includeStatus" checked> Include status
+        </label>
+    </div>
+    
+    <pre id="output">Results will appear here...</pre>
+
+    <script>
+        const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k';
+        const apiUrl = 'https://drxstcmoroaupedsynhq.supabase.co';
+        const output = document.getElementById('output');
+
+        // Function to format JSON output
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2);
+        }
+
+        // Check column types
+        document.getElementById('checkColumns').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Checking column types...';
+                
+                // Try to get column information from information_schema
+                const response = await fetch(`${apiUrl}/rest/v1/rpc/get_columns_info`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        table_name: 'contact_messages'
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                output.textContent = formatJSON(data);
+                
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+                
+                // Try alternative approach
+                try {
+                    const response = await fetch(`${apiUrl}`, {
+                        headers: {
+                            'apikey': apiKey,
+                            'Authorization': `Bearer ${apiKey}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    if (data.definitions && data.definitions.contact_messages) {
+                        output.textContent += '\n\nColumn info from API definition:\n' + 
+                                            formatJSON(data.definitions.contact_messages);
+                    }
+                } catch (innerError) {
+                    output.textContent += `\n\nSecond error: ${innerError.message}`;
+                }
+            }
+        });
+        
+        // Test Insert With ID
+        document.getElementById('testInsertWithID').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing insert with ID...';
+                
+                const includeNulls = document.getElementById('includeNulls').checked;
+                const includeTimestamp = document.getElementById('includeTimestamp').checked;
+                const includeStatus = document.getElementById('includeStatus').checked;
+                
+                // Create test data
+                const testData = {
+                    id: crypto.randomUUID(), // Generate a UUID
+                    name: "Test User With ID",
+                    email: "test-with-id@example.com",
+                    subject: "Test Insert With ID",
+                    message: "Testing insert with explicit ID"
+                };
+                
+                // Handle optional fields
+                if (includeNulls) {
+                    testData.phone = null;
+                } else {
+                    testData.phone = "1234567890";
+                }
+                
+                if (includeTimestamp) {
+                    testData.created_at = new Date().toISOString();
+                }
+                
+                if (includeStatus) {
+                    testData.status = "unread";
+                }
+                
+                console.log('Sending test data with ID:', testData);
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const responseData = await response.json();
+                output.textContent = `Insert Success!\n\n${formatJSON(responseData)}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Insert Error: ${error.message}`;
+            }
+        });
+        
+        // Test Insert Without ID
+        document.getElementById('testInsertNoID').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing insert without ID...';
+                
+                const includeNulls = document.getElementById('includeNulls').checked;
+                const includeTimestamp = document.getElementById('includeTimestamp').checked;
+                const includeStatus = document.getElementById('includeStatus').checked;
+                
+                // Create test data
+                const testData = {
+                    name: "Test User No ID",
+                    email: "test-no-id@example.com",
+                    subject: "Test Insert Without ID",
+                    message: "Testing insert without explicit ID"
+                };
+                
+                // Handle optional fields
+                if (includeNulls) {
+                    testData.phone = null;
+                } else {
+                    testData.phone = "1234567890";
+                }
+                
+                if (includeTimestamp) {
+                    testData.created_at = new Date().toISOString();
+                }
+                
+                if (includeStatus) {
+                    testData.status = "unread";
+                }
+                
+                console.log('Sending test data without ID:', testData);
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const responseData = await response.json();
+                output.textContent = `Insert Success!\n\n${formatJSON(responseData)}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Insert Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

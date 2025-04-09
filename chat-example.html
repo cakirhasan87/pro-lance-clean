@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Chat Widget Example - Pro-Lance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/favicon.ico">
+    <style>
+        .example-section {
+            padding: 3rem 0;
+            background-color: #f9f9f9;
+        }
+        
+        .example-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .example-code {
+            background-color: #f0f0f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow: auto;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .example-widget {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 500px;
+        }
+        
+        @media (max-width: 768px) {
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-nav-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-nav-item.active {
+            border-bottom-color: #4CAF50;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Include common header -->
+        <script>
+            fetch("header.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("header").innerHTML = data;
+                });
+        </script>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>n8n Chat Widget Examples</h1>
+                <p>This page demonstrates different ways to integrate the n8n Chat widget into your website.</p>
+            </div>
+        </section>
+        
+        <section class="example-section">
+            <div class="example-container">
+                <div class="tab-nav">
+                    <div class="tab-nav-item active" data-tab="floating">Floating Button</div>
+                    <div class="tab-nav-item" data-tab="embedded">Embedded Chat</div>
+                    <div class="tab-nav-item" data-tab="custom">Custom Styling</div>
+                </div>
+                
+                <div id="floating" class="tab-content active">
+                    <div class="example-grid">
+                        <div>
+                            <h2>Floating Chat Button</h2>
+                            <p>The floating chat button appears in the corner of the page. This is the default implementation and requires minimal setup.</p>
+                            
+                            <h3>Implementation</h3>
+                            <div class="example-code">
+<pre>&lt;!-- Include the chat script in your HTML --&gt;
+&lt;script src="js/chat.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- In your configuration --&gt;
+containerSelector: null</pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h2>Live Example</h2>
+                            <p>The floating chat button is visible in the bottom right corner of this page.</p>
+                            <img src="images/chat-button-example.png" alt="Floating chat button example" style="max-width: 100%; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="embedded" class="tab-content">
+                    <div class="example-grid">
+                        <div>
+                            <h2>Embedded Chat Widget</h2>
+                            <p>The chat widget can be embedded directly into a page, rather than floating in the corner.</p>
+                            
+                            <h3>Implementation</h3>
+                            <div class="example-code">
+<pre>&lt;!-- Create a container for the chat --&gt;
+&lt;div id="my-chat-container" class="embedded-chat-container"&gt;&lt;/div&gt;
+
+&lt;!-- In your configuration --&gt;
+containerSelector: '#my-chat-container'</pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h2>Live Example</h2>
+                            <p>Here's the chat widget embedded directly in the page:</p>
+                            <div id="embedded-example" class="embedded-chat-container"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="custom" class="tab-content">
+                    <div class="example-grid">
+                        <div>
+                            <h2>Custom Styled Chat</h2>
+                            <p>You can customize the appearance of the chat widget with custom CSS.</p>
+                            
+                            <h3>Implementation</h3>
+                            <div class="example-code">
+<pre>&lt;!-- In your configuration --&gt;
+primaryColor: '#9c27b0',
+  
+&lt;!-- In your CSS --&gt;
+.n8n-chat-widget .n8n-chat-header {
+  background-image: linear-gradient(135deg, #9c27b0, #673ab7);
+}
+
+.n8n-chat-widget .n8n-chat-button {
+  background-image: linear-gradient(135deg, #9c27b0, #673ab7);
+  box-shadow: 0 4px 10px rgba(156, 39, 176, 0.3);
+}</pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h2>Live Example</h2>
+                            <p>Here's a chat widget with custom styling:</p>
+                            <div id="custom-example" class="embedded-chat-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Include common footer -->
+        <script>
+            fetch("footer.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("footer").innerHTML = data;
+                });
+        </script>
+    </footer>
+
+    <script src="script.js"></script>
+    
+    <!-- Tab Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabNavItems = document.querySelectorAll('.tab-nav-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all tabs and content
+                    tabNavItems.forEach(tab => tab.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and its content
+                    const tabId = this.getAttribute('data-tab');
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+    
+    <!-- Example Chat Widgets -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // First load the chat configuration
+            const configScript = document.createElement('script');
+            configScript.src = './js/chat-config.js';
+            document.head.appendChild(configScript);
+            
+            // Load the chat widget script
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@n8n/chat/widget.js';
+            script.async = true;
+            
+            // Add the required CSS
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/npm/@n8n/chat/style.css';
+            document.head.appendChild(link);
+            
+            // Initialize embedded example when script loads
+            script.onload = function() {
+                if (typeof window.n8nChat === 'undefined') {
+                    console.error('n8n Chat widget failed to load');
+                    return;
+                }
+                
+                if (typeof N8N_CHAT_CONFIG === 'undefined') {
+                    console.error('n8n Chat configuration not found');
+                    return;
+                }
+                
+                // Create embedded example
+                const embeddedConfig = JSON.parse(JSON.stringify(N8N_CHAT_CONFIG));
+                embeddedConfig.containerSelector = '#embedded-example';
+                embeddedConfig.title = 'Embedded Chat Example';
+                
+                window.n8nChat.init({
+                    chatConfig: embeddedConfig
+                });
+                
+                // Create custom styled example
+                const customConfig = JSON.parse(JSON.stringify(N8N_CHAT_CONFIG));
+                customConfig.containerSelector = '#custom-example';
+                customConfig.title = 'Custom Styled Chat';
+                customConfig.primaryColor = '#9c27b0';
+                
+                window.n8nChat.init({
+                    chatConfig: customConfig
+                });
+                
+                // Add custom CSS for the purple theme
+                const customStyle = document.createElement('style');
+                customStyle.textContent = `
+                    #custom-example .n8n-chat-widget .n8n-chat-header {
+                        background-image: linear-gradient(135deg, #9c27b0, #673ab7);
+                    }
+                    
+                    #custom-example .n8n-chat-widget .n8n-chat-button {
+                        background-image: linear-gradient(135deg, #9c27b0, #673ab7);
+                        box-shadow: 0 4px 10px rgba(156, 39, 176, 0.3);
+                    }
+                `;
+                document.head.appendChild(customStyle);
+            };
+            
+            document.head.appendChild(script);
+        });
+    </script>
+    
+    <!-- Regular floating chat widget -->
+    <script src="js/chat.min.js"></script>
+</body>
+</html> 

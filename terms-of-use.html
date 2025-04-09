@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanım Koşulları | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .terms-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .terms-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .terms-content h1 {
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .terms-content h2 {
+            color: #444;
+            margin: 2rem 0 1rem;
+        }
+        .terms-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #666;
+        }
+        .terms-content ul {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+        .terms-content li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        .last-updated {
+            font-style: italic;
+            color: #888;
+            text-align: right;
+            margin-top: 2rem;
+        }
+        .nav-links a {
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul li a {
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            
+            .footer-section ul li a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
+
+    <main>
+        <section class="terms-section">
+            <div class="terms-content">
+                <h1>Kullanım Koşulları</h1>
+                
+                <h2>1. Koşulların Kabulü</h2>
+                <p>Pro-Lance'in web sitesine ve hizmetlerine erişerek ve kullanarak, bu Kullanım Koşullarına bağlı kalmayı kabul etmiş olursunuz. Bu koşulların herhangi bir bölümüne katılmıyorsanız, lütfen hizmetlerimizi kullanmayın.</p>
+
+                <h2>2. Tanımlar</h2>
+                <p>"Hizmet", Pro-Lance platformu ve ilgili tüm hizmetleri ifade eder</p>
+                <p>"Kullanıcı", Hizmetimizi kullanan herhangi bir kişi veya kurumu ifade eder</p>
+                <p>"İçerik", platformumuzda bulunan tüm bilgi ve materyalleri ifade eder</p>
+
+                <h2>3. Kullanıcı Hesapları</h2>
+                <p>Hizmetimizin belirli özelliklerini kullanmak için bir hesap oluşturmanız gerekmektedir. Hesap bilgilerinizin gizliliğini korumaktan ve hesabınız altındaki tüm aktivitelerden siz sorumlusunuz.</p>
+
+                <h2>4. Fikri Mülkiyet</h2>
+                <p>Web sitemizdeki metin, grafik, logo ve yazılım dahil tüm içerik Pro-Lance'in mülkiyetindedir ve fikri mülkiyet yasaları tarafından korunmaktadır.</p>
+
+                <h2>5. Kullanıcı Davranışı</h2>
+                <p>Kullanıcılar aşağıdakileri yapmamayı kabul eder:</p>
+                <ul>
+                    <li>Geçerli yasa ve yönetmelikleri ihlal etmek</li>
+                    <li>Herhangi bir kişi veya kurumu taklit etmek</li>
+                    <li>Hizmetimizin düzgün işleyişine müdahale etmek</li>
+                    <li>Zararlı veya kötü niyetli faaliyetlerde bulunmak</li>
+                </ul>
+
+                <h2>6. Hizmet Değişiklikleri</h2>
+                <p>Pro-Lance, Hizmetimizin herhangi bir bölümünü herhangi bir zamanda, bildirimde bulunarak veya bulunmaksızın değiştirme veya sonlandırma hakkını saklı tutar.</p>
+
+                <h2>7. Sorumluluk Sınırlaması</h2>
+                <p>Pro-Lance, Hizmetimizin kullanımından kaynaklanan dolaylı, arızi, özel, sonuç olarak ortaya çıkan veya cezai zararlardan sorumlu tutulamaz.</p>
+
+                <h2>8. Koşullarda Değişiklik</h2>
+                <p>Bu Kullanım Koşullarını herhangi bir zamanda güncelleme hakkını saklı tutarız. Bu değişikliklerden sonra Hizmetimizi kullanmaya devam etmeniz, yeni koşulları kabul ettiğiniz anlamına gelir.</p>
+
+                <h2>9. İletişim Bilgileri</h2>
+                <p>Bu Kullanım Koşulları hakkında sorularınız için bize ulaşın:</p>
+                <p>E-posta: support@pro-lance.com<br>
+                Adres: 123 Business Street, Suite 100, New York, NY 10001</p>
+
+                <p class="last-updated">Son güncelleme: 15 Mart 2024</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Freelance dünyasında güvenilir adresiniz</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="index.html#about">Hakkımızda</a></li>
+                    <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>E-posta: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
+                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

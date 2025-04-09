@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Hizmetler | Pro-Lance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .service-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Hizmetlerimiz - Minimal Sayfa</h1>
+    
+    <div class="service-card">
+        <h3>Web Geliştirme</h3>
+        <p>Modern ve duyarlı web sitesi geliştirme hizmetleri sunuyoruz.</p>
+    </div>
+    
+    <div class="service-card">
+        <h3>Mobil Uygulama</h3>
+        <p>iOS ve Android platformları için mobil uygulamalar geliştiriyoruz.</p>
+    </div>
+    
+    <div class="service-card">
+        <h3>Yazılım Danışmanlığı</h3>
+        <p>Yazılım projelerinizde ihtiyaç duyduğunuz teknik danışmanlık hizmetini sağlıyoruz.</p>
+    </div>
+    
+    <p><a href="index.html">Ana Sayfaya Dön</a></p>
+</body>
+</html> 

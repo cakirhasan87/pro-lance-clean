@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Use | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .terms-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .terms-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .terms-content h1 {
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .terms-content h2 {
+            color: #444;
+            margin: 2rem 0 1rem;
+        }
+        .terms-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #666;
+        }
+        .terms-content ul {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+        .terms-content li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        .last-updated {
+            font-style: italic;
+            color: #888;
+            text-align: right;
+            margin-top: 2rem;
+        }
+        .nav-links a {
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul li a {
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            
+            .footer-section ul li a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <!-- Include the header -->
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                    
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
+                    
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                });
+        });
+    </script>
+
+    <main>
+        <section class="terms-section">
+            <div class="terms-content">
+                <h1>Terms of Use</h1>
+                
+                <h2>1. Acceptance of Terms</h2>
+                <p>By accessing and using Pro-Lance's website and services, you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, please do not use our services.</p>
+
+                <h2>2. Definitions</h2>
+                <p>"Service" refers to the Pro-Lance platform and all related services</p>
+                <p>"User" refers to any individual or entity using our Service</p>
+                <p>"Content" refers to all information and materials available on our platform</p>
+
+                <h2>3. User Accounts</h2>
+                <p>To use certain features of our Service, you must register for an account. You are responsible for maintaining the confidentiality of your account information and for all activities under your account.</p>
+
+                <h2>4. Intellectual Property</h2>
+                <p>All content on our website, including text, graphics, logos, and software, is the property of Pro-Lance and is protected by intellectual property laws.</p>
+
+                <h2>5. User Conduct</h2>
+                <p>Users agree not to:</p>
+                <ul>
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Impersonate any person or entity</li>
+                    <li>Interfere with the proper functioning of our Service</li>
+                    <li>Engage in any harmful or malicious activities</li>
+                </ul>
+
+                <h2>6. Service Modifications</h2>
+                <p>Pro-Lance reserves the right to modify or discontinue any part of our Service at any time, with or without notice.</p>
+
+                <h2>7. Limitation of Liability</h2>
+                <p>Pro-Lance shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our Service.</p>
+
+                <h2>8. Changes to Terms</h2>
+                <p>We reserve the right to update these Terms of Use at any time. Continued use of our Service after such changes constitutes acceptance of the new terms.</p>
+
+                <h2>9. Contact Information</h2>
+                <p>For questions about these Terms of Use, please contact us at:</p>
+                <p>Email: support@pro-lance.com<br>
+                Address: 123 Business Street, Suite 100, New York, NY 10001</p>
+
+                <p class="last-updated">Last updated: March 15, 2024</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Your trusted address in the freelance world</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="collaboration.html">Collaboration</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

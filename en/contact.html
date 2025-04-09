@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance | Contact</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/en/index.html">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/en/index.html" class="">Home</a></li>
+            <li><a href="/en/services.html" class="">Services</a></li>
+            <li><a href="/en/collaboration.html" class="">Collaboration</a></li>
+            <li><a href="/en/blog.html" class="">Blog</a></li>
+            <li><a href="/en/contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="/contact.html" style="color: #777;">TR</a>
+            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <main>
+        <section class="contact-hero">
+            <div class="hero-content">
+                <h1>Contact Us</h1>
+                <p>We're here for your questions and collaboration opportunities</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="contact-form-wrapper">
+                    <div class="meeting-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2>Contact Us</h2>
+                    
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Your Name*</label>
+                            <input type="text" id="name" name="name" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email Address*</label>
+                            <input type="email" id="email" name="email" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone"><i class="fas fa-phone"></i> Phone Number (Optional)</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject"><i class="fas fa-tag"></i> Subject*</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select</option>
+                                <option value="general">General Information</option>
+                                <option value="business">Business Collaboration</option>
+                                <option value="support">Technical Support</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-comment"></i> Your Message*</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <!-- reCAPTCHA -->
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="6LfXZQApAAAAAJBxGXZQZQZQZQZQZQZQZQZQZQZQZ"></div>
+                        </div>
+                        
+                        <div class="contact-buttons-container">
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="meeting-request">
+                    <div class="meeting-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Schedule an Online Meeting</h3>
+                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <span>We invite you to a one-on-one meeting to best understand your project requirements and provide you with tailored solutions. You can select a meeting time from our calendar that works best for you.</span>
+
+                        <span>During this meeting, we will analyze your goals, expectations, and challenges by reviewing the details of your current projects. Together with our expert teams, we will develop the most appropriate strategies for your needs and offer you customized solutions.</span>
+
+                        <span>Contact us to develop more efficient, innovative, and sustainable projects. Take the first step towards turning your ideas into reality by scheduling a meeting now!</span>
+                    </p>
+                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
+                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                            <i class="fas fa-video"></i>
+                            Schedule a Meeting
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Talents Meet, Projects Grow</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Terms of Use</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form handling
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Verify reCAPTCHA
+                const recaptchaResponse = grecaptcha.getResponse();
+                if (!recaptchaResponse) {
+                    alert('Please complete the CAPTCHA verification');
+                    return;
+                }
+                
+                // Get form data - simplified version with only required fields
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value,
+                    language: 'en', // Only include language field for English version
+                    'g-recaptcha-response': recaptchaResponse
+                };
+                
+                // Only add optional fields if they have values
+                const phone = document.getElementById('phone').value;
+                if (phone) {
+                    formData.phone = phone;
+                }
+                
+                // Submit form data to server
+                fetch('/submit-contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'form-message success';
+                        successMessage.textContent = 'Your message has been sent successfully!';
+                        contactForm.appendChild(successMessage);
+                        
+                        // Reset form
+                        contactForm.reset();
+                        grecaptcha.reset();
+                        
+                        // Remove success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.remove();
+                        }, 5000);
+                    } else {
+                        // Show error message
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'form-message error';
+                        errorMessage.textContent = data.message || 'An error occurred. Please try again.';
+                        contactForm.appendChild(errorMessage);
+                        
+                        // Remove error message after 5 seconds
+                        setTimeout(() => {
+                            errorMessage.remove();
+                        }, 5000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Show error message
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'form-message error';
+                    errorMessage.textContent = 'An error occurred. Please try again.';
+                    contactForm.appendChild(errorMessage);
+                    
+                    // Remove error message after 5 seconds
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 5000);
+                });
+            });
+        }
+    });
+    </script>
+</body>
+</html> 

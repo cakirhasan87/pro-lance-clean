@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Field Validation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px; margin: 5px; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; }
+        .form-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 8px; box-sizing: border-box; }
+        .test-group { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Supabase Field Validation Test</h1>
+    
+    <div class="test-group">
+        <h2>Test 1: Minimal Fields</h2>
+        <button id="testMinimal">Test Minimal Fields</button>
+    </div>
+    
+    <div class="test-group">
+        <h2>Test 2: Specific Schema Format</h2>
+        <button id="testSchema">Test Schema Format</button>
+    </div>
+    
+    <div class="test-group">
+        <h2>Test 3: Custom Fields</h2>
+        <form id="customForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" value="Custom Test User">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="custom@example.com">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" value="1234567890">
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" value="Custom Test">
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message">This is a custom test message.</textarea>
+            </div>
+            <div class="form-group">
+                <label for="timestamp">Include Timestamp:</label>
+                <input type="checkbox" id="timestamp" checked>
+            </div>
+            <div class="form-group">
+                <label for="status">Include Status:</label>
+                <input type="checkbox" id="status" checked>
+            </div>
+            <button type="button" id="testCustom">Test Custom Fields</button>
+        </form>
+    </div>
+    
+    <pre id="output">Results will appear here...</pre>
+
+    <script>
+        const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k';
+        const apiUrl = 'https://drxstcmoroaupedsynhq.supabase.co';
+        const output = document.getElementById('output');
+
+        // Function to format JSON output
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2);
+        }
+
+        // Test 1: Minimal Fields
+        document.getElementById('testMinimal').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing minimal fields...';
+                
+                // Create minimal test data with only required fields
+                const testData = {
+                    name: "Minimal Test User",
+                    email: "minimal@example.com",
+                    subject: "Minimal Test",
+                    message: "Testing with minimal fields"
+                };
+                
+                console.log('Sending minimal test data:', testData);
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                output.textContent = `Minimal Test Success! Status: ${response.status}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Minimal Test Error: ${error.message}`;
+            }
+        });
+        
+        // Test 2: Schema Format
+        document.getElementById('testSchema').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing schema format...';
+                
+                // Try with public schema explicitly specified
+                const testData = {
+                    name: "Schema Test User",
+                    email: "schema@example.com",
+                    subject: "Schema Test",
+                    message: "Testing with schema format",
+                    phone: null,
+                    created_at: new Date().toISOString(),
+                    status: "unread"
+                };
+                
+                console.log('Sending schema test data:', testData);
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const responseData = await response.json();
+                output.textContent = `Schema Test Success!\n\n${formatJSON(responseData)}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Schema Test Error: ${error.message}`;
+            }
+        });
+        
+        // Test 3: Custom Fields
+        document.getElementById('testCustom').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing custom fields...';
+                
+                // Get form values
+                const testData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value
+                };
+                
+                // Optional phone
+                const phone = document.getElementById('phone').value;
+                if (phone) {
+                    testData.phone = phone;
+                }
+                
+                // Optional timestamp
+                if (document.getElementById('timestamp').checked) {
+                    testData.created_at = new Date().toISOString();
+                }
+                
+                // Optional status
+                if (document.getElementById('status').checked) {
+                    testData.status = "unread";
+                }
+                
+                console.log('Sending custom test data:', testData);
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const responseData = await response.json();
+                output.textContent = `Custom Test Success!\n\n${formatJSON(responseData)}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Custom Test Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

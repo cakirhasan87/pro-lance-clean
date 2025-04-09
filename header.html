@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-483914364"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-483914364');
+    </script>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <header class="header flex">
+        <div class="logo">
+            <a href="/">Pro-Lance</a>
+        </div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="/" class="active">Ana Sayfa</a></li>
+                <li><a href="/services.html" class="">Hizmetler</a></li>
+                <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+                <li><a href="/blog.html" class="">Blog</a></li>
+                <li><a href="/contact.html" class="">İletişim</a></li>
+            </ul>
+        </nav>
+        <div class="right-header">
+            <div class="lang-switch">
+                <a href="javascript:void(0)" onclick="switchLanguage('tr')" class="active">TR</a>
+                <a href="javascript:void(0)" onclick="switchLanguage('en')" class="">EN</a>
+            </div>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+    <script>
+        function switchLanguage(lang) {
+            const currentPath = window.location.pathname;
+            let newPath;
+            
+            // Remove /en/ prefix if it exists
+            let cleanPath = currentPath.replace('/en/', '/');
+            // Remove leading slash
+            cleanPath = cleanPath.replace(/^\//, '');
+            
+            if (cleanPath === '') {
+                cleanPath = 'index.html';
+            }
+            
+            if (lang === 'en') {
+                newPath = '/en/' + cleanPath;
+            } else {
+                newPath = '/' + cleanPath;
+            }
+            
+            window.location.href = newPath;
+        }
+
+        // Set active language based on current URL
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const isEnglish = currentPath.includes('/en/');
+            const langLinks = document.querySelectorAll('.lang-switch a');
+            
+            langLinks.forEach(link => {
+                if ((isEnglish && link.textContent === 'EN') || (!isEnglish && link.textContent === 'TR')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: pro-lance-clean
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app
+    repo: https://github.com/cakirhasan87/pro-lance-clean.git
+    branch: main
+    buildFilter:
+      paths:
+        - requirements.txt
+        - '**/*.py'
+        - '**/*.html'
+        - '**/*.css'
+        - '**/*.js'
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Calendar Background -->
+    <rect x="40" y="40" width="120" height="120" rx="8" fill="#FFFFFF" stroke="#FF6B00" stroke-width="4"/>
+    
+    <!-- Calendar Header -->
+    <rect x="40" y="40" width="120" height="30" rx="8" fill="#FF6B00"/>
+    
+    <!-- Calendar Grid Lines -->
+    <line x1="70" y1="80" x2="70" y2="150" stroke="#E5E7EB" stroke-width="2"/>
+    <line x1="100" y1="80" x2="100" y2="150" stroke="#E5E7EB" stroke-width="2"/>
+    <line x1="130" y1="80" x2="130" y2="150" stroke="#E5E7EB" stroke-width="2"/>
+    
+    <line x1="50" y1="100" x2="150" y2="100" stroke="#E5E7EB" stroke-width="2"/>
+    <line x1="50" y1="120" x2="150" y2="120" stroke="#E5E7EB" stroke-width="2"/>
+    
+    <!-- Selected Date -->
+    <circle cx="85" cy="110" r="12" fill="#FF6B00" opacity="0.2"/>
+    <text x="80" y="115" font-family="Arial" font-size="12" fill="#FF6B00">15</text>
+    
+    <!-- Clock Icon -->
+    <circle cx="140" cy="140" r="15" fill="none" stroke="#FF6B00" stroke-width="3"/>
+    <line x1="140" y1="140" x2="140" y2="130" stroke="#FF6B00" stroke-width="3"/>
+    <line x1="140" y1="140" x2="147" y2="143" stroke="#FF6B00" stroke-width="3"/>
+    
+    <!-- People Icons -->
+    <circle cx="60" cy="30" r="10" fill="#FF6B00" opacity="0.8"/>
+    <circle cx="140" cy="30" r="10" fill="#FF6B00" opacity="0.8"/>
+    
+    <!-- Connection Line -->
+    <path d="M70 30 Q100 20 130 30" stroke="#FF6B00" stroke-width="2" fill="none"/>
+</svg> 

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4CAF50">
+    <title>Pro-Lance | İletişim</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="preload" href="images/remote-office.webp" as="image" type="image/webp" fetchpriority="high">
+    
+    <!-- Preconnect to required origins -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://pro-lance.app.n8n.cloud">
+    
+    <!-- Critical CSS inline -->
+    <style>
+        /* Add critical CSS here */
+        .header { background: #fff; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .contact-hero { background: linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)), url('images/remote-office.webp') center/cover; }
+    </style>
+    
+    <!-- Stylesheets with media queries -->
+    <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+          media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </noscript>
+    
+    <!-- n8n Chat Widget with optimized loading -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/style.css" media="print" onload="this.media='all'">
+    <script defer src="https://cdn.jsdelivr.net/npm/@n8n/chat/widget.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            if (typeof window.n8nChat !== 'undefined') {
+                // Initialize floating chat widget
+                window.n8nChat.init({
+                    chatUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+                    title: 'Pro-Lance Support',
+                    subtitle: 'Ask us anything about our services',
+                    primaryColor: '#4CAF50',
+                    position: 'right',
+                    showInitialMessage: true,
+                    initialMessage: 'Hello! My name is Pro-Lance Support. How can I help you today?',
+                    debug: true,
+                    loadingIndicator: true
+                });
+
+                // Initialize embedded chat with lazy loading
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            window.n8nChat.init({
+                                chatUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+                                title: 'Pro-Lance Support',
+                                subtitle: 'Ask us anything about our services',
+                                primaryColor: '#4CAF50',
+                                containerSelector: '#embedded-chat',
+                                showInitialMessage: true,
+                                initialMessage: 'Hello! My name is Pro-Lance Support. How can I help you today?',
+                                debug: true,
+                                loadingIndicator: true
+                            });
+                            observer.disconnect();
+                        }
+                    });
+                });
+                
+                observer.observe(document.querySelector('#embedded-chat'));
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/" class="">Ana Sayfa</a></li>
+            <li><a href="/services.html" class="">Hizmetler</a></li>
+            <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+            <li><a href="/blog.html" class="">Blog</a></li>
+            <li><a href="/contact.html" class="active">İletişim</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="#" class="active">TR</a>
+            <a href="/en/contact.html">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <main>
+        <section class="contact-hero">
+            <div class="hero-content">
+                <h1>Bizimle İletişime Geçin</h1>
+                <p>Sorularınız ve işbirliği fırsatları için buradayız</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="contact-container">
+                <div class="contact-form-wrapper">
+                    <div class="meeting-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2>İletişim Formunu Doldurun</h2>
+                    
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Adınız Soyadınız*</label>
+                            <input type="text" id="name" name="name" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> E-posta Adresiniz*</label>
+                            <input type="email" id="email" name="email" required>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone"><i class="fas fa-phone"></i> Telefon (Opsiyonel)</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject"><i class="fas fa-tag"></i> Konu*</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Seçiniz</option>
+                                <option value="general">Genel Bilgi</option>
+                                <option value="business">İş Birliği</option>
+                                <option value="support">Teknik Destek</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-comment"></i> Mesajınız*</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <small class="error-message"></small>
+                        </div>
+                        
+                        <div class="contact-buttons-container">
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Gönder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="meeting-request">
+                    <div class="meeting-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Online Görüşme Planlayın</h3>
+                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <span>Projelerinizin ihtiyaçlarını en iyi şekilde anlamak ve size özel çözümler sunabilmek için birebir görüşme yapmaya davet ediyoruz. Sizin için en uygun zamanı belirleyerek, takvimimizden bir toplantı saati seçebilirsiniz.</span>
+
+                        <span>Bu görüşmede, mevcut projelerinizin detaylarını ele alarak hedeflerinizi, beklentilerinizi ve karşılaştığınız zorlukları analiz edeceğiz. Alanında uzman ekiplerle birlikte, ihtiyaçlarınıza en uygun stratejileri oluşturacak ve size özel çözümler sunacağız.</span>
+
+                        <span>Daha verimli, yenilikçi ve sürdürülebilir projeler geliştirmek için bizimle iletişime geçin. Şimdi bir toplantı planlayarak, fikirlerinizi gerçeğe dönüştürmek için ilk adımı atın!</span>
+                    </p>
+                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
+                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
+                            <i class="fas fa-video"></i>
+                            Görüşme Planla
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Embedded Chat Widget Section -->
+    <section class="embedded-chat-section" loading="lazy">
+        <div class="container">
+            <h2>Chat with Us Directly</h2>
+            <p>Need an immediate response? Chat with our support team using the widget below:</p>
+            <div id="embedded-chat" class="embedded-chat-container" loading="lazy"></div>
+        </div>
+    </section>
+
+    <!-- Optimized footer with lazy loading -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Freelance dünyasında güvenilir adresiniz</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Linkler</h3>
+                <ul>
+                    <li><a href="index.html#about">Hakkımızda</a></li>
+                    <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="collaboration.html">İş Birliği</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>E-posta: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" 
+                       target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
+                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Optimized script loading -->
+    <script src="script.js" defer></script>
+</body>
+</html> 

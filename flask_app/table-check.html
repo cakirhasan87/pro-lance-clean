@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Table Check</title>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Supabase Table Check</h1>
+    <div>
+        <button id="checkTable">Check Table Structure</button>
+        <button id="checkPolicy">Check Policies</button>
+        <button id="listTables">List All Tables</button>
+    </div>
+    <div id="output" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; white-space: pre-wrap;"></div>
+
+    <script>
+        const API_URL = 'https://drxstcmoroaupedsynhq.supabase.co';
+        const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k';
+        const output = document.getElementById('output');
+        
+        // Format output to JSON
+        function formatOutput(data) {
+            return JSON.stringify(data, null, 2);
+        }
+        
+        // Check table structure
+        document.getElementById('checkTable').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Loading...'
+                
+                // Get table structure with introspection
+                const response = await fetch(`${API_URL}/rest/v1/contact_messages?select=*&limit=0`, {
+                    headers: {
+                        'apikey': API_KEY,
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                
+                // Also try to get columns info using pg_catalog
+                const columnsResponse = await fetch(`${API_URL}/rest/v1/rpc/get_table_columns`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': API_KEY,
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        table_name: 'contact_messages'
+                    })
+                });
+                
+                let columnsInfo = {};
+                if (columnsResponse.ok) {
+                    columnsInfo = await columnsResponse.json();
+                } else {
+                    columnsInfo = { error: 'Could not get column information' };
+                }
+                
+                output.textContent = formatOutput({
+                    tableExists: true,
+                    data,
+                    columnsInfo
+                });
+                
+            } catch (error) {
+                output.textContent = formatOutput({
+                    error: error.message,
+                    stack: error.stack
+                });
+            }
+        });
+        
+        // Check RLS policies
+        document.getElementById('checkPolicy').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Loading...'
+                
+                // Try to query policies directly
+                const response = await fetch(`${API_URL}/rest/v1/rpc/get_policies`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': API_KEY,
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        table_name: 'contact_messages'
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                output.textContent = formatOutput(data);
+                
+            } catch (error) {
+                output.textContent = formatOutput({
+                    error: error.message,
+                    stack: error.stack
+                });
+            }
+        });
+        
+        // List all tables
+        document.getElementById('listTables').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Loading...'
+                
+                // Try to query all public tables
+                const response = await fetch(`${API_URL}/rest/v1/`, {
+                    headers: {
+                        'apikey': API_KEY,
+                        'Authorization': `Bearer ${API_KEY}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                output.textContent = formatOutput(data);
+                
+            } catch (error) {
+                output.textContent = formatOutput({
+                    error: error.message,
+                    stack: error.stack
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

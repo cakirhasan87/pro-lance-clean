@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check RLS Policies</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px; margin: 5px; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <h1>Supabase RLS Policy Check</h1>
+    <button id="checkPolicies">Check RLS Policies</button>
+    <button id="testInsert">Test Direct Insert</button>
+    <button id="checkTable">Check Table Structure</button>
+    <pre id="output">Results will appear here...</pre>
+
+    <script>
+        const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHN0Y21vcm9hdXBlZHN5bmhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4MTA2NDAsImV4cCI6MjA1ODM4NjY0MH0.9AjInAaxWnYesZ_UuDOKtJVfVNO_RetqMmvZsCql11k';
+        const apiUrl = 'https://drxstcmoroaupedsynhq.supabase.co';
+        const output = document.getElementById('output');
+
+        // Function to format JSON output
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2);
+        }
+
+        // Check RLS policies
+        document.getElementById('checkPolicies').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Checking RLS policies...';
+                
+                // Try to get policies from pg_policy
+                const response = await fetch(`${apiUrl}/rest/v1/rpc/get_table_policies`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        table_name: 'contact_messages'
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                output.textContent = formatJSON(data);
+                
+            } catch (error) {
+                output.textContent = `Error: ${error.message}\n\nTrying alternative approach...`;
+                
+                try {
+                    // Try a simpler query to see if we can access policy info
+                    const response = await fetch(`${apiUrl}/rest/v1/contact_messages?limit=0`, {
+                        headers: {
+                            'apikey': apiKey,
+                            'Authorization': `Bearer ${apiKey}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        output.textContent += '\n\nCan SELECT from contact_messages: YES';
+                    } else {
+                        output.textContent += '\n\nCan SELECT from contact_messages: NO';
+                    }
+                    
+                } catch (innerError) {
+                    output.textContent += `\n\nSecond error: ${innerError.message}`;
+                }
+            }
+        });
+        
+        // Test Insert
+        document.getElementById('testInsert').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Testing direct insert...';
+                
+                const testData = {
+                    name: "RLS Test User",
+                    email: "rls-test@example.com",
+                    phone: "1234567890",
+                    subject: "RLS Test",
+                    message: "Testing RLS policies for insert",
+                    created_at: new Date().toISOString(),
+                    status: "unread"
+                };
+                
+                console.log('Sending test data:', testData);
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error: ${response.status} - ${errorText}`);
+                }
+                
+                const responseData = await response.json();
+                output.textContent = `Insert Success!\n\n${formatJSON(responseData)}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.textContent = `Insert Error: ${error.message}`;
+            }
+        });
+        
+        // Check table structure
+        document.getElementById('checkTable').addEventListener('click', async () => {
+            try {
+                output.textContent = 'Checking table structure...';
+                
+                const response = await fetch(`${apiUrl}/rest/v1/contact_messages?limit=0`, {
+                    headers: {
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                });
+                
+                const definitionResponse = await fetch(`${apiUrl}`, {
+                    headers: {
+                        'apikey': apiKey,
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                });
+                
+                const definition = await definitionResponse.json();
+                
+                output.textContent = `Table Exists: ${response.ok ? 'Yes' : 'No'}\n\n`;
+                output.textContent += `Table Definition:\n${formatJSON(definition.definitions.contact_messages)}`;
+                
+            } catch (error) {
+                output.textContent = `Error checking table: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Contact Messages</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-title {
+            margin: 0;
+        }
+        
+        .message-list {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .message-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .message-table th, 
+        .message-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .message-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .message-row.unread {
+            background-color: #f0f7ff;
+        }
+        
+        .message-row:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .message-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .message-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-unread {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-read {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-synced {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-local {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #6c757d;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        
+        .action-btn.delete:hover {
+            color: #dc3545;
+        }
+        
+        .action-btn.view:hover {
+            color: #0d6efd;
+        }
+        
+        .action-btn.mark-read:hover {
+            color: #198754;
+        }
+        
+        .message-detail {
+            display: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .message-detail.active {
+            display: block;
+        }
+        
+        .detail-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .detail-content {
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+            margin-right: 0.5rem;
+        }
+        
+        .detail-value {
+            color: #212529;
+        }
+        
+        .detail-row {
+            margin-bottom: 0.5rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination-btn:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .pagination-btn.active {
+            background-color: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+        
+        .no-messages {
+            padding: 3rem;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .spinner {
+            margin-right: 0.5rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-required {
+            text-align: center;
+            padding: 3rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+
+        .login-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 1rem;
+        }
+        
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+        
+        .refresh-btn {
+            padding: 0.5rem 1rem;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .data-source-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">Contact Messages</h1>
+            <button id="logoutBtn" style="display: none;" class="refresh-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginContainer" class="login-required">
+            <h2>Admin Login Required</h2>
+            <p>Please enter your credentials to access the contact messages.</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+        
+        <!-- Data Table (hidden initially) -->
+        <div id="messageListContainer" style="display: none;">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search messages...">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="synced">Synced</option>
+                        <option value="local">Local Only</option>
+                    </select>
+                </div>
+                <div class="data-source-info">
+                    <span id="dataSource">Data Source: </span>
+                </div>
+                <button id="refreshBtn" class="refresh-btn" onclick="loadMessages(true)">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="message-list">
+                <!-- Loading State -->
+                <div id="loadingState" class="loading">
+                    <i class="fas fa-circle-notch spinner"></i> Loading messages...
+                </div>
+                
+                <!-- No Messages State -->
+                <div id="noMessagesState" class="no-messages" style="display: none;">
+                    <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>No contact messages found.</p>
+                </div>
+                
+                <!-- Messages Table -->
+                <table id="messagesTable" class="message-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messagesTableBody">
+                        <!-- Messages will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div id="pagination" class="pagination">
+                <!-- Pagination buttons will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Message Details Modal -->
+        <div id="messageDetails" class="message-detail">
+            <div class="detail-header">
+                <h3 id="detailTitle">Message Details</h3>
+            </div>
+            <div class="detail-content">
+                <div class="detail-row">
+                    <span class="detail-label">From:</span>
+                    <span id="detailFrom" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email:</span>
+                    <span id="detailEmail" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Phone:</span>
+                    <span id="detailPhone" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Subject:</span>
+                    <span id="detailSubject" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date:</span>
+                    <span id="detailDate" class="detail-value"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Message:</span>
+                    <div id="detailMessage" class="detail-value" style="margin-top: 0.5rem;"></div>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span id="detailStatus" class="detail-value"></span>
+                </div>
+                <div class="detail-row" id="detailMetaContainer">
+                    <span class="detail-label">Technical Details:</span>
+                    <pre id="detailMeta" class="detail-value" style="margin-top: 0.5rem; font-size: 0.85rem; background: #f0f0f0; padding: 0.5rem; border-radius: 4px; overflow: auto;"></pre>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button id="closeDetailBtn" class="pagination-btn" onclick="closeMessageDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'prolance2025'  // Change this to a secure password
+        };
+        
+        // DOM Elements
+        const loginContainer = document.getElementById('loginContainer')
+        const messageListContainer = document.getElementById('messageListContainer')
+        const loginForm = document.getElementById('loginForm')
+        const loginError = document.getElementById('loginError')
+        const logoutBtn = document.getElementById('logoutBtn')
+        const loadingState = document.getElementById('loadingState')
+        const noMessagesState = document.getElementById('noMessagesState')
+        const messagesTable = document.getElementById('messagesTable')
+        const messagesTableBody = document.getElementById('messagesTableBody')
+        const messageDetails = document.getElementById('messageDetails')
+        const dataSourceElement = document.getElementById('dataSource')
+        const searchInput = document.getElementById('searchInput')
+        const statusFilter = document.getElementById('statusFilter')
+        
+        // State
+        let messages = [];
+        let currentPage = 1;
+        let itemsPerPage = 10;
+        let isAuthenticated = false;
+        let activeFilters = {
+            search: '',
+            status: 'all'
+        }
+        
+        // Check if user is already authenticated
+        function checkAuthentication() {
+            const authState = localStorage.getItem('adminAuth');
+            if (authState === 'true') {
+                isAuthenticated = true;
+                showMessages();
+                loadMessages();
+            }
+        }
+        
+        // Handle login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                loginError.style.display = 'none';
+                
+                // Simple client-side authentication (replace with server-side in production)
+                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                    // Login successful
+                    loginContainer.style.display = 'none';
+                    localStorage.setItem('adminAuth', 'true');
+                    isAuthenticated = true;
+                    showMessages();
+                    loadMessages();
+                } else {
+                    loginError.textContent = 'Invalid username or password';
+                    loginError.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                loginError.textContent = 'An error occurred during login. Please try again.';
+                loginError.style.display = 'block';
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminAuth');
+            isAuthenticated = false;
+            messageListContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            logoutBtn.style.display = 'none';
+        }
+        
+        // Show the messages container
+        function showMessages() {
+            loginContainer.style.display = 'none';
+            messageListContainer.style.display = 'block';
+            logoutBtn.style.display = 'block';
+        }
+        
+        // Load messages from both Supabase and local storage
+        async function loadMessages(forceRefresh = false) {
+            if (!isAuthenticated) return;
+            
+            showLoading();
+            
+            try {
+                // First, check local submissions
+                const localMessages = await fetchLocalMessages();
+                
+                // Then try Supabase (if available)
+                let supabaseMessages = [];
+                let dataSource = "Local Files";
+                
+                try {
+                    supabaseMessages = await fetchSupabaseMessages();
+                    if (supabaseMessages.length > 0) {
+                        dataSource = "Supabase + Local Files";
+                    }
+                } catch (error) {
+                    console.warn('Could not fetch from Supabase, using local data only:', error);
+                }
+                
+                // Combine and deduplicate messages
+                messages = combineAndDeduplicateMessages(supabaseMessages, localMessages);
+                
+                // Update data source indicator
+                dataSourceElement.textContent = `Data Source: ${dataSource} (${messages.length} total)`;
+                
+                // Update display
+                applyFiltersAndRender();
+                
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                showNoMessages('Error loading messages. Please try again.');
+            }
+        }
+        
+        // Fetch messages from local storage
+        async function fetchLocalMessages() {
+            try {
+                const response = await fetch('/list-local-submissions');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                return data.submissions.map(sub => {
+                    // Clean up and standardize the message format
+                    return {
+                        ...sub.data,
+                        id: sub.id,
+                        created_at: sub.data.created_at || sub.timestamp,
+                        source: 'local',
+                        path: sub.path,
+                        synced: sub.synced
+                    };
+                });
+            } catch (error) {
+                console.error('Error fetching local messages:', error);
+                return [];
+            }
+        }
+        
+        // Fetch messages from Supabase
+        async function fetchSupabaseMessages() {
+            try {
+                const response = await fetch('/api/contact-messages');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                return data.messages.map(msg => {
+                    return {
+                        ...msg,
+                        source: 'supabase',
+                        synced: true
+                    };
+                });
+            } catch (error) {
+                console.error('Error fetching Supabase messages:', error);
+                return [];
+            }
+        }
+        
+        // Combine and deduplicate messages from both sources
+        function combineAndDeduplicateMessages(supabaseMessages, localMessages) {
+            // Create a map for quick lookup using message IDs
+            const messageMap = new Map();
+            
+            // Add all Supabase messages to the map
+            supabaseMessages.forEach(msg => {
+                messageMap.set(msg.id, {...msg, source: 'supabase', synced: true});
+            });
+            
+            // Add local messages, but don't overwrite Supabase ones
+            localMessages.forEach(msg => {
+                if (!messageMap.has(msg.id)) {
+                    messageMap.set(msg.id, msg);
+                } else {
+                    // If local message is also in Supabase, update the record
+                    const existingMsg = messageMap.get(msg.id);
+                    messageMap.set(msg.id, {
+                        ...existingMsg,
+                        synced: true,
+                        local_path: msg.path
+                    });
+                }
+            });
+            
+            // Convert map back to array and sort by date (newest first)
+            return Array.from(messageMap.values())
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        }
+        
+        // Apply filters and render the messages
+        function applyFiltersAndRender() {
+            let filteredMessages = messages;
+            
+            // Apply search filter
+            if (activeFilters.search) {
+                const searchLower = activeFilters.search.toLowerCase();
+                filteredMessages = filteredMessages.filter(msg => 
+                    (msg.name && msg.name.toLowerCase().includes(searchLower)) ||
+                    (msg.email && msg.email.toLowerCase().includes(searchLower)) ||
+                    (msg.subject && msg.subject.toLowerCase().includes(searchLower)) ||
+                    (msg.message && msg.message.toLowerCase().includes(searchLower))
+                );
+            }
+            
+            // Apply status filter
+            if (activeFilters.status !== 'all') {
+                if (activeFilters.status === 'synced') {
+                    filteredMessages = filteredMessages.filter(msg => msg.synced);
+                } else if (activeFilters.status === 'local') {
+                    filteredMessages = filteredMessages.filter(msg => !msg.synced);
+                }
+            }
+            
+            // Update display
+            renderMessages(filteredMessages);
+        }
+        
+        // Render messages to the table
+        function renderMessages(filteredMessages) {
+            if (filteredMessages.length === 0) {
+                showNoMessages();
+                return;
+            }
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredMessages.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredMessages.length);
+            const currentMessages = filteredMessages.slice(startIndex, endIndex);
+            
+            // Clear the table
+            messagesTableBody.innerHTML = '';
+            
+            // Add messages to the table
+            currentMessages.forEach(msg => {
+                const tr = document.createElement('tr');
+                tr.className = 'message-row';
+                
+                // Format date
+                const createdDate = msg.created_at ? new Date(msg.created_at) : new Date();
+                const formattedDate = createdDate.toLocaleString();
+                
+                // Create row content
+                tr.innerHTML = `
+                    <td>${msg.name || 'Unknown'}</td>
+                    <td>${msg.email || 'No Email'}</td>
+                    <td>${msg.subject || 'No Subject'}</td>
+                    <td class="message-date">${formattedDate}</td>
+                    <td>
+                        <span class="message-status ${msg.synced ? 'status-synced' : 'status-local'}">
+                            ${msg.synced ? 'Synced' : 'Local Only'}
+                        </span>
+                    </td>
+                    <td class="message-actions">
+                        <button class="action-btn view" onclick="viewMessageDetail('${msg.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                
+                messagesTableBody.appendChild(tr);
+            });
+            
+            // Update pagination
+            renderPagination(totalPages);
+            
+            // Show the table
+            loadingState.style.display = 'none';
+            noMessagesState.style.display = 'none';
+            messagesTable.style.display = 'table';
+        }
+        
+        // Render pagination controls
+        function renderPagination(totalPages) {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+            
+            if (totalPages <= 1) {
+                return;
+            }
+            
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    applyFiltersAndRender();
+                }
+            };
+            paginationContainer.appendChild(prevBtn);
+            
+            // Page buttons
+            const maxButtons = 5;
+            const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    applyFiltersAndRender();
+                };
+                paginationContainer.appendChild(pageBtn);
+            }
+            
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    applyFiltersAndRender();
+                }
+            };
+            paginationContainer.appendChild(nextBtn);
+        }
+        
+        // View message details
+        function viewMessageDetail(messageId) {
+            const message = messages.find(m => m.id === messageId);
+            if (!message) return;
+            
+            // Fill in detail fields
+            document.getElementById('detailTitle').textContent = message.subject || 'Message Details';
+            document.getElementById('detailFrom').textContent = message.name || 'Unknown';
+            document.getElementById('detailEmail').textContent = message.email || 'No Email';
+            document.getElementById('detailPhone').textContent = message.phone || 'Not provided';
+            document.getElementById('detailSubject').textContent = message.subject || 'No Subject';
+            document.getElementById('detailMessage').textContent = message.message || 'No Message Content';
+            
+            // Format date
+            const createdDate = message.created_at ? new Date(message.created_at) : new Date();
+            document.getElementById('detailDate').textContent = createdDate.toLocaleString();
+            
+            // Status
+            document.getElementById('detailStatus').textContent = message.synced ? 'Synced to Database' : 'Local Only';
+            document.getElementById('detailStatus').className = `detail-value ${message.synced ? 'status-synced' : 'status-local'}`;
+            
+            // Technical details
+            const metaContainer = document.getElementById('detailMetaContainer');
+            const metaElement = document.getElementById('detailMeta');
+            
+            // Show technical metadata
+            const metadata = {
+                id: message.id,
+                source: message.source,
+                synced: message.synced,
+                file_path: message.path || 'N/A',
+                created_at: message.created_at
+            };
+            
+            metaElement.textContent = JSON.stringify(metadata, null, 2);
+            metaContainer.style.display = 'block';
+            
+            // Show details
+            messageDetails.classList.add('active');
+        }
+        
+        // Close message detail view
+        function closeMessageDetail() {
+            messageDetails.classList.remove('active');
+        }
+        
+        // Show loading state
+        function showLoading() {
+            loadingState.style.display = 'flex';
+            noMessagesState.style.display = 'none';
+            messagesTable.style.display = 'none';
+        }
+        
+        // Show no messages state
+        function showNoMessages(message = 'No contact messages found.') {
+            loadingState.style.display = 'none';
+            noMessagesState.style.display = 'block';
+            noMessagesState.querySelector('p').textContent = message;
+            messagesTable.style.display = 'none';
+        }
+        
+        // Set up search and filters
+        searchInput.addEventListener('input', debounce(function() {
+            activeFilters.search = this.value;
+            currentPage = 1;
+            applyFiltersAndRender();
+        }, 300));
+        
+        statusFilter.addEventListener('change', function() {
+            activeFilters.status = this.value;
+            currentPage = 1;
+            applyFiltersAndRender();
+        });
+        
+        // Debounce function for search
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(context, args);
+                }, wait);
+            };
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+    </script>
+</body>
+</html> 

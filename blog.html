@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Pro-Lance</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-card {
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background-color: #fff;
+            transition: transform 0.3s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+        .blog-content {
+            padding: 20px;
+        }
+        .blog-content h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .blog-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .read-more {
+            display: inline-block;
+            color: #007bff;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .blog-hero {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 80px 20px 40px;
+            margin-top: 60px;
+        }
+        .blog-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<!-- Chat Widget Template -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+        title: 'Pro-Lance Support',
+        subtitle: 'Ask us anything about our services',
+        primaryColor: '#4CAF50',
+        position: 'right',
+        showInitialMessage: true,
+        initialMessage: 'Hello! How can we help you today?',
+        allowFileUpload: false,
+        enableMarkdown: true,
+        debug: true
+    });
+</script> 
+</head>
+<body>
+    <!-- Header -->
+<header class="header flex">
+    <div class="logo">
+        <a href="/">Pro-Lance</a>
+    </div>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li><a href="/" class="">Ana Sayfa</a></li>
+            <li><a href="/services.html" class="">Hizmetler</a></li>
+            <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+            <li><a href="/blog.html" class="active">Blog</a></li>
+            <li><a href="/contact.html" class="">İletişim</a></li>
+        </ul>
+    </nav>
+    <div class="right-header">
+        <div class="lang-switch">
+            <a href="#" class="active">TR</a>
+            <a href="/en/blog.html">EN</a>
+        </div>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+<script>
+    // Mobile menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+</script>
+
+    <main>
+        <!-- Blog Hero Section -->
+        <section class="hero blog-hero">
+            <div class="hero-content">
+                <h1>Blog</h1>
+                <p>Freelance dünyasından en son haberler, ipuçları ve trendler</p>
+            </div>
+        </section>
+
+        <!-- Blog Posts Grid -->
+        <section class="blog-posts">
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/who we are image.webp" alt="Müşteriler Neden Freelance Kaynakları Tercih Ediyor">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Müşteriler Neden Freelance Kaynakları Tercih Ediyor</h2>
+                        <p>Dinamik pandemi sonrası dünyada, işletmeler yetenek edinimini yeniden tanımlıyor, özellikle kısa vadeli projeler için. İşte müşterilerin neden freelancer'ları tercih ettiği...</p>
+                        <a href="blog-posts/why-clients-choose-freelancers.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/what we do image.webp" alt="Proje Yönetimi">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Kısa Vadeli Projelerde Proje Yönetiminde Uzmanlaşma</h2>
+                        <p>Hızlı tempolu ERP dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği sağlamada çok önemlidir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir...</p>
+                        <a href="blog-posts/short-term-project-management.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/sap-migration.webp" alt="SAP Geçiş">
+                    </div>
+                    <div class="blog-content">
+                        <h2>SAP ECC Desteğinin Sona Ermesi: S/4HANA'ya Geçiş</h2>
+                        <p>SAP, ECC (ERP Central Component) sistemi için desteğini 2027 yılına kadar sonlandıracağını duyurdu. Bu kararın, hala ECC'ye bağlı işletmeler için önemli etkileri var ve SAP'nin yeni nesil ERP paketi S/4HANA'ya geçişin aciliyetini vurguluyor...</p>
+                        <a href="blog-posts/sap-ecc-discontinuation.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/how we operate image.webp" alt="Uzaktan Çalışma">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Uzaktan Proje Yönetimi ile Olağanüstü Sonuçlar Elde Edin</h2>
+                        <p>Günümüzün hızlı tempolu iş dünyasında, uzaktan çalışma artık sadece bir trend değil - en iyi yeteneğe erişmenin ve olağanüstü sonuçlar elde etmenin anahtarıdır...</p>
+                        <a href="blog-posts/remote-project-management.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/sap-clean-core.jpg" alt="SAP Clean Core">
+                    </div>
+                    <div class="blog-content">
+                        <h2>SAP Clean Core: Büyüme için Optimize Edilmiş Çözüm</h2>
+                        <p>SAP sistemlerindeki Clean Core yaklaşımı, işletmelerin daha verimli ve sürdürülebilir bir büyüme elde etmelerini sağlar...</p>
+                        <a href="blog-posts/sap-clean-core.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/what sets pro-lance apart image.webp" alt="AI Yazılım Geliştirme">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Daha Hızlı, Daha Akıllı Çözümler için AI Destekli Yazılım Geliştirme</h2>
+                        <p>Yazılım geliştirme dünyası hızla gelişiyor ve AI destekli çözümleri kullanan işletmeler önemli bir avantaj elde ediyor...</p>
+                        <a href="blog-posts/ai-software-development.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/digital-transformation.webp" alt="Dijital Dönüşüm">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Üretimde Dijital Dönüşüm İçin İpuçları ve Stratejiler</h2>
+                        <p>Üretim sektörü, şirketlerin rekabetçi kalmak, operasyonel verimliliği artırmak ve artan müşteri taleplerini karşılamak için dijital dönüşümü benimsemesiyle önemli bir değişim geçiriyor...</p>
+                        <a href="blog-posts/manufacturing-digital-transformation.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/ai-ml-manufacturing.webp" alt="Üretimde AI ve ML">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Yapay Zeka ve Makine Öğrenimi: Üretimin Geleceği</h2>
+                        <p>Yapay Zeka (AI) ve Makine Öğrenimi (ML), üretimde önemli dönüşümlere yol açıyor...</p>
+                        <a href="blog-posts/ai-ml-manufacturing.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/change-management.webp" alt="Değişim Yönetimi">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Değişimi Benimsemek: Başarılı Proje Tesliminin Temel Taşı</h2>
+                        <p>Yeni BT sistemleri uygularken veya mevcut olanları güncellerken, değişim yönetimi, sorunsuz geçişler sağlamak ve yatırımınızın değerini en üst düzeye çıkarmak için çok önemlidir...</p>
+                        <a href="blog-posts/change-management.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/agile-tools.webp" alt="Çevik Proje Yönetimi">
+                    </div>
+                    <div class="blog-content">
+                        <h2>SAP Projeleri İçin En İyi Çevik Proje Yönetim Araçları</h2>
+                        <p>Başarılı SAP uygulamaları için vazgeçilmez olduğu kanıtlanan en iyi Çevik proje yönetim araçlarını keşfedin...</p>
+                        <a href="blog-posts/agile-project-management-tools.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/sap-future.webp" alt="SAP'nin Geleceği">
+                    </div>
+                    <div class="blog-content">
+                        <h2>SAP'nin Geleceği: Yeni Trendler ve Teknolojiler</h2>
+                        <p>İş dünyası hızla evrim geçirmeye devam ederken, organizasyonların rekabet avantajlarını koruyabilmeleri için gelişmelerin önünde olmak hayati önem taşıyor...</p>
+                        <a href="blog-posts/sap-future-trends.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/sap-challenges.webp" alt="SAP Zorlukları">
+                    </div>
+                    <div class="blog-content">
+                        <h2>SAP Uygulamasında Yaygın Zorluklar ve Çözümleri</h2>
+                        <p>Bir SAP uygulama sürecine başlamak hem heyecan verici hem de zorlu olabilir. Organizasyonlar operasyonlarını optimize etmeye ve yeni olanakları keşfetmeye çalışırken, süreç boyunca yaygın zorlukları ele almak çok önemlidir...</p>
+                        <a href="blog-posts/sap-implementation-challenges.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/sap-agility.webp" alt="SAP İş Çevikliği">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Dijital Dönüşümü Yönlendirmek: SAP İş Çevikliğini Nasıl Sağlar</h2>
+                        <p>Günümüzün hızlı tempolu iş dünyasında, organizasyonların çevik, uyarlanabilir ve dijital dönüşüme hazır olması gerekiyor. İşte SAP burada devreye giriyor!</p>
+                        <a href="blog-posts/sap-digital-transformation.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/Rise-Of-Stream-Names.webp" alt="SAP Stream Adlandırma">
+                    </div>
+                    <div class="blog-content">
+                        <h2>Stream Adlandırmasının Yükselişi ve Geleneksel SAP Modül Referansları</h2>
+                        <p>MM (Malzeme Yönetimi) veya PP (Üretim Planlaması) gibi modül adlarını SAP içindeki belirli süreçleri tanımlamak için kullanma günlerine veda edin...</p>
+                        <a href="blog-posts/sap-stream-naming.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-image">
+                        <img src="images/bluefield.webp" alt="Bluefield Yaklaşımı">
+                    </div>
+                    <div class="blog-content">
+                        <h2>SAP S/4HANA Geçişinde Bluefield Yaklaşımı</h2>
+                        <p>Bluefield yaklaşımı, SAP S/4HANA'ya geçerken benzersiz avantajlar sunar...</p>
+                        <a href="blog-posts/bluefield-approach.html" class="read-more">Devamını Oku</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Yetenekler Buluşur, Projeler Büyür</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="services.html">Hizmetler</a></li>
+                    <li><a href="collaboration.html">İş Birliği</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>E-posta: support@pro-lance.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
+                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
+                    <li><a href="cookie-policy.html">Çerez Politikası</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <!-- n8n Chat Widget -->
+    <script src="js/chat.min.js"></script>
+    <!-- Start cookiepal banner -->
+    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js"></script>
+    <!-- End cookiepal banner -->
+</body>
+</html> 

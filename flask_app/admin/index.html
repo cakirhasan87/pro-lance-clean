@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Pro-Lance</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-title {
+            margin: 0;
+        }
+        
+        .admin-card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .admin-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-card-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .admin-card-header i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-card-header h3 {
+            margin: 0;
+        }
+        
+        .admin-card-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .admin-card-body p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .admin-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .login-required {
+            text-align: center;
+            padding: 3rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+        
+        .login-form {
+            margin-top: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">Admin Dashboard</h1>
+            <button id="logoutBtn" style="display: none;" class="admin-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginContainer" class="login-required">
+            <h2>Admin Login Required</h2>
+            <p>Please enter your credentials to access the admin dashboard.</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="admin-btn">Log In</button>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+        
+        <!-- Dashboard Content (hidden initially) -->
+        <div id="dashboardContainer" style="display: none;">
+            <!-- Admin Navigation -->
+            <div class="admin-nav" style="display: flex; margin-bottom: 2rem; background-color: #f8f9fa; border-radius: 8px; overflow: hidden;">
+                <a href="index.html" class="admin-nav-item active" style="padding: 1rem 1.5rem; color: #333; text-decoration: none; border-bottom: 3px solid #4CAF50;">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="contact-messages.html" class="admin-nav-item" style="padding: 1rem 1.5rem; color: #333; text-decoration: none; border-bottom: 3px solid transparent;">
+                    <i class="fas fa-envelope"></i> Contact Messages
+                </a>
+                <a href="blog-editor.html" class="admin-nav-item" style="padding: 1rem 1.5rem; color: #333; text-decoration: none; border-bottom: 3px solid transparent;">
+                    <i class="fas fa-blog"></i> Blog Editor
+                </a>
+                <!-- Add more navigation items here as needed -->
+            </div>
+            
+            <!-- Dashboard Widgets -->
+            <div class="admin-widgets" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="admin-widget" style="background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+                    <div class="widget-header" style="background-color: #f8f9fa; padding: 1rem; border-bottom: 1px solid #dee2e6;">
+                        <h3><i class="fas fa-envelope"></i> Contact Messages</h3>
+                    </div>
+                    <div class="widget-body" style="padding: 1.5rem;">
+                        <p id="contactMessagesCount" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">Loading...</p>
+                        <a href="contact-messages.html" class="admin-btn">View All Messages</a>
+                    </div>
+                </div>
+                
+                <div class="admin-widget" style="background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+                    <div class="widget-header" style="background-color: #f8f9fa; padding: 1rem; border-bottom: 1px solid #dee2e6;">
+                        <h3><i class="fas fa-blog"></i> Blog Posts</h3>
+                    </div>
+                    <div class="widget-body" style="padding: 1.5rem;">
+                        <p id="blogPostsCount" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">Loading...</p>
+                        <a href="blog-editor.html" class="admin-btn">Manage Blog Posts</a>
+                    </div>
+                </div>
+                
+                <!-- Add more widgets here as needed -->
+            </div>
+            
+            <div class="admin-card-container">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Contact Messages</h3>
+                    </div>
+                    <div class="admin-card-body">
+                        <p>View and manage contact form submissions from website visitors.</p>
+                        <a href="contact-messages.html" class="admin-btn">View Messages</a>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-blog"></i>
+                        <h3>Blog Posts</h3>
+                    </div>
+                    <div class="admin-card-body">
+                        <p>Manage blog posts - edit, delete or create new posts.</p>
+                        <a href="blog-editor.html" class="admin-btn">Manage Blog</a>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Sync Data</h3>
+                    </div>
+                    <div class="admin-card-body">
+                        <p>Synchronize contact messages with Supabase database.</p>
+                        <a href="../trigger-sync" class="admin-btn">Trigger Sync</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'prolance2025'
+        };
+        
+        // DOM Elements
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        // Check if user is already authenticated
+        function checkAuthentication() {
+            const authState = localStorage.getItem('adminAuth');
+            if (authState === 'true') {
+                showDashboard();
+            }
+        }
+        
+        // Handle login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            loginError.style.display = 'none';
+            
+            // Simple client-side authentication
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                // Login successful
+                localStorage.setItem('adminAuth', 'true');
+                showDashboard();
+            } else {
+                loginError.textContent = 'Invalid username or password';
+                loginError.style.display = 'block';
+            }
+        });
+        
+        // Show the dashboard
+        function showDashboard() {
+            loginContainer.style.display = 'none';
+            dashboardContainer.style.display = 'block';
+            logoutBtn.style.display = 'inline-block';
+            
+            // Initialize dashboard widgets
+            initDashboard();
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminAuth');
+            loginContainer.style.display = 'block';
+            dashboardContainer.style.display = 'none';
+            logoutBtn.style.display = 'none';
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+
+        // Fetch contact message count
+        async function fetchContactMessagesCount() {
+            try {
+                const response = await fetch('/api/contact-messages');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('contactMessagesCount').textContent = `${data.length} messages`;
+                } else {
+                    document.getElementById('contactMessagesCount').textContent = 'Unable to load';
+                }
+            } catch (error) {
+                console.error('Error fetching contact messages:', error);
+                document.getElementById('contactMessagesCount').textContent = 'Unable to load';
+            }
+        }
+
+        // Fetch blog posts count
+        async function fetchBlogPostsCount() {
+            try {
+                const response = await fetch('/api/blog-posts');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('blogPostsCount').textContent = `${data.length} posts`;
+                } else {
+                    document.getElementById('blogPostsCount').textContent = 'Unable to load';
+                }
+            } catch (error) {
+                console.error('Error fetching blog posts:', error);
+                document.getElementById('blogPostsCount').textContent = 'Unable to load';
+            }
+        }
+
+        // Initialize dashboard
+        function initDashboard() {
+            fetchContactMessagesCount();
+            fetchBlogPostsCount();
+        }
+    </script>
+    
+    <!-- Admin Chat Widget -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only load chat for authenticated admins
+            const isAuthenticated = localStorage.getItem('adminAuth') === 'true';
+            if (!isAuthenticated) return;
+            
+            // Load the admin chat configuration
+            const configScript = document.createElement('script');
+            configScript.src = '../js/admin-chat-config.js';
+            configScript.onload = loadAdminChatWidget;
+            document.head.appendChild(configScript);
+            
+            function loadAdminChatWidget() {
+                // Add the required CSS
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://cdn.jsdelivr.net/npm/@n8n/chat/style.css';
+                document.head.appendChild(link);
+                
+                // Load the widget script
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@n8n/chat/widget.js';
+                script.async = true;
+                script.onload = initializeAdminChatWidget;
+                document.head.appendChild(script);
+            }
+            
+            function initializeAdminChatWidget() {
+                if (typeof window.n8nChat === 'undefined') {
+                    console.error('n8n Chat widget failed to load');
+                    return;
+                }
+                
+                if (typeof N8N_ADMIN_CHAT_CONFIG === 'undefined') {
+                    console.error('Admin chat configuration not found');
+                    return;
+                }
+                
+                // Dynamically set admin user info if available
+                const username = document.getElementById('username')?.value || 'Admin User';
+                if (N8N_ADMIN_CHAT_CONFIG.user) {
+                    N8N_ADMIN_CHAT_CONFIG.user.name = username;
+                }
+                
+                // Initialize the admin chat widget
+                window.n8nChat.init({
+                    chatConfig: N8N_ADMIN_CHAT_CONFIG
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
