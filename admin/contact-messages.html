@@ -483,9 +483,9 @@
                 localStorage.setItem('adminAuth', btoa(`${username}:${password}`));
                 localStorage.setItem('adminLoggedIn', 'true');
                 showAdminInterface();
-            } else {
+                } else {
                 const loginError = document.getElementById('loginError');
-                loginError.textContent = 'Invalid username or password';
+                    loginError.textContent = 'Invalid username or password';
                 loginError.style.display = 'block';
             }
         }

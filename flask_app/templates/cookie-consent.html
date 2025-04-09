@@ -1,0 +1,18 @@
+<!-- Start cookiepal banner -->
+<script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js"></script>
+<!-- End cookiepal banner -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if CookiePal was loaded
+    if (typeof cookiepal !== 'undefined') {
+        console.log('CookiePal is loaded');
+        // Try to manually show the banner if it exists
+        if (typeof cookiepal.showBanner === 'function') {
+            cookiepal.showBanner();
+        }
+    } else {
+        console.log('CookiePal is not loaded');
+    }
+});
+</script> 

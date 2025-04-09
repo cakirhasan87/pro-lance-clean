@@ -12,6 +12,8 @@ import uuid
 from datetime import datetime
 import platform
 import re
+from dotenv import load_dotenv
+from supabase import create_client
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -32,6 +34,27 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
+
+def inject_cookie_consent(response):
+    """Inject cookie consent template into HTML responses"""
+    if response.mimetype == 'text/html':
+        try:
+            with open('flask_app/templates/cookie-consent.html', 'r') as f:
+                cookie_consent = f.read()
+            
+            # Insert cookie consent before closing body tag
+            html = response.get_data(as_text=True)
+            if '</body>' in html:
+                html = html.replace('</body>', f'{cookie_consent}</body>')
+                response.set_data(html)
+        except Exception as e:
+            print(f"Error injecting cookie consent: {str(e)}")
+    return response
+
+@app.after_request
+def after_request_with_cookie_consent(response):
+    response = after_request(response)
+    return inject_cookie_consent(response)
 
 # Create a session with retry mechanism for all requests
 def create_requests_session(retries=5, backoff_factor=0.3, status_forcelist=(500, 502, 504)):
@@ -284,50 +307,46 @@ def test_dns_resolution(domains=None):
 
 @app.route('/submit-contact', methods=['POST'])
 def submit_contact():
-    """Submit contact form data to Supabase"""
     try:
-        # Get the form data from the request
-        data = request.json
+        data = request.get_json()
         
-        # Log received data
-        logging.info(f"Received contact form submission: {data}")
-        
-        # Create a unique ID for the submission
-        submission_id = str(uuid.uuid4())
-        
-        # Add created_at if it doesn't exist
-        if 'created_at' not in data:
-            data['created_at'] = datetime.now().isoformat()
+        # Verify reCAPTCHA v3
+        recaptcha_response = data.get('recaptcha_response')
+        if not recaptcha_response:
+            return jsonify({'error': 'reCAPTCHA verification failed'}), 400
             
-        # Save locally regardless of Supabase availability
-        # This ensures we don't lose data if Supabase is down
-        save_locally(data, submission_id)
-        
-        # Mark if this is a test submission
-        is_test = data.get('test', False)
-        
-        # Attempt to submit to Supabase with detailed error handling
-        supabase_result = submit_to_supabase_with_details(data, submission_id, is_test)
-        
-        # Build response with detailed information
-        response = {
-            'success': True,
-            'message': 'Form submitted successfully',
-            'id': submission_id,
-            'local_save': True,
-            'supabase': supabase_result
+        # Make request to Google's reCAPTCHA verification API
+        verify_url = 'https://www.google.com/recaptcha/api/siteverify'
+        payload = {
+            'secret': os.getenv("RECAPTCHA_SECRET_KEY"),
+            'response': recaptcha_response
         }
+        response = requests.post(verify_url, data=payload)
+        result = response.json()
         
-        return jsonify(response)
-    
+        # Check if score is above threshold (0.5 is a common threshold)
+        if not result['success'] or result['score'] < 0.5:
+            return jsonify({'error': 'reCAPTCHA verification failed'}), 400
+            
+        # Process the form data
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message = data.get('message')
+        
+        # Store in Supabase
+        supabase.table('contact_messages').insert({
+            'name': name,
+            'email': email,
+            'subject': subject,
+            'message': message
+        }).execute()
+        
+        return jsonify({'message': 'Message sent successfully'}), 200
+        
     except Exception as e:
-        logging.error(f"Error processing contact form: {str(e)}")
-        logging.exception(e)
-        return jsonify({
-            'success': False,
-            'message': f'Error processing request: {str(e)}',
-            'local_save': False
-        }), 500
+        print(f"Error processing contact form: {str(e)}")
+        return jsonify({'error': 'An error occurred while processing your request'}), 500
 
 def submit_to_supabase_with_details(data, submission_id=None):
     """Submit data to Supabase with detailed error reporting"""
@@ -1038,4 +1057,15 @@ def submit_to_supabase(data, submission_id=None):
             logging.error(f"Request error for {domain}: {str(e)}")
             continue
     
-    return False, "Failed to submit to all Supabase domains" 
+    return False, "Failed to submit to all Supabase domains"
+
+# Load environment variables
+load_dotenv()
+
+# Supabase setup
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_ANON_KEY")
+supabase: Client = create_client(supabase_url, supabase_key)
+
+# reCAPTCHA Secret Key
+recaptcha_secret_key = os.getenv("RECAPTCHA_SECRET_KEY") 
