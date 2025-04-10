@@ -1084,8 +1084,8 @@ def submit_to_supabase(data, submission_id=None):
 load_dotenv()
 
 # Supabase setup
-supabase_url = os.getenv("SUPABASE_URL")
-supabase_key = os.getenv("SUPABASE_ANON_KEY")
+supabase_url = os.getenv("DATABASE_URL")
+supabase_key = os.getenv("SECRET_KEY")
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # reCAPTCHA Secret Key
