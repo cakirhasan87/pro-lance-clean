@@ -1084,11 +1084,9 @@ def submit_to_supabase(data, submission_id=None):
 load_dotenv()
 
 # Supabase setup
-supabase_url = os.getenv("DATABASE_URL")
-# Extract the API key from the JWT token
-jwt_token = os.getenv("SECRET_KEY")
-# The API key is typically the part before the first period in the JWT
-supabase_key = jwt_token.split('.')[0] if jwt_token else None
+# Use hardcoded values instead of environment variables
+supabase_url = "https://ujarmuwukkbrqetqnqbe.supabase.co"
+supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqYXJtdXd1a2ticnFldHFucWJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzMDI5NzQsImV4cCI6MjA1Nzg3ODk3NH0.qrV-QKWkObeF60zSXG-qwJ94OnvSzkZWKNqbo_QHqac"
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # reCAPTCHA Secret Key
