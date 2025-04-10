@@ -1085,7 +1085,10 @@ load_dotenv()
 
 # Supabase setup
 supabase_url = os.getenv("DATABASE_URL")
-supabase_key = os.getenv("SECRET_KEY")
+# Extract the API key from the JWT token
+jwt_token = os.getenv("SECRET_KEY")
+# The API key is typically the part before the first period in the JWT
+supabase_key = jwt_token.split('.')[0] if jwt_token else None
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # reCAPTCHA Secret Key
