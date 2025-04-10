@@ -323,26 +323,47 @@ def submit_contact():
         }
         response = requests.post(verify_url, data=payload)
         result = response.json()
+        print(f"reCAPTCHA verification result: {result}")
         
         # Check if score is above threshold (0.5 is a common threshold)
-        if not result['success'] or result['score'] < 0.5:
+        if not result.get('success') or result.get('score', 0) < 0.5:
+            print(f"reCAPTCHA verification failed: Success={result.get('success')}, Score={result.get('score', 0)}")
             return jsonify({'error': 'reCAPTCHA verification failed'}), 400
             
         # Process the form data
+        print("reCAPTCHA verified successfully. Processing form data...")
         name = data.get('name')
         email = data.get('email')
         subject = data.get('subject')
         message = data.get('message')
+        phone = data.get('phone')
         
-        # Store in Supabase
-        supabase.table('contact_messages').insert({
+        # Prepare data for Supabase
+        supabase_data = {
             'name': name,
             'email': email,
             'subject': subject,
-            'message': message
-        }).execute()
+            'message': message,
+            'phone': phone if phone else None,
+            'recaptcha_response': recaptcha_response
+        }
+        print(f"Attempting to insert into Supabase: {supabase_data}")
         
-        return jsonify({'message': 'Message sent successfully'}), 200
+        # Store in Supabase
+        try:
+            insert_response = supabase.table('contact_messages').insert(supabase_data).execute()
+            print(f"Supabase insert response: {insert_response}")
+            
+            # Check for errors in Supabase response (if applicable, depends on library version)
+            if hasattr(insert_response, 'error') and insert_response.error:
+                print(f"Supabase insert error: {insert_response.error}")
+                raise Exception(f"Supabase error: {insert_response.error}")
+                
+            return jsonify({'message': 'Message sent successfully'}), 200
+            
+        except Exception as supabase_error:
+            print(f"Error during Supabase insert: {str(supabase_error)}")
+            return jsonify({'error': 'Failed to save message.'}), 500
         
     except Exception as e:
         print(f"Error processing contact form: {str(e)}")
