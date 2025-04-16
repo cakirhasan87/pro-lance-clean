@@ -1014,8 +1014,8 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
 # Log startup
 logger.info('Pro-Lance startup')
@@ -1087,7 +1087,14 @@ load_dotenv()
 # Use hardcoded values instead of environment variables
 supabase_url = "https://ujarmuwukkbrqetqnqbe.supabase.co"
 supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqYXJtdXd1a2ticnFldHFucWJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzMDI5NzQsImV4cCI6MjA1Nzg3ODk3NH0.qrV-QKWkObeF60zSXG-qwJ94OnvSzkZWKNqbo_QHqac"
-supabase: Client = create_client(supabase_url, supabase_key)
+
+# Initialize Supabase client with options
+supabase_options = {
+    'schema': 'public',
+    'auto_refresh_token': True,
+    'persist_session': True
+}
+supabase = create_client(supabase_url, supabase_key, options=supabase_options)
 
 # reCAPTCHA Secret Key
 recaptcha_secret_key = os.getenv("RECAPTCHA_SECRET_KEY") 
