@@ -1088,13 +1088,8 @@ load_dotenv()
 supabase_url = "https://ujarmuwukkbrqetqnqbe.supabase.co"
 supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqYXJtdXd1a2ticnFldHFucWJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzMDI5NzQsImV4cCI6MjA1Nzg3ODk3NH0.qrV-QKWkObeF60zSXG-qwJ94OnvSzkZWKNqbo_QHqac"
 
-# Initialize Supabase client with options
-supabase_options = {
-    'schema': 'public',
-    'auto_refresh_token': True,
-    'persist_session': True
-}
-supabase = create_client(supabase_url, supabase_key, options=supabase_options)
+# Initialize Supabase client
+supabase = create_client(supabase_url, supabase_key)
 
 # reCAPTCHA Secret Key
 recaptcha_secret_key = os.getenv("RECAPTCHA_SECRET_KEY") 
