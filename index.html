@@ -3,7 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
     <title>Pro-Lance | Freelancer Platformu</title>
+    <meta name="description" content="Pro-Lance, yetenekli freelancerlar ve müşteriler arasında köprü kuran dinamik bir platformdur. Projeleriniz için en uygun yetenek ve çözümleri bulun.">
+    <meta name="keywords" content="freelancer, serbest çalışan, proje, web geliştirme, mobil uygulama, SAP, danışmanlık, yazılım">
+    <meta name="author" content="Pro-Lance">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://pro-lance.com/index.html">
+    <link rel="alternate" hreflang="tr" href="https://pro-lance.com/index.html">
+    <link rel="alternate" hreflang="en" href="https://pro-lance.com/en/index.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pro-lance.com/">
+    <meta property="og:title" content="Pro-Lance | Freelancer Platformu">
+    <meta property="og:description" content="Pro-Lance, yetenekli freelancerlar ve müşteriler arasında köprü kuran dinamik bir platformdur.">
+    <meta property="og:image" content="https://pro-lance.com/images/remote-office.webp">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pro-lance.com/">
+    <meta property="twitter:title" content="Pro-Lance | Freelancer Platformu">
+    <meta property="twitter:description" content="Pro-Lance, yetenekli freelancerlar ve müşteriler arasında köprü kuran dinamik bir platformdur.">
+    <meta property="twitter:image" content="https://pro-lance.com/images/remote-office.webp">
+    
     <!-- Preload critical assets -->
     <link rel="preload" href="style.css" as="style">
     <link rel="preload" href="images/remote-office.webp" as="image" fetchpriority="high">
@@ -37,6 +61,35 @@
         createChat({
             webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat'
         });
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Pro-Lance",
+      "url": "https://pro-lance.com",
+      "logo": "https://pro-lance.com/images/favicon.ico",
+      "sameAs": [
+        "https://www.linkedin.com/company/pro-lance/"
+      ],
+      "description": "Pro-Lance, yetenekli freelancerlar ve müşteriler arasında köprü kuran dinamik bir platformdur.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "TR"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "support@pro-lance.com"
+      },
+      "potentialAction": {
+        "@type": "Action",
+        "target": "https://calendly.com/pro-lance-support/30min",
+        "name": "Schedule Meeting"
+      }
+    }
     </script>
 </head>
 <body>

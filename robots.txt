@@ -27,4 +27,16 @@ Disallow: /flask_app/templates/
 Disallow: /flask_app/static/
 
 # Sitemap
-Sitemap: https://pro-lance.com/sitemap.xml 
+Sitemap: https://pro-lance.com/sitemap.xml
+
+# Allow all bots to crawl all content
+User-agent: *
+Disallow:
+
+# Specifically allow Google
+User-agent: Googlebot
+Allow: /
+
+# Specifically allow Bing
+User-agent: Bingbot
+Allow: / 
