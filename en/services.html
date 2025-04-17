@@ -4,35 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro-Lance | Services</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="../style.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" as="style">
+    
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-483914364"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYD331N2FV"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
-        gtag('config', 'G-483914364');
+        gtag('config', 'G-FYD331N2FV');
     </script>
+    
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<!-- Chat Widget Template -->
-<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-<script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    
+    <!-- Chat Widget Template -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" media="print" onload="this.media='all'" />
+    <script type="module" defer>
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    createChat({
-        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
-        title: 'Pro-Lance Support',
-        subtitle: 'Ask us anything about our services',
-        primaryColor: '#4CAF50',
-        position: 'right',
-        showInitialMessage: true,
-        initialMessage: 'Hello! How can we help you today?',
-        allowFileUpload: false,
-        enableMarkdown: true,
-        debug: true
-    });
-</script> 
+        createChat({
+            webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+            title: 'Pro-Lance Support',
+            subtitle: 'Ask us anything about our services',
+            primaryColor: '#4CAF50',
+            position: 'right',
+            showInitialMessage: true,
+            initialMessage: 'Hello! How can we help you today?',
+            allowFileUpload: false,
+            enableMarkdown: true,
+            debug: true
+        });
+    </script> 
 </head>
 <body>
     <!-- Header -->

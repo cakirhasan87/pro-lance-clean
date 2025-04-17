@@ -4,40 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro-Lance | Freelancer Platform</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="../style.css" as="style">
+    <link rel="preload" href="../images/remote-office.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" as="style">
+    
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-483914364"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYD331N2FV"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
-        gtag('config', 'G-483914364');
+        gtag('config', 'G-FYD331N2FV');
     </script>
+    
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
     <link rel="manifest" href="../site.webmanifest">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<!-- Chat Widget Template -->
-<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-<script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" media="print" onload="this.media='all'" />
+    
+    <!-- Chat Widget Template -->
+    <script type="module" defer>
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    createChat({
-        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
-        title: 'Pro-Lance Support',
-        subtitle: 'Ask us anything about our services',
-        primaryColor: '#4CAF50',
-        position: 'right',
-        showInitialMessage: true,
-        initialMessage: 'Hello! How can we help you today?',
-        allowFileUpload: false,
-        enableMarkdown: true,
-        debug: true
-    });
-</script> 
+        createChat({
+            webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+            title: 'Pro-Lance Support',
+            subtitle: 'Ask us anything about our services',
+            primaryColor: '#4CAF50',
+            position: 'right',
+            showInitialMessage: true,
+            initialMessage: 'Hello! How can we help you today?',
+            allowFileUpload: false,
+            enableMarkdown: true,
+            debug: true
+        });
+    </script>
 </head>
 <body>
     <!-- Include the header -->
@@ -94,7 +104,7 @@
             </div>
             <div class="about-row">
                 <div class="about-image">
-                    <img src="../images/who we are image.webp" alt="Business Analytics">
+                    <img src="../images/who we are image.webp" alt="Business Analytics" loading="lazy">
                 </div>
                 <div class="about-content">
                     <h3>Who We Are</h3>
@@ -104,7 +114,7 @@
             </div>
             <div class="about-row reverse">
                 <div class="about-image">
-                    <img src="../images/what we do image.webp" alt="Business Planning">
+                    <img src="../images/what we do image.webp" alt="Business Planning" loading="lazy">
                 </div>
                 <div class="about-content">
                     <h3>What We Do</h3>
@@ -113,7 +123,7 @@
             </div>
             <div class="about-row">
                 <div class="about-image">
-                    <img src="../images/how we operate image.webp" alt="Project Management">
+                    <img src="../images/how we operate image.webp" alt="Project Management" loading="lazy">
                 </div>
                 <div class="about-content">
                     <h3>How We Operate</h3>
@@ -123,7 +133,7 @@
             </div>
             <div class="about-row reverse">
                 <div class="about-image">
-                    <img src="../images/what sets pro-lance apart image.webp" alt="Web Design">
+                    <img src="../images/what sets pro-lance apart image.webp" alt="Web Design" loading="lazy">
                 </div>
                 <div class="about-content">
                     <h3>What Sets pro-lance.com Apart?</h3>
@@ -183,7 +193,7 @@
             <div class="blog-grid">
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="../images/remote-office.webp" alt="Modern remote working office">
+                        <img src="../images/remote-office.webp" alt="Modern remote working office" loading="lazy">
                     </div>
                     <div class="blog-content">
                         <h3>Achieve Extraordinary Results with Remote Project Management</h3>
@@ -193,7 +203,7 @@
                 </div>
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="../images/sap-clean-core.jpg" alt="SAP Clean Core architecture">
+                        <img src="../images/sap-clean-core.jpg" alt="SAP Clean Core architecture" loading="lazy">
                     </div>
                     <div class="blog-content">
                         <h3>SAP Clean Core: Solution Optimized for Growth</h3>
@@ -203,7 +213,7 @@
                 </div>
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="../images/AI Driven Software Development.webp" alt="AI Software Development">
+                        <img src="../images/AI Driven Software Development.webp" alt="AI Software Development" loading="lazy">
                     </div>
                     <div class="blog-content">
                         <h3>AI-Driven Software Development for Faster, Smarter Solutions</h3>
