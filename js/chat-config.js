@@ -14,17 +14,17 @@ const N8N_CHAT_CONFIG = {
     // Appearance settings
     title: 'Pro-Lance Support',
     subtitle: 'Ask us anything about our services',
-    primaryColor: '#4CAF50',
+    primaryColor: '#007bff',
     position: 'right', // 'left' or 'right'
     
     // Behavior settings
-    showInitialMessage: true,
-    initialMessage: 'Hi there! 👋\n\nMy name is Nathan. How can I assist you today?',
+    showInitialMessage: false,
+    initialMessage: '',
     allowFileUpload: false,
     enableMarkdown: true,
     
     // Bot settings
-    botName: 'Nathan',
+    botName: 'Çetin',
     
     // Default to floating button, set to CSS selector for embedded mode
     containerSelector: null,
