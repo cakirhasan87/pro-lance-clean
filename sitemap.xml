@@ -58,14 +58,94 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://pro-lance.com/en/contact.html"/>
         <lastmod>2024-03-15</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.9</priority>
     </url>
     <url>
         <loc>https://pro-lance.com/en/contact.html</loc>
         <xhtml:link rel="alternate" hreflang="tr" href="https://pro-lance.com/contact.html"/>
         <lastmod>2024-03-15</lastmod>
         <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Login Pages -->
+    <url>
+        <loc>https://pro-lance.com/login.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pro-lance.com/en/login.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://pro-lance.com/en/login.html</loc>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://pro-lance.com/login.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Register Pages -->
+    <url>
+        <loc>https://pro-lance.com/register.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pro-lance.com/en/register.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://pro-lance.com/en/register.html</loc>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://pro-lance.com/register.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Privacy Policy Pages -->
+    <url>
+        <loc>https://pro-lance.com/privacy-policy.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pro-lance.com/en/privacy-policy.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pro-lance.com/en/privacy-policy.html</loc>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://pro-lance.com/privacy-policy.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Terms of Use Pages -->
+    <url>
+        <loc>https://pro-lance.com/terms-of-use.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pro-lance.com/en/terms-of-use.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://pro-lance.com/en/terms-of-use.html</loc>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://pro-lance.com/terms-of-use.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Collaboration Pages -->
+    <url>
+        <loc>https://pro-lance.com/collaboration.html</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pro-lance.com/en/collaboration.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pro-lance.com/en/collaboration.html</loc>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://pro-lance.com/collaboration.html"/>
+        <lastmod>2024-03-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
     </url>
 
     <!-- Blog Posts - Turkish -->
