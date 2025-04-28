@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
 		<Metadata>
-			<Identity Language="en-US" Id="vscode-java-debug" Version="0.58.1" Publisher="vscjava" />
+			<Identity Language="en-US" Id="vscode-java-debug" Version="0.58.2" Publisher="vscjava" />
 			<DisplayName>Debugger for Java</DisplayName>
 			<Description xml:space="preserve">A lightweight Java debugger for Visual Studio Code</Description>
 			<Tags>java,debug,debugging,debugger,debuggers</Tags>

@@ -39,13 +39,13 @@ Use Bito where you write code, in your IDE and in your <a href="https://bito.ai/
 Bito’s $0 per month free plan provides core features with reasonable usage limits.
 </p>
 <p class="paragraphNormal">
-A paid 10X Developer Plan powers up with advanced AI models, usage availability, codebase-context, and code review agents.
+A paid Team Plan powers up with advanced AI models, usage availability, codebase-context, and code review agents.
 </p>
 <p class="paragraphNormal">
-The Team Plan enables on-prem code review agents, enterprise security, dedicated support, audit logs, and custom pricing.
+The Enterprise Plan enables on-prem code review agents, enterprise security, dedicated support, audit logs, and custom pricing.
 </p>
 <p class="paragraphNormal">
-New users may trial Bito’s 10X Developer Plan FREE for 14 days.
+New users may trial Bito’s Team Plan FREE for 14 days.
 </p>
 <br>
 <h2>Uplevel your code</h2>

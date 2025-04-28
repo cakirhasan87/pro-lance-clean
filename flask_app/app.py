@@ -55,12 +55,22 @@ if os.path.exists(source_admin_dir):
             shutil.copy2(source_file, dest_file)
 
 # CORS headers to allow requests from any origin
+@app.before_request
+def log_request_info():
+    logger.info(f"Request: {request.method} {request.path} - IP: {request.remote_addr}")
+
 @app.after_request
-def after_request(response):
+def log_response_info(response):
+    logger.info(f"Response: {request.method} {request.path} - Status: {response.status_code}")
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
+
+@app.errorhandler(Exception)
+def handle_unhandled_exception(e):
+    logger.error(f"Unhandled Exception: {str(e)}", exc_info=True)
+    return render_template('500.html'), 500
 
 # Create a session with retry mechanism for all requests
 def create_requests_session(retries=5, backoff_factor=0.3, status_forcelist=(500, 502, 504)):
@@ -302,50 +312,59 @@ def test_dns_resolution(domains=None):
 
 @app.route('/submit-contact', methods=['POST'])
 def submit_contact():
-    """Submit contact form data to Supabase"""
+    """Handle contact form submission"""
     try:
-        # Get the form data from the request
-        data = request.json
-        
-        # Log received data
-        logging.info(f"Received contact form submission: {data}")
-        
-        # Create a unique ID for the submission
-        submission_id = str(uuid.uuid4())
-        
-        # Add created_at if it doesn't exist
-        if 'created_at' not in data:
-            data['created_at'] = datetime.now().isoformat()
+        # Get form data
+        data = {
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'phone': request.form.get('phone'),
+            'subject': request.form.get('subject'),
+            'message': request.form.get('message'),
+            'created_at': datetime.utcnow().isoformat(),
+            'is_read': False
+        }
+
+        # Validate required fields
+        required_fields = ['name', 'email', 'subject', 'message']
+        for field in required_fields:
+            if not data.get(field):
+                return jsonify({
+                    'success': False,
+                    'message': f'Missing required field: {field}'
+                }), 400
+
+        # Insert into Supabase
+        response = session.post(
+            f'{SUPABASE_URL}/contact_messages',
+            json=data
+        )
+
+        if response.status_code != 201:
+            # Save locally if Supabase insert fails
+            submission_id = str(uuid.uuid4())
+            save_locally(data, submission_id)
             
-        # Save locally regardless of Supabase availability
-        # This ensures we don't lose data if Supabase is down
+            return jsonify({
+                'success': True,
+                'message': 'Message saved locally. Will be synced when connection is restored.'
+            })
+
+        return jsonify({
+            'success': True,
+            'message': 'Message sent successfully'
+        })
+
+    except Exception as e:
+        logger.error(f'Error in submit_contact: {str(e)}')
+        # Save locally on any error
+        submission_id = str(uuid.uuid4())
         save_locally(data, submission_id)
         
-        # Mark if this is a test submission
-        is_test = data.get('test', False)
-        
-        # Attempt to submit to Supabase with detailed error handling
-        supabase_result = submit_to_supabase_with_details(data, submission_id, is_test)
-        
-        # Build response with detailed information
-        response = {
-            'success': True,
-            'message': 'Form submitted successfully',
-            'id': submission_id,
-            'local_save': True,
-            'supabase': supabase_result
-        }
-        
-        return jsonify(response)
-    
-    except Exception as e:
-        logging.error(f"Error processing contact form: {str(e)}")
-        logging.exception(e)
         return jsonify({
-            'success': False,
-            'message': f'Error processing request: {str(e)}',
-            'local_save': False
-        }), 500
+            'success': True,
+            'message': 'Message saved locally. Will be synced when connection is restored.'
+        })
 
 def submit_to_supabase_with_details(data, submission_id, is_test=False):
     """
