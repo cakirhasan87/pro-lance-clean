@@ -3,83 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 Freelance Trendleri: Remote Çalışma, Yapay Zeka ve Proje Yönetimindeki Değişimler</title>
-    <meta name="description" content="2025'te freelance dünyasında öne çıkan trendler: Remote çalışma, yapay zeka entegrasyonu ve proje yönetimindeki yenilikler. Freelancer'lar için gelecek rehberi.">
+    <title>2025 Freelance Trendleri: Remote Çalışma, Yapay Zeka ve Proje Yönetimindeki Değişimler - Pro-Lance Blog</title>
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .blog-hero {
-            background: none !important;
-            padding: 0;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .blog-hero-image {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-        }
+        .blog-post { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .blog-header { text-align: left; margin-bottom: 2rem; }
+        .blog-meta { margin: 1rem 0; color: #666; }
+        .blog-meta .publish-date { display: block; margin-bottom: 0.5rem; }
+        .tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .tag { background-color: #f0f0f0; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.9rem; }
+        .blog-content { line-height: 1.6; }
+        .blog-content img { max-width: 100%; height: auto; margin: 2rem 0; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: block; object-fit: cover; width: 100%; }
+        .blog-content h2 { margin: 2rem 0 1rem; color: #333; font-size: 1.8rem; }
+        .blog-content p { margin-bottom: 1.5rem; color: #444; }
+        main { min-height: calc(100vh - 200px); background-color: #fff; padding: 2rem 0; }
+        .blog-post h1 { font-size: 2.5rem; color: #333; margin-bottom: 1rem; }
+        .blog-hero { background: none !important; padding: 0; margin-bottom: 2rem; display: flex; justify-content: center; align-items: center; }
+        .blog-hero-image { width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
     </style>
+    <!-- Chat Widget Template -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+        createChat({
+            webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
+            title: 'Pro-Lance Support',
+            subtitle: 'Ask us anything about our services',
+            primaryColor: '#4CAF50',
+            position: 'right',
+            showInitialMessage: true,
+            initialMessage: 'Hello! How can we help you today?',
+            allowFileUpload: false,
+            enableMarkdown: true,
+            debug: true
+        });
+    </script>
 </head>
 <body>
-    <header>
-        <!-- Navigation will be included here -->
-    </header>
-
-    <main class="blog-post-container">
-        <section class="blog-hero">
-            <img src="../../images/2025-freelance-trends.svg" alt="2025 Freelance Trendleri" class="blog-hero-image">
-        </section>
-        <article class="blog-post">
-            <h1>2025 Freelance Trendleri: Remote Çalışma, Yapay Zeka ve Proje Yönetimindeki Değişimler</h1>
-            
-            <div class="blog-post-meta">
-                <span class="date">29 Nisan 2025</span>
-                <span class="author">Pro-lance.com Ekibi</span>
+    <!-- Header -->
+    <header class="header flex">
+        <div class="logo">
+            <a href="/">Pro-Lance</a>
+        </div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="/" class="">Ana Sayfa</a></li>
+                <li><a href="/services.html" class="">Hizmetler</a></li>
+                <li><a href="/collaboration.html" class="">İş Birliği</a></li>
+                <li><a href="/blog.html" class="active">Blog</a></li>
+                <li><a href="/contact.html" class="">İletişim</a></li>
+            </ul>
+        </nav>
+        <div class="right-header">
+            <div class="lang-switch">
+                <a href="#" class="active">TR</a>
+                <a href="/en/blog-posts/2025-freelance-trends.html">EN</a>
             </div>
-
-            <div class="blog-post-content">
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+    <main>
+        <article class="blog-post">
+            <div class="blog-header">
+                <h1>2025 Freelance Trendleri: Remote Çalışma, Yapay Zeka ve Proje Yönetimindeki Değişimler</h1>
+                <div class="blog-meta">
+                    <span class="publish-date">29 Nisan 2025</span>
+                    <div class="tags">
+                        <span class="tag">Freelance</span>
+                        <span class="tag">Remote Çalışma</span>
+                        <span class="tag">Yapay Zeka</span>
+                        <span class="tag">Proje Yönetimi</span>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-hero">
+                <img src="../../images/2025-freelance-trends.svg" alt="2025 Freelance Trendleri" class="blog-hero-image">
+            </div>
+            <div class="blog-content">
                 <p>Freelance dünyası 2025'e girerken, iş yapış biçimlerindeki dönüşümü hız kesmeden sürdürüyor. Remote çalışmanın norm haline gelmesi, yapay zeka destekli iş bulma yöntemlerinin yaygınlaşması ve proje yönetim araçlarındaki yenilikler, hem freelancer'ları hem de işverenleri yakından ilgilendiriyor.</p>
-
                 <h2>1. Remote Çalışmanın Yeni Standardı: 2025'te Freelance İş Dünyası</h2>
-                <p>Pandemi sonrası başlayan uzaktan çalışma devrimi, artık freelance dünyasının değil tüm iş dünyasının temel taşı haline geldi. 2025 itibariyle:</p>
                 <ul>
                     <li>Şirketlerin %70'i freelancer işleri için tam uzaktan çalışma modelini benimsedi.</li>
                     <li>Hibrit pozisyonlar çok azaldı, 'full remote' talepleri çok daha öne çıktı.</li>
                     <li>Freelance işverenleri, uluslararası yeteneklere açık hale geldi.</li>
                 </ul>
-
                 <h2>2. Yapay Zeka ve Freelance: 2025'te İş Bulma Süreçleri</h2>
-                <p>AI artık sadece bir eklenti değil; freelance platformların özü haline geldi. 2025'te:</p>
                 <ul>
                     <li>Yapay zeka tabanlı öneri sistemleri, freelancer'ın yeteneklerini ve projeleri daha isabetli eşleştiriyor.</li>
                     <li>Otomatik CV analizleri ve proje skorlamaları ile hem işverenler hem freelancerlar zamandan kazanıyor.</li>
                     <li>Freelancerlar, kendilerini öne çıkarmak için AI destekli portföy araçları kullanıyor.</li>
                 </ul>
-
                 <h2>3. Proje Yönetiminde Dijital Dönüşüm: 2025 Freelance Trendleri</h2>
-                <p>Freelance ekiplerin sayısı arttıkça, proje yönetimi de evrildi:</p>
                 <ul>
                     <li>Eski klasik to-do list uygulamalarının yerini, AI destekli proje yönetim platformları aldı.</li>
                     <li>Takım içi otomatik görev dağıtımı ve ilerleme tahminleri standartlaştı.</li>
                     <li>Görsel raporlama ve anılık veri analizleri ile freelance projelerde verimlilik %30 artış gösterdi.</li>
                 </ul>
-
                 <h2>Sonuç: 2025 Freelance Dünyasına Hazır mısınız?</h2>
                 <p>2025, freelancerlar için sadece daha fazla iş fırsatı değil, aynı zamanda daha stratejik, daha verimli çalışma yöntemleri sunuyor. Remote dünyada başarılı olmak için teknolojiye entegre olmanız ve güncel trendleri takip etmeniz artık şart.</p>
-
                 <p>Pro-lance.com olarak freelance dünyasının geleceğine hazırız! Siz de freelance yolculuğunuzda bizimle olun.</p>
             </div>
         </article>
     </main>
-
     <footer>
-        <!-- Footer will be included here -->
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Pro-Lance</h3>
+                <p>Yetenekler Buluşur, Projeler Büyür</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Linkler</h3>
+                <ul>
+                    <li><a href="/index.html">Ana Sayfa</a></li>
+                    <li><a href="/services.html">Hizmetler</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                    <li><a href="/contact.html">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul>
+                    <li><a href="/terms-of-use.html">Kullanım Şartları</a></li>
+                    <li><a href="/privacy-policy.html">Gizlilik Politikası</a></li>
+                    <li><a href="/cookie-policy.html">Çerez Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <p>Email: support@pro-lance.com</p>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
+                        <i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
+        </div>
     </footer>
 </body>
 </html> 
