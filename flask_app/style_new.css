@@ -311,6 +311,15 @@ footer {
     }
 }
 
+@media (max-width: 600px) {
+    .hero-section,
+    .blog-hero,
+    .contact-hero,
+    .collaboration-hero {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/remote-office-mobile.webp') !important;
+    }
+}
+
 /* Language Switcher Styling */
 .language-switch a, .language-selector a {
     text-decoration: none;

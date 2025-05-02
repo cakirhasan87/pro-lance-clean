@@ -11,24 +11,6 @@
     <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<!-- Chat Widget Template -->
-<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-<script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-
-    createChat({
-        webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
-        title: 'Pro-Lance Support',
-        subtitle: 'Ask us anything about our services',
-        primaryColor: '#4CAF50',
-        position: 'right',
-        showInitialMessage: true,
-        initialMessage: 'Hello! How can we help you today?',
-        allowFileUpload: false,
-        enableMarkdown: true,
-        debug: true
-    });
-</script> 
 </head>
 <body>
     <!-- Header -->
@@ -72,7 +54,11 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section id="hero" class="hero-section" style="background-image: url('../images/remote-office.webp');">
+        <section id="hero" class="hero-section">
+            <picture>
+                <source srcset="../images/remote-office-mobile.webp" media="(max-width: 600px)">
+                <img src="../images/remote-office.webp" alt="Modern remote working office" style="width:100%;height:auto;object-fit:cover;position:absolute;top:0;left:0;z-index:0;min-height:100%;max-height:100vh;">
+            </picture>
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <h1>Talents Meet, Projects Grow</h1>
@@ -253,6 +239,22 @@
         </div>
     </footer>
 
-    <script src="../script.js"></script>
+    <!-- Floating Chat Button -->
+    <button id="openChatWidget" style="position:fixed;bottom:32px;right:32px;z-index:9999;background:#4CAF50;color:#fff;border:none;border-radius:50%;width:60px;height:60px;box-shadow:0 2px 8px rgba(0,0,0,0.2);font-size:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:2rem;">💬</span>
+    </button>
+    <script>
+    document.getElementById('openChatWidget').addEventListener('click', function() {
+        if (!window.chatWidgetLoaded) {
+            var script = document.createElement('script');
+            script.src = '../js/chat.min.js';
+            script.onload = function() { window.chatWidgetLoaded = true; };
+            document.body.appendChild(script);
+        }
+        this.style.display = 'none';
+    });
+    </script>
+
+    <script src="../script.min.js"></script>
 </body>
 </html> 

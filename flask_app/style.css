@@ -983,3 +983,9 @@ footer {
         font-size: 1rem;
     }
 }
+
+@media (max-width: 600px) {
+    .hero-section {
+        background-image: url('images/remote-office-mobile.webp') !important;
+    }
+}

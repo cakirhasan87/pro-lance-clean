@@ -2253,3 +2253,9 @@ footer {
   color: #003366 !important;
   background: #e6f0ff !important;
 }
+
+@media (max-width: 600px) {
+    .hero-section {
+        background-image: url('images/remote-office-mobile.webp') !important;
+    }
+}
