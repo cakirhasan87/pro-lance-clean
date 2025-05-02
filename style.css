@@ -226,9 +226,9 @@ body {
 }
 
 .lang-switch a.active {
-    color: white;
-    background-color: #4CAF50;
-    font-weight: bold;
+    background: #222 !important;
+    color: #fff !important;
+    border: 1px solid #222 !important;
 }
 
 .lang-switch a:hover {
@@ -713,9 +713,9 @@ main {
 .read-more {
     display: inline-flex;
     align-items: center;
-    color: #FF6B00;
+    color: #0056b3 !important;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 700;
     margin-top: auto;
 }
 
@@ -725,7 +725,8 @@ main {
 }
 
 .read-more:hover {
-    color: #e65100;
+    color: #003366 !important;
+    background: #e6f0ff !important;
 }
 
 .read-more:hover i {
@@ -2202,4 +2203,53 @@ footer {
     .policy-page h3 {
         font-size: 1.3em;
     }
+}
+
+/* Accessibility: High contrast for navigation and language switch */
+.nav-list li a,
+.nav-list li a.active {
+  color: #111 !important;
+  background: #fff !important;
+}
+.lang-switch a {
+  color: #111 !important;
+  background: #fff !important;
+  border: 1px solid #bbb;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.lang-switch a.active {
+  background: #222 !important;
+  color: #fff !important;
+  border: 1px solid #222 !important;
+}
+.lang-switch a:hover {
+  background: #0056b3 !important;
+  color: #fff !important;
+}
+
+/* Accessibility: High contrast for CTA and Calendly buttons */
+.cta-button, .calendly-btn {
+  background: #218838 !important;
+  color: #fff !important;
+  border: none;
+}
+.cta-button:hover, .calendly-btn:hover {
+  background: #1e7e34 !important;
+  color: #fff !important;
+}
+
+/* Accessibility: High contrast for read-more links */
+.read-more {
+  color: #0056b3 !important;
+  background: #fff !important;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 2px 8px;
+  text-decoration: underline;
+}
+.read-more:hover {
+  color: #003366 !important;
+  background: #e6f0ff !important;
 }

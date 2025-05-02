@@ -7,10 +7,13 @@
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Preload hero image for LCP optimization -->
+    <link rel="preload" as="image" href="../images/remote-office-mobile.webp" media="(max-width: 600px)">
+    <link rel="preload" as="image" href="../images/remote-office.webp" media="(min-width: 601px)">
 <!-- Chat Widget Template -->
 <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 <script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.min.js';
 
     createChat({
         webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
@@ -46,7 +49,8 @@
             <a href="#" class="active">TR</a>
             <a href="/en/trlog.html">EN</a>
         </div>
-        <button class="hamburger">
+        <!-- Accessibility: Ensure hamburger button has an accessible name -->
+        <button class="hamburger" aria-label="Menüyü aç/kapat">
             <span></span>
             <span></span>
             <span></span>
@@ -58,8 +62,13 @@
 
     <main>
         <!-- Blog Hero Section -->
-        <section class="hero blog-hero">
-            <div class="hero-content">
+        <section class="hero blog-hero" style="position:relative;overflow:hidden;">
+            <picture>
+                <source srcset="../images/remote-office.webp" media="(min-width: 901px)">
+                <source srcset="../images/remote-office-mobile.webp" media="(max-width: 900px)">
+                <img src="../images/remote-office-mobile.webp" alt="Pro-Lance Remote Office" style="width:100%;height:auto;object-fit:cover;position:absolute;top:0;left:0;z-index:0;min-height:100%;max-height:400px;">
+            </picture>
+            <div class="hero-content" style="position:relative;z-index:1;text-align:center;padding:3rem 1rem;">
                 <h1>Blog</h1>
                 <p>Freelance dünyasından en son haberler, ipuçları ve trendler</p>
             </div>
@@ -285,10 +294,10 @@
         });
     </script>
 
-    <script src="../script.js"></script>
+    <script src="../script.min.js" defer></script>
     
     <!-- Start cookiepal banner -->
-    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js"></script>
+    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js" defer></script>
     <!-- End cookiepal banner -->
 </body>
 </html> 

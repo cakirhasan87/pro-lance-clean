@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         phoneInput.addEventListener('input', (e) => {
             if (e.target.value.length > 0) {
-                e.target.value = formatPhoneNumber(e.target.value);
+            e.target.value = formatPhoneNumber(e.target.value);
             }
         });
     });
@@ -110,11 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
     [collaborationForm, contactForm].forEach(form => {
         if (!form) return;
         
-        form.querySelectorAll('input, textarea, select').forEach(input => {
+    form.querySelectorAll('input, textarea, select').forEach(input => {
             if (input.type !== 'tel') { // Phone has its own input handler
-                input.addEventListener('input', () => validateInput(input));
-            }
-            input.addEventListener('blur', () => validateInput(input));
+            input.addEventListener('input', () => validateInput(input));
+        }
+        input.addEventListener('blur', () => validateInput(input));
         });
     });
 

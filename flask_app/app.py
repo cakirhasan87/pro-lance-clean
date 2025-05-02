@@ -343,8 +343,8 @@ def submit_contact():
         if response.status_code != 201:
             # Save locally if Supabase insert fails
             submission_id = str(uuid.uuid4())
-            save_locally(data, submission_id)
-            
+        save_locally(data, submission_id)
+        
             return jsonify({
                 'success': True,
                 'message': 'Message saved locally. Will be synced when connection is restored.'
@@ -354,7 +354,7 @@ def submit_contact():
             'success': True,
             'message': 'Message sent successfully'
         })
-
+    
     except Exception as e:
         logger.error(f'Error in submit_contact: {str(e)}')
         # Save locally on any error
