@@ -195,6 +195,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Attach submit handlers
     if (collaborationForm) {
         collaborationForm.addEventListener('submit', (e) => {
+            gtag('event', 'form_submission', {
+                event_category: 'engagement',
+                event_label: 'Collaboration Form'
+            });
             e.preventDefault();
             handleFormSubmit(collaborationForm, '/submit-collaboration');
         });
@@ -202,6 +206,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
+            gtag('event', 'form_submission', {
+                event_category: 'engagement',
+                event_label: 'Contact Form'
+            });
             e.preventDefault();
             handleFormSubmit(contactForm, '/submit-contact');
         });
