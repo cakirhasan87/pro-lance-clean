@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro-Lance | Freelance Platformu</title>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-483914364"></script>
     <script>
+      setTimeout(function() {
+        var gtagScript = document.createElement('script');
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-483914364';
+        gtagScript.async = true;
+        document.head.appendChild(gtagScript);
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
         gtag('js', new Date());
-
         gtag('config', 'G-483914364');
+      }, 2000);
     </script>
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="../style.css">
@@ -99,10 +104,10 @@
         });
     </script>
 
-    <script src="../script.js"></script>
+    <script src="../script.js" defer></script>
     
     <!-- Start cookiepal banner -->
-    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js"></script>
+    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js" defer></script>
     <!-- End cookiepal banner -->
 </body>
 </html> 

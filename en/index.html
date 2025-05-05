@@ -35,12 +35,18 @@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" as="style">
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYD3J1NZFV"></script>
     <script>
+      setTimeout(function() {
+        var gtagScript = document.createElement('script');
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-FYD3J1NZFV';
+        gtagScript.async = true;
+        document.head.appendChild(gtagScript);
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
         gtag('js', new Date());
         gtag('config', 'G-FYD3J1NZFV');
+      }, 2000);
     </script>
     
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
@@ -322,10 +328,10 @@
         });
     </script>
 
-    <script src="../script.min.js"></script>
+    <script src="../script.min.js" defer></script>
     
     <!-- Start cookiepal banner -->
-    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js"></script>
+    <script id="cookiepal" type="text/javascript" src="https://cdn.cookiepal.io/client_data/0a636fef-1e52-48d0-9315-487c8b3e5156/script.js" defer></script>
     <!-- End cookiepal banner -->
 
     <!-- Floating Chat Button -->
