@@ -15,6 +15,7 @@ import re
 from dotenv import load_dotenv
 from supabase import create_client
 
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -55,6 +56,8 @@ def inject_cookie_consent(response):
 def after_request_with_cookie_consent(response):
     response = after_request(response)
     return inject_cookie_consent(response)
+
+
 
 # Create a session with retry mechanism for all requests
 def create_requests_session(retries=5, backoff_factor=0.3, status_forcelist=(500, 502, 504)):

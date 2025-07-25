@@ -41,3 +41,5 @@ ENV/
 # Local development
 .DS_Store
 Thumbs.db 
+# Old chat system files (removed)
+# chat_logs/
