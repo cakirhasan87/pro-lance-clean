@@ -41,3 +41,5 @@ ENV/
 # Local development
 .DS_Store
 Thumbs.db 
+# Chat logs
+chat_logs/
