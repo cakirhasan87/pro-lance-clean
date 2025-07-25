@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Lance Chatbot Test</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .test-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .test-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .test-btn:hover {
+            background: #45a049;
+        }
+        
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            background: #e8f5e8;
+            border: 1px solid #4CAF50;
+        }
+        
+        .error {
+            background: #ffeaea;
+            border-color: #ff4444;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <script>
+            fetch("header.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("header").innerHTML = data;
+                });
+        </script>
+    </header>
+
+    <main>
+        <div class="test-container">
+            <div class="test-header">
+                <h1>🤖 Pro-Lance Chatbot Test</h1>
+                <p>Yeni chatbot sistemini test edin</p>
+            </div>
+            
+            <div class="test-info">
+                <h3>Chatbot Özellikleri:</h3>
+                <ul>
+                    <li>✅ Tamamen bağımsız Flask backend</li>
+                    <li>✅ Türkçe ve İngilizce dil desteği</li>
+                    <li>✅ Akıllı mesaj analizi</li>
+                    <li>✅ Modern ve responsive tasarım</li>
+                    <li>✅ Gerçek zamanlı yanıtlar</li>
+                    <li>✅ Oturum yönetimi</li>
+                </ul>
+            </div>
+            
+            <div class="test-info">
+                <h3>Test Senaryoları:</h3>
+                <div class="test-buttons">
+                    <button class="test-btn" onclick="testGreeting()">Selamlama Testi</button>
+                    <button class="test-btn" onclick="testServices()">Hizmetler Testi</button>
+                    <button class="test-btn" onclick="testPricing()">Fiyat Testi</button>
+                    <button class="test-btn" onclick="testContact()">İletişim Testi</button>
+                    <button class="test-btn" onclick="testEnglish()">İngilizce Testi</button>
+                </div>
+            </div>
+            
+            <div class="test-info">
+                <h3>API Test:</h3>
+                <div class="test-buttons">
+                    <button class="test-btn" onclick="testAPI()">API Bağlantısını Test Et</button>
+                    <button class="test-btn" onclick="testSession()">Oturum Oluştur</button>
+                </div>
+                <div id="api-status"></div>
+            </div>
+            
+            <div class="test-info">
+                <h3>Chatbot Kullanımı:</h3>
+                <p>Sayfanın sağ alt köşesindeki 💬 butonuna tıklayarak chatbot'u açabilirsiniz.</p>
+                <p><strong>Örnek mesajlar:</strong></p>
+                <ul>
+                    <li>"Merhaba" - Selamlama</li>
+                    <li>"Web tasarım hizmetiniz var mı?" - Hizmetler</li>
+                    <li>"Fiyatlarınız nedir?" - Fiyatlandırma</li>
+                    <li>"Nasıl iletişime geçebilirim?" - İletişim</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <script>
+            fetch("footer.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("footer").innerHTML = data;
+                });
+        </script>
+    </footer>
+
+    <script>
+        // Test fonksiyonları
+        function testGreeting() {
+            if (window.proLanceChatbot) {
+                window.proLanceChatbot.openChat();
+                setTimeout(() => {
+                    window.proLanceChatbot.elements.input.value = "Merhaba";
+                    window.proLanceChatbot.sendMessage();
+                }, 500);
+            } else {
+                alert("Chatbot henüz yüklenmedi. Lütfen sayfanın tamamen yüklenmesini bekleyin.");
+            }
+        }
+        
+        function testServices() {
+            if (window.proLanceChatbot) {
+                window.proLanceChatbot.openChat();
+                setTimeout(() => {
+                    window.proLanceChatbot.elements.input.value = "Web tasarım hizmetiniz var mı?";
+                    window.proLanceChatbot.sendMessage();
+                }, 500);
+            }
+        }
+        
+        function testPricing() {
+            if (window.proLanceChatbot) {
+                window.proLanceChatbot.openChat();
+                setTimeout(() => {
+                    window.proLanceChatbot.elements.input.value = "Fiyatlarınız nedir?";
+                    window.proLanceChatbot.sendMessage();
+                }, 500);
+            }
+        }
+        
+        function testContact() {
+            if (window.proLanceChatbot) {
+                window.proLanceChatbot.openChat();
+                setTimeout(() => {
+                    window.proLanceChatbot.elements.input.value = "Nasıl iletişime geçebilirim?";
+                    window.proLanceChatbot.sendMessage();
+                }, 500);
+            }
+        }
+        
+        function testEnglish() {
+            if (window.proLanceChatbot) {
+                // Create English chatbot instance
+                const englishBot = new ProLanceChatbot({
+                    language: 'en',
+                    title: 'Pro-Lance Support',
+                    subtitle: 'How can I help you?'
+                });
+                setTimeout(() => {
+                    englishBot.openChat();
+                    setTimeout(() => {
+                        englishBot.elements.input.value = "Hello, what services do you offer?";
+                        englishBot.sendMessage();
+                    }, 500);
+                }, 500);
+            }
+        }
+        
+        async function testAPI() {
+            const statusDiv = document.getElementById('api-status');
+            statusDiv.innerHTML = '<div class="status">API test ediliyor...</div>';
+            
+            try {
+                const response = await fetch('/api/chat/message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Test mesajı',
+                        language: 'tr'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusDiv.innerHTML = `<div class="status">✅ API Başarılı!<br>Yanıt: ${data.response}</div>`;
+                } else {
+                    statusDiv.innerHTML = `<div class="status error">❌ API Hatası: ${data.error}</div>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Bağlantı Hatası: ${error.message}</div>`;
+            }
+        }
+        
+        async function testSession() {
+            const statusDiv = document.getElementById('api-status');
+            statusDiv.innerHTML = '<div class="status">Oturum oluşturuluyor...</div>';
+            
+            try {
+                const response = await fetch('/api/chat/session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        language: 'tr'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusDiv.innerHTML = `<div class="status">✅ Oturum Oluşturuldu!<br>ID: ${data.session_id}<br>Selamlama: ${data.greeting}</div>`;
+                } else {
+                    statusDiv.innerHTML = `<div class="status error">❌ Oturum Hatası: ${data.error}</div>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Bağlantı Hatası: ${error.message}</div>`;
+            }
+        }
+    </script>
+
+    <!-- Pro-Lance Modern Chatbot -->
+    <script src="js/chat.min.js"></script>
+</body>
+</html>

@@ -3,53 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro-Lance | İletişim</title>
+    <title>Pro-Lance - İletişim</title>
+    <meta name="description" content="Pro-Lance ile iletişime geçin. Profesyonel web tasarım ve dijital pazarlama hizmetleri için bizimle görüşün.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/favicon.ico">
+    
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYD3J1NZFV"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-483914364"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-FYD3J1NZFV');
-    </script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-    <script type="module">
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-
-        createChat({
-            webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat'
-        });
+        gtag('config', 'G-483914364');
     </script>
 </head>
 <body>
-    <!-- Header -->
-<header class="header flex">
-    <div class="logo">
-        <a href="/">Pro-Lance</a>
-    </div>
-    <nav class="nav">
-        <ul class="nav-list">
-            <li><a href="/" class="">Ana Sayfa</a></li>
-            <li><a href="/services.html" class="">Hizmetler</a></li>
-            <li><a href="/collaboration.html" class="">İş Birliği</a></li>
-            <li><a href="/blog.html" class="">Blog</a></li>
-            <li><a href="/contact.html" class="active">İletişim</a></li>
-        </ul>
-    </nav>
-    <div class="right-header">
-        <div class="lang-switch">
-            <a href="#" class="active">TR</a>
-            <a href="/en/contact.html">EN</a>
-        </div>
-        <button class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-</header>
+    <header>
+        <!-- Include common header -->
+        <script>
+            fetch("header.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("header").innerHTML = data;
+                });
+        </script>
+    </header>
 
 
 
@@ -131,45 +109,19 @@
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Pro-Lance</h3>
-                <p>Freelance dünyasında güvenilir adresiniz</p>
-            </div>
-            <div class="footer-section">
-                <h3>Hızlı Linkler</h3>
-                <ul>
-                    <li><a href="index.html#about">Hakkımızda</a></li>
-                    <li><a href="services.html">Hizmetler</a></li>
-                    <li><a href="collaboration.html">İş Birliği</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contact.html">İletişim</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>İletişim</h3>
-                <p>E-posta: support@pro-lance.com</p>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/pro-lance/posts/?feedView=all" target="_blank">
-                        <i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Yasal</h3>
-                <ul>
-                    <li><a href="terms-of-use.html">Kullanım Koşulları</a></li>
-                    <li><a href="privacy-policy.html">Gizlilik Politikası</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Pro-Lance. Tüm hakları saklıdır.</p>
-        </div>
+        <!-- Include common footer -->
+        <script>
+            fetch("footer.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("footer").innerHTML = data;
+                });
+        </script>
     </footer>
 
     <script src="script.js"></script>
-    <!-- n8n Chat Widget -->
+    
+    <!-- Pro-Lance Modern Chatbot -->
     <script src="js/chat.min.js"></script>
 </body>
 </html> 
