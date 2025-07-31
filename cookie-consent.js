@@ -1,5 +1,5 @@
 // Import Supabase client
-import { supabase } from '../js/supabase-client.js';
+import { supabase } from './js/supabase-client.js';
 
 class CookieConsent {
     constructor() {
@@ -33,23 +33,23 @@ class CookieConsent {
         this.banner.innerHTML = `
             <div class="cookie-consent-content">
                 <div class="cookie-consent-header">
-                    <h3>🍪 Cookie Usage and Personal Data</h3>
-                    <p>This website uses cookies in accordance with Turkey's Law No. 6698 on the Protection of Personal Data (KVKK). We use cookies to enhance your experience and provide you with better service.</p>
+                    <h3>🍪 Çerez Kullanımı ve Kişisel Veriler</h3>
+                    <p>Bu web sitesi, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca çerezler kullanmaktadır. Deneyiminizi geliştirmek ve size daha iyi hizmet sunmak için çerezler kullanıyoruz.</p>
                 </div>
                 <div class="cookie-consent-info">
-                    <p><strong>Cookie Types:</strong></p>
+                    <p><strong>Çerez Türleri:</strong></p>
                     <ul>
-                        <li><strong>Necessary Cookies:</strong> Required for basic site functionality</li>
-                        <li><strong>Functional Cookies:</strong> Used to remember user preferences</li>
-                        <li><strong>Performance Cookies:</strong> Used to analyze site performance</li>
-                        <li><strong>Marketing Cookies:</strong> Used to provide personalized content</li>
+                        <li><strong>Zorunlu Çerezler:</strong> Sitenin temel işlevleri için gerekli</li>
+                        <li><strong>İşlevsel Çerezler:</strong> Kullanıcı tercihlerini hatırlamak için</li>
+                        <li><strong>Performans Çerezleri:</strong> Site performansını analiz etmek için</li>
+                        <li><strong>Pazarlama Çerezleri:</strong> Kişiselleştirilmiş içerik sunmak için</li>
                     </ul>
-                    <p>For detailed information, please review our <a href="/en/privacy-policy.html" target="_blank">Privacy Policy</a>.</p>
+                    <p>Detaylı bilgi için <a href="/privacy-policy.html" target="_blank">Gizlilik Politikamızı</a> inceleyebilirsiniz.</p>
                 </div>
                 <div class="cookie-consent-buttons">
-                    <button class="cookie-consent-button cookie-consent-settings">Detailed Settings</button>
-                    <button class="cookie-consent-button cookie-consent-accept-all">Accept All</button>
-                    <button class="cookie-consent-button cookie-consent-reject-all">Reject All</button>
+                    <button class="cookie-consent-button cookie-consent-settings">Detaylı Ayarlar</button>
+                    <button class="cookie-consent-button cookie-consent-accept-all">Tümünü Kabul Et</button>
+                    <button class="cookie-consent-button cookie-consent-reject-all">Tümünü Reddet</button>
                 </div>
             </div>
         `;
@@ -67,7 +67,7 @@ class CookieConsent {
         this.settingsModal.innerHTML = `
             <div class="cookie-settings-content">
                 <div class="cookie-settings-header">
-                    <h2>🍪 Cookie Settings</h2>
+                    <h2>🍪 Çerez Ayarları</h2>
                     <button class="cookie-settings-close">&times;</button>
                 </div>
                 <div class="cookie-settings-body">
@@ -78,8 +78,8 @@ class CookieConsent {
                                 <span class="cookie-category-slider"></span>
                             </label>
                             <div class="cookie-category-info">
-                                <h4>Necessary Cookies</h4>
-                                <p>These cookies are essential for the basic functionality of the website and cannot be disabled. These cookies do not contain personal data and are not subject to KVKK.</p>
+                                <h4>Zorunlu Çerezler</h4>
+                                <p>Bu çerezler web sitesinin temel işlevleri için gereklidir ve devre dışı bırakılamaz. Bu çerezler kişisel veri içermez ve KVKK kapsamında değildir.</p>
                             </div>
                         </div>
                     </div>
@@ -91,8 +91,8 @@ class CookieConsent {
                                 <span class="cookie-category-slider"></span>
                             </label>
                             <div class="cookie-category-info">
-                                <h4>Functional Cookies</h4>
-                                <p>These cookies are used to remember user preferences and provide enhanced functionality. Some features may not work properly without these cookies.</p>
+                                <h4>İşlevsel Çerezler</h4>
+                                <p>Bu çerezler kullanıcı tercihlerini hatırlamak ve gelişmiş işlevsellik sağlamak için kullanılır. Bu çerezler olmadan bazı özellikler düzgün çalışmayabilir.</p>
                             </div>
                         </div>
                     </div>
@@ -104,8 +104,8 @@ class CookieConsent {
                                 <span class="cookie-category-slider"></span>
                             </label>
                             <div class="cookie-category-info">
-                                <h4>Performance Cookies</h4>
-                                <p>These cookies are used to analyze website performance and improve user experience. These cookies collect anonymous data.</p>
+                                <h4>Performans Çerezleri</h4>
+                                <p>Bu çerezler web sitesinin performansını analiz etmek ve kullanıcı deneyimini iyileştirmek için kullanılır. Bu çerezler anonim veri toplar.</p>
                             </div>
                         </div>
                     </div>
@@ -117,15 +117,15 @@ class CookieConsent {
                                 <span class="cookie-category-slider"></span>
                             </label>
                             <div class="cookie-category-info">
-                                <h4>Marketing Cookies</h4>
-                                <p>These cookies are used to provide you with personalized advertisements and content. These cookies may also be placed by third-party services.</p>
+                                <h4>Pazarlama Çerezleri</h4>
+                                <p>Bu çerezler size kişiselleştirilmiş reklamlar ve içerik sunmak için kullanılır. Bu çerezler üçüncü taraf hizmetler tarafından da yerleştirilebilir.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="cookie-settings-footer">
-                    <button class="cookie-settings-save">Save Settings</button>
-                    <button class="cookie-settings-cancel">Cancel</button>
+                    <button class="cookie-settings-save">Ayarları Kaydet</button>
+                    <button class="cookie-settings-cancel">İptal</button>
                 </div>
             </div>
         `;
@@ -147,7 +147,7 @@ class CookieConsent {
     createRevisitButton() {
         this.revisitButton = document.createElement('button');
         this.revisitButton.className = 'cookie-consent-revisit hidden';
-        this.revisitButton.innerHTML = '🍪 Cookie Settings';
+        this.revisitButton.innerHTML = '🍪 Çerez Ayarları';
         this.revisitButton.addEventListener('click', () => this.showSettings());
         document.body.appendChild(this.revisitButton);
     }
@@ -262,7 +262,7 @@ class CookieConsent {
                 cookie_settings: settings ? JSON.stringify(settings) : null,
                 page_url: window.location.href,
                 user_agent: navigator.userAgent,
-                language: navigator.language || 'en',
+                language: navigator.language || 'tr',
                 created_at: new Date().toISOString()
             };
 
