@@ -443,6 +443,23 @@ main {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
+.hero-buttons-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.hero-buttons-container .calendly-btn,
+.hero-buttons-container .cta-button {
+    min-width: 200px;
+    margin: 0;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    white-space: nowrap;
+}
+
 .cta-button {
     display: inline-block;
     padding: 1rem 2rem;
@@ -461,6 +478,20 @@ main {
 
 .cta-button i {
     margin-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .hero-buttons-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .hero-buttons-container .calendly-btn,
+    .hero-buttons-container .cta-button {
+        width: 100%;
+        max-width: 300px;
+    }
 }
 
 /* Section Headers */
@@ -500,7 +531,7 @@ main {
 
 /* About Section */
 .about-section {
-    padding: 6rem 5%;
+    padding: 4rem 5% 5rem;
     background-color: #f8f9fa;
 }
 
@@ -2258,4 +2289,53 @@ footer {
     .hero-section {
         background-image: url('images/remote-office-mobile.webp') !important;
     }
+}
+
+/* About Page Styles */
+.about-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/who-we-are-image.webp');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 6rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.about-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.about-hero p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .about-hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .about-hero p {
+        font-size: 1rem;
+    }
+}
+
+.about-text {
+    color: #333;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.about-text p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
 }
