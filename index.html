@@ -311,39 +311,6 @@
             <!-- Cookie Consent Script -->
         <script type="module" src="cookie-consent.js"></script>
     
-    <!-- Floating Chat Button -->
-    <button id="openChatWidget" style="position:fixed;bottom:32px;right:32px;z-index:9999;background:#4CAF50;color:#fff;border:none;border-radius:50%;width:60px;height:60px;box-shadow:0 2px 8px rgba(0,0,0,0.2);font-size:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2rem;">💬</span>
-    </button>
-    <script type="module">
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    document.getElementById('openChatWidget').addEventListener('click', function() {
-            createChat({
-                webhookUrl: 'https://pro-lance.app.n8n.cloud/webhook/23795385-dda6-498e-9d37-4d1b2d47ec93/chat',
-                title: 'Pro-Lance Support',
-                subtitle: 'Ask us anything about our services',
-                primaryColor: '#4CAF50',
-                position: 'right',
-                showInitialMessage: true,
-                initialMessage: 'Hello! How can we help you today?',
-                allowFileUpload: false,
-                enableMarkdown: true,
-                debug: true
-            });
-        this.style.display = 'none';
-    });
-    </script>
-    <style>
-        /* Force n8n chat widget toggle button to stay green */
-        .n8n-chat-widget .n8n-chat-button {
-            background: #4CAF50 !important;
-            color: #fff !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        .n8n-chat-widget .n8n-chat-button:hover {
-            background: #45a049 !important;
-        }
-    </style>
 </body>
 </html> 
