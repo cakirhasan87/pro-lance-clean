@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Giriş - Modern Chatbot{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
+                    <h2>Giriş Yap</h2>
+                    <p class="text-muted">Hesabınıza giriş yapın</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-2"></i>Kullanıcı Adı
+                        </label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Şifre
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Beni hatırla
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        <span class="btn-text">Giriş Yap</span>
+                        <span class="btn-loading d-none">
+                            <span class="loading me-2"></span>Giriş yapılıyor...
+                        </span>
+                    </button>
+
+                    <div class="text-center">
+                        <p class="text-muted">
+                            Hesabınız yok mu? 
+                            <a href="{{ url_for('register') }}" class="text-primary text-decoration-none">
+                                Kayıt olun
+                            </a>
+                        </p>
+                    </div>
+                </form>
+
+                <div id="alertContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn-loading.d-none {
+    display: none !important;
+}
+
+.btn-loading:not(.d-none) {
+    display: inline-flex !important;
+    align-items: center;
+}
+
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const alertContainer = document.getElementById('alertContainer');
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+
+    // Handle form submission
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value
+        };
+
+        // Show loading state
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        btnText.classList.add('d-none');
+        btnLoading.classList.remove('d-none');
+        submitBtn.disabled = true;
+
+        // Clear previous alerts
+        alertContainer.innerHTML = '';
+
+        // Send login request
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                showAlert('success', 'Giriş başarılı! Yönlendiriliyorsunuz...');
+                
+                // Redirect after a short delay
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1000);
+            } else {
+                showAlert('danger', data.error || 'Giriş başarısız!');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('danger', 'Bir hata oluştu. Lütfen tekrar deneyin.');
+        })
+        .finally(() => {
+            // Reset button state
+            btnText.classList.remove('d-none');
+            btnLoading.classList.add('d-none');
+            submitBtn.disabled = false;
+        });
+    });
+
+    function showAlert(type, message) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        alertContainer.appendChild(alertDiv);
+    }
+});
+</script>
+{% endblock %} 

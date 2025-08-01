@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıt Ol - Modern Chatbot{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                    <h2>Kayıt Ol</h2>
+                    <p class="text-muted">Yeni hesap oluşturun</p>
+                </div>
+
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-2"></i>Kullanıcı Adı
+                        </label>
+                        <input type="text" class="form-control" id="username" name="username" required 
+                               minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+">
+                        <div class="form-text">3-20 karakter, sadece harf, rakam ve alt çizgi</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope me-2"></i>E-posta
+                        </label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Şifre
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" required 
+                                   minlength="6" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">
+                            En az 6 karakter, büyük harf, küçük harf ve rakam içermeli
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Şifre Tekrar
+                        </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                            <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                        <label class="form-check-label" for="termsCheck">
+                            <a href="#" class="text-primary text-decoration-none">Kullanım şartlarını</a> 
+                            ve <a href="#" class="text-primary text-decoration-none">gizlilik politikasını</a> kabul ediyorum
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        <span class="btn-text">Kayıt Ol</span>
+                        <span class="btn-loading d-none">
+                            <span class="loading me-2"></span>Kayıt oluşturuluyor...
+                        </span>
+                    </button>
+
+                    <div class="text-center">
+                        <p class="text-muted">
+                            Zaten hesabınız var mı? 
+                            <a href="{{ url_for('login') }}" class="text-primary text-decoration-none">
+                                Giriş yapın
+                            </a>
+                        </p>
+                    </div>
+                </form>
+
+                <div id="alertContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+}
+
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+}
+
+.form-control.is-valid {
+    border-color: var(--success-color);
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn-loading.d-none {
+    display: none !important;
+}
+
+.btn-loading:not(.d-none) {
+    display: inline-flex !important;
+    align-items: center;
+}
+
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.password-strength {
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.password-strength.weak {
+    background: var(--danger-color);
+    width: 25%;
+}
+
+.password-strength.medium {
+    background: var(--warning-color);
+    width: 50%;
+}
+
+.password-strength.strong {
+    background: var(--success-color);
+    width: 100%;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const registerForm = document.getElementById('registerForm');
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const alertContainer = document.getElementById('alertContainer');
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+
+    toggleConfirmPassword.addEventListener('click', function() {
+        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+
+    // Password strength checker
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const strength = checkPasswordStrength(password);
+        
+        // Remove existing strength indicator
+        const existingIndicator = this.parentNode.querySelector('.password-strength');
+        if (existingIndicator) {
+            existingIndicator.remove();
+        }
+        
+        if (password.length > 0) {
+            const indicator = document.createElement('div');
+            indicator.className = `password-strength ${strength}`;
+            this.parentNode.appendChild(indicator);
+        }
+    });
+
+    // Password confirmation checker
+    confirmPasswordInput.addEventListener('input', function() {
+        const password = passwordInput.value;
+        const confirmPassword = this.value;
+        
+        if (confirmPassword.length > 0) {
+            if (password === confirmPassword) {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            } else {
+                this.classList.remove('is-valid');
+                this.classList.add('is-invalid');
+            }
+        } else {
+            this.classList.remove('is-valid', 'is-invalid');
+        }
+    });
+
+    // Handle form submission
+    registerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate form
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = {
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+
+        // Show loading state
+        const submitBtn = registerForm.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        btnText.classList.add('d-none');
+        btnLoading.classList.remove('d-none');
+        submitBtn.disabled = true;
+
+        // Clear previous alerts
+        alertContainer.innerHTML = '';
+
+        // Send registration request
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                showAlert('success', 'Kayıt başarılı! Yönlendiriliyorsunuz...');
+                
+                // Redirect after a short delay
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1000);
+            } else {
+                showAlert('danger', data.error || 'Kayıt başarısız!');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('danger', 'Bir hata oluştu. Lütfen tekrar deneyin.');
+        })
+        .finally(() => {
+            // Reset button state
+            btnText.classList.remove('d-none');
+            btnLoading.classList.add('d-none');
+            submitBtn.disabled = false;
+        });
+    });
+
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const termsCheck = document.getElementById('termsCheck').checked;
+
+        // Clear previous alerts
+        alertContainer.innerHTML = '';
+
+        let isValid = true;
+        let errorMessage = '';
+
+        // Username validation
+        if (username.length < 3) {
+            errorMessage = 'Kullanıcı adı en az 3 karakter olmalıdır.';
+            isValid = false;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            errorMessage = 'Geçerli bir e-posta adresi giriniz.';
+            isValid = false;
+        }
+
+        // Password validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/;
+        if (!passwordRegex.test(password)) {
+            errorMessage = 'Şifre en az 6 karakter olmalı ve büyük harf, küçük harf ve rakam içermelidir.';
+            isValid = false;
+        }
+
+        // Password confirmation
+        if (password !== confirmPassword) {
+            errorMessage = 'Şifreler eşleşmiyor.';
+            isValid = false;
+        }
+
+        // Terms check
+        if (!termsCheck) {
+            errorMessage = 'Kullanım şartlarını kabul etmelisiniz.';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            showAlert('danger', errorMessage);
+        }
+
+        return isValid;
+    }
+
+    function checkPasswordStrength(password) {
+        let score = 0;
+        
+        if (password.length >= 6) score++;
+        if (password.match(/[a-z]/)) score++;
+        if (password.match(/[A-Z]/)) score++;
+        if (password.match(/[0-9]/)) score++;
+        if (password.match(/[^a-zA-Z0-9]/)) score++;
+        
+        if (score < 3) return 'weak';
+        if (score < 5) return 'medium';
+        return 'strong';
+    }
+
+    function showAlert(type, message) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        alertContainer.appendChild(alertDiv);
+    }
+});
+</script>
+{% endblock %} 

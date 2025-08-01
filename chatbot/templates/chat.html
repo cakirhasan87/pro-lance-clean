@@ -1,0 +1,703 @@
+{% extends "base.html" %}
+
+{% block title %}Chat - Modern Chatbot{% endblock %}
+
+{% block extra_css %}
+<style>
+.chat-container {
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-sidebar {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+.chat-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: var(--bg-primary);
+}
+
+.chat-input {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem;
+}
+
+.message {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.message.own {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    margin: 0 0.5rem;
+    flex-shrink: 0;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    position: relative;
+}
+
+.message.own .message-content {
+    background: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.message:not(.own) .message-content {
+    background: var(--bg-secondary);
+    border-bottom-left-radius: 0.25rem;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: 0.25rem;
+}
+
+.message.own .message-time {
+    text-align: right;
+}
+
+.typing-indicator {
+    padding: 0.5rem 1rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.room-item {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.room-item:hover {
+    background: var(--bg-secondary);
+}
+
+.room-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.room-item.active:hover {
+    background: var(--secondary-color);
+}
+
+.file-message {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.file-message i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.emoji-picker.show {
+    display: block;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.25rem;
+}
+
+.emoji-item {
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.emoji-item:hover {
+    background: var(--bg-secondary);
+}
+
+@media (max-width: 768px) {
+    .chat-sidebar {
+        display: none;
+    }
+    
+    .chat-sidebar.show {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+    }
+    
+    .message-content {
+        max-width: 85%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <!-- Sidebar -->
+        <div class="col-md-3 chat-sidebar" id="chatSidebar">
+            <div class="p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-comments me-2"></i>Sohbetler
+                    </h5>
+                    <button class="btn btn-sm btn-primary" id="createRoomBtn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                
+                <div id="roomsList">
+                    <!-- Rooms will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="col-md-9 chat-main">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-secondary d-md-none me-2" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div>
+                        <h5 class="mb-0" id="currentRoomName">Genel Sohbet</h5>
+                        <small class="text-muted" id="currentRoomInfo">Aktif kullanıcılar: <span id="activeUsers">0</span></small>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-outline-secondary btn-sm" id="roomSettingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="chat-messages" id="messagesContainer">
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-comments fa-3x mb-3"></i>
+                    <p>Mesajlaşmaya başlayın!</p>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                <i class="fas fa-circle fa-xs me-1"></i>
+                <span id="typingUsers"></span> yazıyor...
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input">
+                <form id="messageForm">
+                    <div class="input-group">
+                        <button type="button" class="btn btn-outline-secondary" id="emojiBtn">
+                            <i class="fas fa-smile"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="fileBtn">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <input type="file" id="fileInput" style="display: none;" accept="image/*,.pdf,.doc,.docx,.txt">
+                        
+                        <input type="text" class="form-control" id="messageInput" placeholder="Mesajınızı yazın..." autocomplete="off">
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Emoji Picker -->
+                <div class="emoji-picker" id="emojiPicker">
+                    <div class="emoji-grid" id="emojiGrid">
+                        <!-- Emojis will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Room Modal -->
+<div class="modal fade" id="createRoomModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Sohbet Odası</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createRoomForm">
+                    <div class="mb-3">
+                        <label for="roomName" class="form-label">Oda Adı</label>
+                        <input type="text" class="form-control" id="roomName" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="createRoomSubmit">Oluştur</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- File Upload Progress Modal -->
+<div class="modal fade" id="uploadProgressModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="mb-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                </div>
+                <h6>Dosya yükleniyor...</h6>
+                <div class="progress">
+                    <div class="progress-bar" id="uploadProgress" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Global variables
+let socket;
+let currentRoom = 'general';
+let currentUser = '{{ current_user.username }}';
+let currentUserId = {{ current_user.id }};
+let typingTimeout;
+let emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳', '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣', '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠', '😡', '🤬', '🤯', '😳', '🥵', '🥶', '😱', '😨', '😰', '😥', '😓', '🤗', '🤔', '🤭', '🤫', '🤥', '😶', '😐', '😑', '😯', '😦', '😧', '😮', '😲', '🥱', '😴', '🤤', '😪', '😵', '🤐', '🥴', '🤢', '🤮', '🤧', '😷', '🤒', '🤕', '🤑', '🤠', '💩', '👻', '💀', '☠️', '👽', '👾', '🤖', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🙈', '🙉', '🙊', '👶', '👧', '🧒', '👦', '👩', '🧑', '👨', '👵', '🧓', '👴', '👮‍♀️', '👮', '👮‍♂️', '🕵️‍♀️', '🕵️', '🕵️‍♂️', '💂‍♀️', '💂', '💂‍♂️', '👷‍♀️', '👷', '👷‍♂️', '🤴', '👸', '👳‍♀️', '👳', '👳‍♂️', '👲', '🧕', '🤵', '👰', '🤰', '🤱', '👼', '🎅', '🤶', '🦸‍♀️', '🦸', '🦸‍♂️', '🦹‍♀️', '🦹', '🦹‍♂️', '🧙‍♀️', '🧙', '🧙‍♂️', '🧚‍♀️', '🧚', '🧚‍♂️', '🧛‍♀️', '🧛', '🧛‍♂️', '🧜‍♀️', '🧜', '🧜‍♂️', '🧝‍♀️', '🧝', '🧝‍♂️', '🧞‍♀️', '🧞', '🧞‍♂️', '🧟‍♀️', '🧟', '🧟‍♂️', '🙍‍♀️', '🙍', '🙍‍♂️', '🙎‍♀️', '🙎', '🙎‍♂️', '🙅‍♀️', '🙅', '🙅‍♂️', '🙆‍♀️', '🙆', '🙆‍♂️', '💁‍♀️', '💁', '💁‍♂️', '🙋‍♀️', '🙋', '🙋‍♂️', '🧏‍♀️', '🧏', '🧏‍♂️', '🙇‍♀️', '🙇', '🙇‍♂️', '🤦‍♀️', '🤦', '🤦‍♂️', '🤷‍♀️', '🤷', '🤷‍♂️', '👩‍⚕️', '🧑‍⚕️', '👨‍⚕️', '👩‍🎓', '🧑‍🎓', '👨‍🎓', '👩‍🏫', '🧑‍🏫', '👨‍🏫', '👩‍⚖️', '🧑‍⚖️', '👨‍⚖️', '👩‍🌾', '🧑‍🌾', '👨‍🌾', '👩‍🍳', '🧑‍🍳', '👨‍🍳', '👩‍🔧', '🧑‍🔧', '👨‍🔧', '👩‍🏭', '🧑‍🏭', '👨‍🏭', '👩‍💼', '🧑‍💼', '👨‍💼', '👩‍🔬', '🧑‍🔬', '👨‍🔬', '👩‍💻', '🧑‍💻', '👨‍💻', '👩‍🎤', '🧑‍🎤', '👨‍🎤', '👩‍🎨', '🧑‍🎨', '👨‍🎨', '👩‍✈️', '🧑‍✈️', '👨‍✈️', '👩‍🚀', '🧑‍🚀', '👨‍🚀', '👩‍🚒', '🧑‍🚒', '👨‍🚒', '👮‍♀️', '👮', '👮‍♂️', '🕵️‍♀️', '🕵️', '🕵️‍♂️', '💂‍♀️', '💂', '💂‍♂️', '👷‍♀️', '👷', '👷‍♂️', '🤴', '👸', '👳‍♀️', '👳', '👳‍♂️', '👲', '🧕', '🤵', '👰', '🤰', '🤱', '👼', '🎅', '🤶', '🦸‍♀️', '🦸', '🦸‍♂️', '🦹‍♀️', '🦹', '🦹‍♂️', '🧙‍♀️', '🧙', '🧙‍♂️', '🧚‍♀️', '🧚', '🧚‍♂️', '🧛‍♀️', '🧛', '🧛‍♂️', '🧜‍♀️', '🧜', '🧜‍♂️', '🧝‍♀️', '🧝', '🧝‍♂️', '🧞‍♀️', '🧞', '🧞‍♂️', '🧟‍♀️', '🧟', '🧟‍♂️', '🙍‍♀️', '🙍', '🙍‍♂️', '🙎‍♀️', '🙎', '🙎‍♂️', '🙅‍♀️', '🙅', '🙅‍♂️', '🙆‍♀️', '🙆', '🙆‍♂️', '💁‍♀️', '💁', '💁‍♂️', '🙋‍♀️', '🙋', '🙋‍♂️', '🧏‍♀️', '🧏', '🧏‍♂️', '🙇‍♀️', '🙇', '🙇‍♂️', '🤦‍♀️', '🤦', '🤦‍♂️', '🤷‍♀️', '🤷', '🤷‍♂️', '👩‍⚕️', '🧑‍⚕️', '👨‍⚕️', '👩‍🎓', '🧑‍🎓', '👨‍🎓', '👩‍🏫', '🧑‍🏫', '👨‍🏫', '👩‍⚖️', '🧑‍⚖️', '👨‍⚖️', '👩‍🌾', '🧑‍🌾', '👨‍🌾', '👩‍🍳', '🧑‍🍳', '👨‍🍳', '👩‍🔧', '🧑‍🔧', '👨‍🔧', '👩‍🏭', '🧑‍🏭', '👨‍🏭', '👩‍💼', '🧑‍💼', '👨‍💼', '👩‍🔬', '🧑‍🔬', '👨‍🔬', '👩‍💻', '🧑‍💻', '👨‍💻', '👩‍🎤', '🧑‍🎤', '👨‍🎤', '👩‍🎨', '🧑‍🎨', '👨‍🎨', '👩‍✈️', '🧑‍✈️', '👨‍✈️', '👩‍🚀', '🧑‍🚀', '👨‍🚀', '👩‍🚒', '🧑‍🚒', '👨‍🚒'];
+
+// Initialize the chat
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSocket();
+    loadRooms();
+    loadMessages();
+    setupEventListeners();
+    loadEmojis();
+});
+
+function initializeSocket() {
+    socket = io();
+    
+    socket.on('connect', function() {
+        console.log('Connected to server');
+        joinRoom(currentRoom);
+    });
+    
+    socket.on('disconnect', function() {
+        console.log('Disconnected from server');
+    });
+    
+    socket.on('new_message', function(data) {
+        addMessage(data);
+    });
+    
+    socket.on('user_joined', function(data) {
+        addSystemMessage(`${data.username} odaya katıldı`);
+    });
+    
+    socket.on('user_left', function(data) {
+        addSystemMessage(`${data.username} odadan ayrıldı`);
+    });
+    
+    socket.on('user_typing', function(data) {
+        showTypingIndicator(data.username);
+    });
+    
+    socket.on('user_stop_typing', function(data) {
+        hideTypingIndicator();
+    });
+}
+
+function setupEventListeners() {
+    // Message form
+    const messageForm = document.getElementById('messageForm');
+    const messageInput = document.getElementById('messageInput');
+    
+    messageForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        sendMessage();
+    });
+    
+    // Typing indicator
+    messageInput.addEventListener('input', function() {
+        socket.emit('typing', { room_id: currentRoom });
+        
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            socket.emit('stop_typing', { room_id: currentRoom });
+        }, 1000);
+    });
+    
+    // File upload
+    const fileBtn = document.getElementById('fileBtn');
+    const fileInput = document.getElementById('fileInput');
+    
+    fileBtn.addEventListener('click', function() {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            uploadFile(this.files[0]);
+        }
+    });
+    
+    // Emoji picker
+    const emojiBtn = document.getElementById('emojiBtn');
+    const emojiPicker = document.getElementById('emojiPicker');
+    
+    emojiBtn.addEventListener('click', function() {
+        emojiPicker.classList.toggle('show');
+    });
+    
+    // Close emoji picker when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!emojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
+            emojiPicker.classList.remove('show');
+        }
+    });
+    
+    // Create room
+    const createRoomBtn = document.getElementById('createRoomBtn');
+    const createRoomModal = new bootstrap.Modal(document.getElementById('createRoomModal'));
+    const createRoomSubmit = document.getElementById('createRoomSubmit');
+    
+    createRoomBtn.addEventListener('click', function() {
+        createRoomModal.show();
+    });
+    
+    createRoomSubmit.addEventListener('click', function() {
+        const roomName = document.getElementById('roomName').value;
+        if (roomName.trim()) {
+            createRoom(roomName);
+            createRoomModal.hide();
+            document.getElementById('roomName').value = '';
+        }
+    });
+    
+    // Mobile sidebar toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const chatSidebar = document.getElementById('chatSidebar');
+    
+    sidebarToggle.addEventListener('click', function() {
+        chatSidebar.classList.toggle('show');
+    });
+}
+
+function loadEmojis() {
+    const emojiGrid = document.getElementById('emojiGrid');
+    emojis.forEach(emoji => {
+        const emojiItem = document.createElement('div');
+        emojiItem.className = 'emoji-item';
+        emojiItem.textContent = emoji;
+        emojiItem.addEventListener('click', function() {
+            const messageInput = document.getElementById('messageInput');
+            messageInput.value += emoji;
+            messageInput.focus();
+            document.getElementById('emojiPicker').classList.remove('show');
+        });
+        emojiGrid.appendChild(emojiItem);
+    });
+}
+
+function loadRooms() {
+    fetch('/api/rooms')
+        .then(response => response.json())
+        .then(rooms => {
+            const roomsList = document.getElementById('roomsList');
+            roomsList.innerHTML = '';
+            
+            // Add general room
+            const generalRoom = document.createElement('div');
+            generalRoom.className = 'room-item active';
+            generalRoom.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>Genel Sohbet</strong>
+                        <div class="text-muted small">Genel sohbet odası</div>
+                    </div>
+                </div>
+            `;
+            generalRoom.addEventListener('click', () => switchRoom('general', 'Genel Sohbet'));
+            roomsList.appendChild(generalRoom);
+            
+            // Add other rooms
+            rooms.forEach(room => {
+                const roomItem = document.createElement('div');
+                roomItem.className = 'room-item';
+                roomItem.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${room.name}</strong>
+                            <div class="text-muted small">Oda ID: ${room.room_id.substring(0, 8)}...</div>
+                        </div>
+                    </div>
+                `;
+                roomItem.addEventListener('click', () => switchRoom(room.room_id, room.name));
+                roomsList.appendChild(roomItem);
+            });
+        })
+        .catch(error => console.error('Error loading rooms:', error));
+}
+
+function loadMessages() {
+    fetch(`/api/messages/${currentRoom}`)
+        .then(response => response.json())
+        .then(messages => {
+            const messagesContainer = document.getElementById('messagesContainer');
+            messagesContainer.innerHTML = '';
+            
+            if (messages.length === 0) {
+                messagesContainer.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-comments fa-3x mb-3"></i>
+                        <p>Henüz mesaj yok. İlk mesajı siz gönderin!</p>
+                    </div>
+                `;
+            } else {
+                messages.forEach(message => {
+                    addMessage(message);
+                });
+            }
+            
+            scrollToBottom();
+        })
+        .catch(error => console.error('Error loading messages:', error));
+}
+
+function switchRoom(roomId, roomName) {
+    // Leave current room
+    socket.emit('leave_room', { room_id: currentRoom });
+    
+    // Update current room
+    currentRoom = roomId;
+    document.getElementById('currentRoomName').textContent = roomName;
+    
+    // Update active room in sidebar
+    document.querySelectorAll('.room-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    event.target.closest('.room-item').classList.add('active');
+    
+    // Join new room
+    socket.emit('join_room', { room_id: roomId });
+    
+    // Load messages for new room
+    loadMessages();
+    
+    // Hide sidebar on mobile
+    document.getElementById('chatSidebar').classList.remove('show');
+}
+
+function joinRoom(roomId) {
+    socket.emit('join_room', { room_id: roomId });
+}
+
+function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const content = messageInput.value.trim();
+    
+    if (content) {
+        socket.emit('send_message', {
+            room_id: currentRoom,
+            content: content,
+            message_type: 'text'
+        });
+        
+        messageInput.value = '';
+        socket.emit('stop_typing', { room_id: currentRoom });
+    }
+}
+
+function addMessage(data) {
+    const messagesContainer = document.getElementById('messagesContainer');
+    
+    // Remove welcome message if it exists
+    const welcomeMessage = messagesContainer.querySelector('.text-center');
+    if (welcomeMessage) {
+        welcomeMessage.remove();
+    }
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${data.sender_id === currentUserId ? 'own' : ''}`;
+    
+    const time = new Date(data.created_at).toLocaleTimeString('tr-TR', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    
+    let content = data.content;
+    if (data.message_type === 'file') {
+        content = `
+            <div class="file-message">
+                <i class="fas fa-file"></i>
+                <a href="/uploads/${data.file_path}" target="_blank" class="text-decoration-none">
+                    ${data.content}
+                </a>
+            </div>
+        `;
+    }
+    
+    messageDiv.innerHTML = `
+        <div class="message-avatar">
+            ${data.sender.charAt(0).toUpperCase()}
+        </div>
+        <div class="message-content">
+            <div class="message-text">${content}</div>
+            <div class="message-time">${time}</div>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    scrollToBottom();
+}
+
+function addSystemMessage(message) {
+    const messagesContainer = document.getElementById('messagesContainer');
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'text-center text-muted py-2';
+    messageDiv.innerHTML = `<small>${message}</small>`;
+    
+    messagesContainer.appendChild(messageDiv);
+    scrollToBottom();
+}
+
+function showTypingIndicator(username) {
+    const typingIndicator = document.getElementById('typingIndicator');
+    const typingUsers = document.getElementById('typingUsers');
+    
+    typingUsers.textContent = username;
+    typingIndicator.style.display = 'block';
+    scrollToBottom();
+}
+
+function hideTypingIndicator() {
+    document.getElementById('typingIndicator').style.display = 'none';
+}
+
+function scrollToBottom() {
+    const messagesContainer = document.getElementById('messagesContainer');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function createRoom(name) {
+    fetch('/api/rooms', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: name })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            loadRooms();
+            switchRoom(data.room_id, name);
+        }
+    })
+    .catch(error => console.error('Error creating room:', error));
+}
+
+function uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const uploadProgressModal = new bootstrap.Modal(document.getElementById('uploadProgressModal'));
+    uploadProgressModal.show();
+    
+    fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        uploadProgressModal.hide();
+        
+        if (data.success) {
+            socket.emit('send_message', {
+                room_id: currentRoom,
+                content: data.original_name,
+                message_type: 'file',
+                file_path: data.file_path
+            });
+        } else {
+            alert('Dosya yükleme başarısız: ' + data.error);
+        }
+    })
+    .catch(error => {
+        uploadProgressModal.hide();
+        console.error('Error uploading file:', error);
+        alert('Dosya yükleme sırasında hata oluştu.');
+    });
+}
+</script>
+{% endblock %} 

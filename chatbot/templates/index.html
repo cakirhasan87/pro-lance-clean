@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa - Modern Chatbot{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row align-items-center min-vh-75">
+        <div class="col-lg-6">
+            <div class="card p-5">
+                <h1 class="display-4 fw-bold mb-4">
+                    Modern <span class="text-primary">Chatbot</span> Deneyimi
+                </h1>
+                <p class="lead mb-4">
+                    Güvenli, hızlı ve kullanıcı dostu mesajlaşma platformu. 
+                    Gerçek zamanlı iletişim için tasarlandı.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket me-2"></i>Hemen Başla
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="text-center">
+                <div class="card p-4">
+                    <i class="fas fa-comments display-1 text-primary mb-3"></i>
+                    <h3>Özellikler</h3>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="fas fa-shield-alt text-success mb-2"></i>
+                                <h6>Güvenli</h6>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="fas fa-bolt text-warning mb-2"></i>
+                                <h6>Hızlı</h6>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="fas fa-mobile-alt text-info mb-2"></i>
+                                <h6>Responsive</h6>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item mb-3">
+                                <i class="fas fa-users text-primary mb-2"></i>
+                                <h6>Çoklu Kullanıcı</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="text-center mb-5">Neden Modern Chatbot?</h2>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <div class="mb-3">
+                    <i class="fas fa-lock fa-3x text-primary"></i>
+                </div>
+                <h5>Güvenli İletişim</h5>
+                <p class="text-muted">
+                    End-to-end şifreleme ile mesajlarınız güvende. 
+                    Kişisel verileriniz korunur.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <div class="mb-3">
+                    <i class="fas fa-clock fa-3x text-success"></i>
+                </div>
+                <h5>Gerçek Zamanlı</h5>
+                <p class="text-muted">
+                    Anlık mesajlaşma ile hiçbir şeyi kaçırmayın. 
+                    Socket.IO teknolojisi ile hızlı iletişim.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <div class="mb-3">
+                    <i class="fas fa-palette fa-3x text-warning"></i>
+                </div>
+                <h5>Modern Tasarım</h5>
+                <p class="text-muted">
+                    Kullanıcı dostu arayüz ile kolay kullanım. 
+                    Responsive tasarım her cihazda mükemmel.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card p-5 text-center">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <h3 class="text-primary">1000+</h3>
+                            <p class="text-muted">Aktif Kullanıcı</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <h3 class="text-success">50K+</h3>
+                            <p class="text-muted">Gönderilen Mesaj</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <h3 class="text-warning">99.9%</h3>
+                            <p class="text-muted">Uptime</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <h3 class="text-info">24/7</h3>
+                            <p class="text-muted">Destek</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card p-5 text-center">
+                <h2>Hemen Katılın!</h2>
+                <p class="lead mb-4">
+                    Modern chatbot deneyimini yaşamak için ücretsiz hesap oluşturun.
+                </p>
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Ücretsiz Kayıt Ol
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.feature-item i {
+    font-size: 2rem;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+</style>
+{% endblock %} 

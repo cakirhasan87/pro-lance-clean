@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+api call yaparken direct call yapma service dosyası oluştur, orada bütün servislerimizi tanımla ve komponentlerde çağır. 
+Ayrıca bir web sitesi yaparken de header ve footer için mutlaka sayfaları evrensel olarak yap.
+

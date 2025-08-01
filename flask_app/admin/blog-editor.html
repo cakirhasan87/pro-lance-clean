@@ -193,12 +193,21 @@
 </head>
 <body>
     <div class="admin-container">
+        <!-- Admin Navigation Bar -->
+        <nav class="admin-nav" style="display: flex; margin-bottom: 2rem; background-color: #f8f9fa; border-radius: 8px; overflow: hidden;">
+            <a href="index.html" class="admin-nav-item" style="padding: 1rem 1.5rem; color: #333; text-decoration: none; border-bottom: 3px solid transparent;">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="contact-messages.html" class="admin-nav-item" style="padding: 1rem 1.5rem; color: #333; text-decoration: none; border-bottom: 3px solid transparent;">
+                <i class="fas fa-envelope"></i> Contact Messages
+            </a>
+            <a href="blog-editor.html" class="admin-nav-item active" style="padding: 1rem 1.5rem; color: #333; text-decoration: none; border-bottom: 3px solid #4CAF50;">
+                <i class="fas fa-blog"></i> Blog Editor
+            </a>
+            <button id="logoutBtn" class="admin-btn" style="margin-left:auto; margin-right:1rem; align-self:center;" onclick="logout()">Logout</button>
+        </nav>
         <div class="admin-header">
             <h1 class="admin-title">Blog Editor</h1>
-            <div>
-                <a href="index.html" class="admin-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-                <button id="logoutBtn" class="admin-btn" onclick="logout()">Logout</button>
-            </div>
         </div>
         
         <!-- Login Form -->

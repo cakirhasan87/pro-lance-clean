@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İşverenlere Özel – Pro-Lance ile Tanışın</title>
+    <meta name="description" content="Pro-Lance, şirketinizi SAP, yazılım geliştirme ve dijital projelerde deneyimli freelance profesyonellerle buluşturur.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => { document.getElementById('header').innerHTML = data; });
+        });
+    </script>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" style="position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(90deg, #f8fafc 60%, #e3f0ff 100%);">
+            <picture style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="images/modern-freelance.webp" media="(max-width: 600px)">
+                <img src="images/modern-freelance.webp" alt="Modern freelance çalışma" style="width:100%;height:100%;object-fit:cover;">
+            </picture>
+            <div style="position: absolute; inset: 0; background: linear-gradient(90deg,rgba(248,250,252,0.92) 60%,rgba(227,240,255,0.7) 100%); z-index: 1;"></div>
+            <div class="hero-content" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 4rem 1rem; position: relative; z-index: 2;">
+                <h1 style="font-size: 3.2rem; font-weight: 800; color: #222; line-height: 1.15;">En İyi Freelance Danışmanları Hızla Bulun.</h1>
+                <p style="font-size: 1.6rem; margin: 2rem 0 2.8rem; color: #444; font-weight: 500;">Pro-Lance, şirketinizi SAP, yazılım geliştirme ve dijital projelerde deneyimli freelance profesyonellerle buluşturur.</p>
+                <a href="/contact.html" class="cta-button" style="font-size: 1.1rem; padding: 1rem 2.5rem; border-radius: 30px; background: #007bff; color: #fff; text-decoration: none; font-weight: 600; display: inline-block; transition: background 0.2s;">İletişime Geçin</a>
+            </div>
+        </section>
+        <!-- Pro-Lance Nedir? -->
+        <section class="about-section" style="background: #fff; padding: 3rem 0;">
+            <div class="section-header" style="text-align: center;">
+                <h2>Pro-Lance Nedir?</h2>
+            </div>
+            <div style="max-width: 700px; margin: 1.5rem auto 0; font-size: 1.15rem; color: #333; text-align: center;">
+                Pro-Lance, işletmeleri SAP, yazılım ve BT danışmanlığında yüksek kaliteli uzmanlarla buluşturan seçilmiş bir freelance danışman platformudur. Şirketlerin akıllıca işe alım yapmasına yardımcı oluruz — gizli maliyet yok, belirsizlik yok, tam destek var.
+            </div>
+        </section>
+        <!-- Nasıl Yardımcı Oluyoruz? -->
+        <section style="position: relative; background: #f8fafc; padding: 3rem 0; overflow: hidden;">
+            <picture style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;">
+                <img src="images/project-management.webp" alt="Proje Yönetimi" style="width:100%;height:100%;object-fit:cover;">
+            </picture>
+            <div style="position: absolute; inset: 0; background: linear-gradient(90deg,rgba(248,250,252,0.92) 60%,rgba(227,240,255,0.7) 100%); z-index: 1;"></div>
+            <div style="position: relative; z-index: 2;">
+                <div class="section-header" style="text-align: center;">
+                    <h2>Nasıl Yardımcı Oluyoruz?</h2>
+                </div>
+                <div class="services-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 1000px; margin: 2rem auto 0;">
+                    <div class="service-card" style="flex: 1 1 200px; min-width: 220px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 2rem 1.5rem; text-align: center;">
+                        <div style="font-size: 2.2rem; color: #007bff; margin-bottom: 1rem;"><span role="img" aria-label="Hızlı Eşleşme">🔍</span></div>
+                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Hızlı Danışman Eşleştirme</h3>
+                    </div>
+                    <div class="service-card" style="flex: 1 1 200px; min-width: 220px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 2rem 1.5rem; text-align: center;">
+                        <div style="font-size: 2.2rem; color: #007bff; margin-bottom: 1rem;"><span role="img" aria-label="Doğrulanmış Uzmanlık">🤝</span></div>
+                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Sadece Doğrulanmış Uzmanlar</h3>
+                    </div>
+                    <div class="service-card" style="flex: 1 1 200px; min-width: 220px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 2rem 1.5rem; text-align: center;">
+                        <div style="font-size: 2.2rem; color: #007bff; margin-bottom: 1rem;"><span role="img" aria-label="Sözleşme Desteği">📑</span></div>
+                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Sözleşme & Fatura Desteği</h3>
+                    </div>
+                    <div class="service-card" style="flex: 1 1 200px; min-width: 220px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 2rem 1.5rem; text-align: center;">
+                        <div style="font-size: 2.2rem; color: #007bff; margin-bottom: 1rem;"><span role="img" aria-label="İnsan Desteği">💬</span></div>
+                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Sürekli İnsan Desteği</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Uzmanlık Alanlarımız (Yatay Kaydırmalı Carousel) -->
+        <section style="background: #fff; padding: 2.5rem 0 2rem 0;">
+            <div class="section-header" style="text-align: center; margin-bottom: 1.5rem;">
+                <h2>Uzmanlık Alanlarımız</h2>
+            </div>
+            <div class="expertise-carousel" style="overflow-x: auto; -webkit-overflow-scrolling: touch; display: flex; gap: 1.2rem; padding: 1rem 0 1rem 2vw; scrollbar-width: thin; scroll-snap-type: x mandatory;">
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-user-check" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">SAP Fonksiyonel Danışmanlık</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-cogs" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">SAP Teknik Danışmanlık</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-code" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">Yazılım Geliştirme</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-cloud" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">DevOps & Bulut</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">Yapay Zeka & Otomasyon</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-chart-bar" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">Veri Analitiği & BI</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-pencil-ruler" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">UX/UI Tasarımı</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-tasks" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">Ürün Yönetimi</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #f8fafc; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: grab;">
+                    <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 500; text-align: center;">RPA & Akıllı Otomasyon</span>
+                </div>
+                <div class="expertise-card" style="flex: 0 0 180px; scroll-snap-align: start; background: #e3f0ff; border-radius: 2rem; box-shadow: 0 2px 8px rgba(0,123,255,0.10); padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; text-decoration: none;" onclick="window.location.href='/services.html'" tabindex="0">
+                    <i class="fas fa-th-large" style="font-size: 2rem; color: #007bff; margin-bottom: 0.7rem;"></i>
+                    <span style="font-weight: 600; text-align: center;">Tüm Hizmetleri Görüntüle</span>
+                </div>
+            </div>
+            <style>
+                .expertise-carousel::-webkit-scrollbar { height: 8px; background: #f0f0f0; }
+                .expertise-carousel::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 4px; }
+                .expertise-card:hover { transform: translateY(-6px) scale(1.04); box-shadow: 0 6px 18px rgba(0,123,255,0.10); background: #e3f0ff; }
+                @media (max-width: 900px) {
+                    .expertise-carousel { gap: 0.7rem; }
+                    .expertise-card { min-width: 150px; padding: 1.1rem 0.5rem; font-size: 0.98rem; }
+                }
+                @media (max-width: 600px) {
+                    .expertise-carousel { padding-left: 1vw; }
+                    .expertise-card { min-width: 120px; font-size: 0.92rem; }
+                }
+            </style>
+        </section>
+        <!-- Nasıl Çalışır? -->
+        <section style="background: #fff; padding: 3rem 0;">
+            <div class="section-header" style="text-align: center;">
+                <h2>Nasıl Çalışır?</h2>
+            </div>
+            <div style="max-width: 900px; margin: 2rem auto 0; display: flex; flex-direction: column; gap: 2rem;">
+                <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
+                    <div style="font-size: 2rem; color: #007bff; min-width: 2.5rem;">1</div>
+                    <div>
+                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 600;">İhtiyacınızı Anlatın</h4>
+                        <p style="margin: 0; color: #444;">Proje gereksinimlerinizi ve iş ihtiyaçlarınızı bizimle paylaşın.</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
+                    <div style="font-size: 2rem; color: #007bff; min-width: 2.5rem;">2</div>
+                    <div>
+                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 600;">En İyi Danışmanlarla Eşleşin</h4>
+                        <p style="margin: 0; color: #444;">Sizi hızlıca önceden doğrulanmış freelance uzmanlarla buluşturuyoruz.</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 1.5rem;">
+                    <div style="font-size: 2rem; color: #007bff; min-width: 2.5rem;">3</div>
+                    <div>
+                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 600;">Projenize Güvenle Başlayın</h4>
+                        <p style="margin: 0; color: #444;">Sözleşme, faturalama ve destek süreçlerini biz yönetelim, siz sadece sonuca odaklanın.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="footer"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => { document.getElementById('footer').innerHTML = data; });
+        });
+    </script>
+</body>
+</html> 
