@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Manager - Admin Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .content-editor {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .content-header {
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .content-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .content-location {
+            font-size: 0.9rem;
+            color: #6c757d;
+            background: #e9ecef;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+        
+        .content-body {
+            padding: 1.5rem;
+        }
+        
+        .content-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        
+        .content-textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+        .content-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .save-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .save-btn:hover {
+            background: #45a049;
+        }
+        
+        .reset-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .reset-btn:hover {
+            background: #5a6268;
+        }
+        
+        .preview-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .preview-btn:hover {
+            background: #0056b3;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-saved {
+            background: #28a745;
+        }
+        
+        .status-unsaved {
+            background: #ffc107;
+        }
+        
+        .status-error {
+            background: #dc3545;
+        }
+        
+        .content-filters {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+        
+        .search-input {
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: #28a745;
+        }
+        
+        .notification.error {
+            background: #dc3545;
+        }
+        
+        .notification.warning {
+            background: #ffc107;
+            color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header flex">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html">
+                    <h2>Pro-Lance</h2>
+                </a>
+            </div>
+            <div class="admin-user-info">
+                <span id="adminUsername">Admin</span>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Navigation -->
+    <nav class="admin-nav">
+        <div class="admin-nav-container">
+            <a href="dashboard.html" class="admin-nav-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="content-manager.html" class="admin-nav-item active">
+                <i class="fas fa-edit"></i> Content Manager
+            </a>
+            <a href="enhanced-blog-editor.html" class="admin-nav-item">
+                <i class="fas fa-blog"></i> Blog Editor
+            </a>
+            <a href="contact-messages.html" class="admin-nav-item">
+                <i class="fas fa-envelope"></i> Contact Messages
+            </a>
+        </div>
+    </nav>
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Content Manager</h1>
+            <p>Edit text content across all pages</p>
+        </div>
+        
+        <div class="content-filters">
+            <div class="filter-group">
+                <label for="pageFilter">Page:</label>
+                <select id="pageFilter">
+                    <option value="">All Pages</option>
+                    <option value="home">Home</option>
+                    <option value="services">Services</option>
+                    <option value="collaboration">Collaboration</option>
+                    <option value="about">About</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="languageFilter">Language:</label>
+                <select id="languageFilter">
+                    <option value="">All Languages</option>
+                    <option value="tr">Turkish</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" placeholder="Search content...">
+            </div>
+            
+            <div class="filter-group">
+                <button id="saveAllBtn" class="btn-primary">
+                    <i class="fas fa-save"></i> Save All Changes
+                </button>
+            </div>
+        </div>
+        
+        <div id="contentEditors">
+            <!-- Content editors will be loaded here dynamically -->
+        </div>
+    </main>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="../script.js"></script>
+    <script src="content-manager.js"></script>
+    <script>
+        // Authentication check
+        class AdminAuth {
+            constructor() {
+                this.sessionTimeout = 30 * 60 * 1000; // 30 minutes
+                this.init();
+            }
+
+            init() {
+                if (!this.checkSession()) {
+                    this.redirectToLogin();
+                }
+                this.setupEventListeners();
+                this.updateUserInfo();
+            }
+
+            checkSession() {
+                const session = localStorage.getItem('adminSession');
+                if (session) {
+                    const sessionData = JSON.parse(session);
+                    const now = Date.now();
+                    
+                    if (now - sessionData.timestamp < this.sessionTimeout) {
+                        // Update session timestamp
+                        sessionData.timestamp = now;
+                        localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                        return true;
+                    } else {
+                        localStorage.removeItem('adminSession');
+                    }
+                }
+                return false;
+            }
+
+            setupEventListeners() {
+                const logoutBtn = document.getElementById('logoutBtn');
+                logoutBtn.addEventListener('click', () => this.logout());
+            }
+
+            updateUserInfo() {
+                const session = localStorage.getItem('adminSession');
+                if (session) {
+                    const sessionData = JSON.parse(session);
+                    const usernameElement = document.getElementById('adminUsername');
+                    usernameElement.textContent = sessionData.username;
+                }
+            }
+
+            logout() {
+                localStorage.removeItem('adminSession');
+                this.redirectToLogin();
+            }
+
+            redirectToLogin() {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Initialize authentication
+        const adminAuth = new AdminAuth();
+    </script>
+</body>
+</html> 

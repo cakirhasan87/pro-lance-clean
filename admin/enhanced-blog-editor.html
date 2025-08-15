@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Blog Editor - Admin Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header flex">
+        <div class="header-container">
+            <div class="logo"><h2>Pro-Lance</h2></div>
+            <div class="admin-user-info">
+                <span id="adminUsername">Admin</span>
+                <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="admin-nav">
+        <div class="admin-nav-container">
+            <a href="dashboard.html" class="admin-nav-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="content-manager.html" class="admin-nav-item">
+                <i class="fas fa-edit"></i> Content Manager
+            </a>
+            <a href="enhanced-blog-editor.html" class="admin-nav-item active">
+                <i class="fas fa-blog"></i> Blog Editor
+            </a>
+            <a href="contact-messages.html" class="admin-nav-item">
+                <i class="fas fa-envelope"></i> Contact Messages
+            </a>
+        </div>
+    </nav>
+    
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Enhanced Blog Editor</h1>
+            <button id="addNewBtn" class="btn-primary">
+                <i class="fas fa-plus"></i> Add New Post
+            </button>
+        </div>
+        
+        <div class="blog-filters">
+            <div class="filter-group">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="languageFilter">Language:</label>
+                <select id="languageFilter">
+                    <option value="">All Languages</option>
+                    <option value="en">English</option>
+                    <option value="tr">Turkish</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" placeholder="Search posts...">
+            </div>
+            
+            <div class="filter-group">
+                <button id="refreshBtn" class="btn-secondary">
+                    <i class="fas fa-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+        
+        <div id="blogEditorForm" class="blog-editor-container" style="display: none;">
+            <div class="blog-editor-header">
+                <h2 id="editorTitle">New Blog Post</h2>
+                <button onclick="blogEditor.hideBlogForm()" class="btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+            
+            <form id="blogForm" class="blog-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="blogTitle">Title *</label>
+                        <input type="text" id="blogTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogSlug">Slug</label>
+                        <input type="text" id="blogSlug" name="slug">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="blogLanguage">Language</label>
+                        <select id="blogLanguage" name="language">
+                            <option value="en">English</option>
+                            <option value="tr">Turkish</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogStatus">Status</label>
+                        <select id="blogStatus" name="status">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blogExcerpt">Excerpt</label>
+                    <textarea id="blogExcerpt" name="excerpt" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blogContent">Content *</label>
+                    <textarea id="blogContent" name="content" rows="10" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="blogTags">Tags (comma separated)</label>
+                        <input type="text" id="blogTags" name="tags" placeholder="AI, Software Development, Technology">
+                    </div>
+                    <div class="form-group">
+                        <label for="blogImage">Featured Image URL</label>
+                        <input type="url" id="blogImage" name="image" placeholder="https://example.com/image.jpg">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Save Post
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="blog-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Language</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="blogPostsList">
+                    <!-- Blog posts will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="../script.js"></script>
+    <script src="enhanced-blog-editor.js"></script>
+    <script>
+        // Authentication check
+        class AdminAuth {
+            constructor() {
+                this.sessionTimeout = 30 * 60 * 1000; // 30 minutes
+                this.init();
+            }
+
+            init() {
+                if (!this.checkSession()) {
+                    this.redirectToLogin();
+                }
+                this.setupEventListeners();
+                this.updateUserInfo();
+            }
+
+            checkSession() {
+                const session = localStorage.getItem('adminSession');
+                if (session) {
+                    const sessionData = JSON.parse(session);
+                    const now = Date.now();
+                    
+                    if (now - sessionData.timestamp < this.sessionTimeout) {
+                        // Update session timestamp
+                        sessionData.timestamp = now;
+                        localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                        return true;
+                    } else {
+                        localStorage.removeItem('adminSession');
+                    }
+                }
+                return false;
+            }
+
+            setupEventListeners() {
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => this.logout());
+                }
+            }
+
+            updateUserInfo() {
+                const session = localStorage.getItem('adminSession');
+                if (session) {
+                    const sessionData = JSON.parse(session);
+                    const usernameElement = document.getElementById('adminUsername');
+                    if (usernameElement) {
+                        usernameElement.textContent = sessionData.username;
+                    }
+                }
+            }
+
+            logout() {
+                localStorage.removeItem('adminSession');
+                this.redirectToLogin();
+            }
+
+            redirectToLogin() {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Initialize authentication
+        const adminAuth = new AdminAuth();
+    </script>
+</body>
+</html> 

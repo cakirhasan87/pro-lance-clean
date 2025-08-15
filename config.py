@@ -12,6 +12,18 @@ SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
+# Database configuration for multi-user development
+if os.getenv('FLASK_ENV') == 'development':
+    DATABASE_URL = os.getenv('DATABASE_URL') or 'sqlite:///projects.db'
+else:
+    # Production environment - use PostgreSQL
+    DATABASE_URL = os.getenv('DATABASE_URL') or 'postgresql://user:pass@localhost/prolance'
+
+# Multi-user development settings
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
 # Email configuration
 MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
 MAIL_PORT = int(os.getenv('MAIL_PORT', '587'))
