@@ -12,55 +12,41 @@ class BlogEditor {
         this.init();
     }
     
-    init() {
-        this.loadSampleData();
+    async init() {
+        await this.loadSampleData();
         this.setupEventListeners();
         this.renderBlogPosts();
     }
     
-    // Sample blog data
-    loadSampleData() {
-        this.blogPosts = [
-            {
-                id: 1,
-                title: "AI-Driven Software Development for Faster, Smarter Solutions",
-                slug: "ai-driven-software-development",
-                language: "en",
-                status: "published",
-                excerpt: "Explore how artificial intelligence is revolutionizing software development processes and enabling faster, more efficient solutions.",
-                content: "The world of software development is evolving rapidly with the integration of artificial intelligence technologies. AI-driven development tools are transforming how we write, test, and deploy software, leading to faster development cycles and higher quality code.\n\nKey benefits of AI in software development include:\n- Automated code generation and suggestions\n- Intelligent bug detection and fixing\n- Predictive analytics for project management\n- Enhanced testing automation\n- Improved code review processes\n\nAs we move forward, AI will continue to play a crucial role in shaping the future of software development.",
-                tags: ["AI", "Software Development", "Technology"],
-                image: "https://example.com/ai-software-dev.jpg",
-                date: "2024-01-20",
-                author: "Pro-Lance Team"
-            },
-            {
-                id: 2,
-                title: "Daha Hızlı, Daha Akıllı Çözümler için AI Destekli Yazılım Geliştirme",
-                slug: "ai-destekli-yazilim-gelistirme",
-                language: "tr",
-                status: "published",
-                excerpt: "Yapay zeka teknolojilerinin yazılım geliştirme süreçlerini nasıl devrimleştirdiğini ve daha hızlı, verimli çözümler sağladığını keşfedin.",
-                content: "Yazılım geliştirme dünyası, yapay zeka teknolojilerinin entegrasyonuyla hızla gelişiyor. AI destekli geliştirme araçları, yazılım yazma, test etme ve dağıtma şeklimizi dönüştürüyor ve daha hızlı geliştirme döngüleri ve daha yüksek kaliteli kod ile sonuçlanıyor.\n\nYazılım geliştirmede AI'nın temel faydaları şunları içerir:\n- Otomatik kod üretimi ve önerileri\n- Akıllı hata tespiti ve düzeltme\n- Proje yönetimi için tahmine dayalı analitik\n- Gelişmiş test otomasyonu\n- İyileştirilmiş kod inceleme süreçleri\n\nİleriye doğru hareket ederken, AI yazılım geliştirmenin geleceğini şekillendirmede kritik bir rol oynamaya devam edecek.",
-                tags: ["AI", "Yazılım Geliştirme", "Teknoloji"],
-                image: "https://example.com/ai-yazilim-gelistirme.jpg",
-                date: "2024-01-20",
-                author: "Pro-Lance Ekibi"
-            },
-            {
-                id: 3,
-                title: "SAP Implementation Best Practices",
-                slug: "sap-implementation-best-practices",
-                language: "en",
-                status: "draft",
-                excerpt: "Learn the essential best practices for successful SAP implementation projects.",
-                content: "SAP implementation projects require careful planning and execution to ensure success. This comprehensive guide covers the key best practices that organizations should follow when implementing SAP solutions.\n\nKey areas covered include:\n- Project planning and governance\n- Change management strategies\n- Data migration best practices\n- User training and adoption\n- Testing and quality assurance\n- Go-live preparation and support\n\nFollowing these best practices can significantly increase the likelihood of a successful SAP implementation.",
-                tags: ["SAP", "Implementation", "Best Practices"],
-                image: "https://example.com/sap-implementation.jpg",
-                date: "2024-01-15",
-                author: "Pro-Lance Team"
+    // Load blog data from API
+    async loadSampleData() {
+        try {
+            const response = await fetch('/api/blog-posts');
+            const data = await response.json();
+            
+            if (data.success) {
+                this.blogPosts = data.blog_posts.map((post, index) => ({
+                    id: post.id || `post-${index + 1}`, // Use original ID or generate one
+                    title: post.title,
+                    slug: post.slug || post.id,
+                    language: post.language || 'tr',
+                    status: post.status || 'active',
+                    excerpt: post.excerpt || post.description || '',
+                    content: post.content || post.description || '',
+                    tags: post.tags || [],
+                    image: post.image_url || post.image || '/images/placeholder.webp',
+                    date: post.published_at || post.date || post.created_date || new Date().toISOString().split('T')[0],
+                    author: post.author || "Pro-Lance Team",
+                    url: post.url || ''
+                }));
+            } else {
+                console.error('Failed to load blog posts:', data.message);
+                this.blogPosts = [];
             }
-        ];
+        } catch (error) {
+            console.error('Error loading blog posts:', error);
+            this.blogPosts = [];
+        }
     }
     
     setupEventListeners() {
@@ -93,7 +79,8 @@ class BlogEditor {
         }
         
         if (refreshBtn) {
-            refreshBtn.addEventListener('click', () => {
+            refreshBtn.addEventListener('click', async () => {
+                await this.loadSampleData();
                 this.renderBlogPosts();
                 this.showNotification('Blog posts refreshed!', 'success');
             });
@@ -147,27 +134,25 @@ class BlogEditor {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>
-                    <div>
-                        <strong>${post.title}</strong>
-                        <br>
-                        <small style="color: #666;">${post.excerpt}</small>
-                    </div>
+                    <div class="blog-title">${post.title}</div>
+                    <div class="blog-meta">${post.excerpt || post.description || 'No excerpt available'}</div>
                 </td>
-                <td>${post.language.toUpperCase()}</td>
+                <td>
+                    <span class="language-badge ${post.language}">${post.language.toUpperCase()}</span>
+                </td>
                 <td>
                     <span class="status-badge ${post.status}">${post.status}</span>
                 </td>
-                <td>${this.formatDate(post.date)}</td>
+                <td>${this.formatDate(post.date || post.published_at)}</td>
                 <td>
-                    <button class="btn-action view" onclick="window.blogEditor.viewPost(${post.id})" title="View">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="btn-action edit" onclick="window.blogEditor.editPost(${post.id})" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-action delete" onclick="window.blogEditor.deletePost(${post.id})" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <div class="blog-actions">
+                        <button class="edit-btn" onclick="window.blogEditor.editPost('${post.id}')" title="Edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="delete-btn" onclick="window.blogEditor.deletePost('${post.id}')" title="Delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
                 </td>
             `;
             container.appendChild(row);
@@ -205,11 +190,21 @@ class BlogEditor {
     }
     
     editPost(id) {
-        const post = this.blogPosts.find(p => p.id === id);
+        console.log('Edit post called with id:', id); // Debug log
+        console.log('Available posts:', this.blogPosts); // Debug log
+        
+        // Convert id to string for comparison
+        const idString = String(id);
+        
+        const post = this.blogPosts.find(p => String(p.id) === idString);
         if (!post) {
+            console.error('Post not found for id:', idString); // Debug log
+            console.log('Available IDs:', this.blogPosts.map(p => p.id)); // Debug log
             this.showNotification('Post not found!', 'error');
             return;
         }
+        
+        console.log('Found post to edit:', post); // Debug log
         
         this.currentEditingId = id;
         this.showBlogForm();
@@ -217,18 +212,21 @@ class BlogEditor {
     }
     
     showBlogForm() {
-        const formContainer = document.getElementById('blogEditorForm');
+        const formContainer = document.getElementById('blogEditor');
         if (formContainer) {
             formContainer.style.display = 'block';
+            // Scroll to form
+            formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
     
     hideBlogForm() {
-        const formContainer = document.getElementById('blogEditorForm');
+        const formContainer = document.getElementById('blogEditor');
         if (formContainer) {
             formContainer.style.display = 'none';
         }
         this.currentEditingId = null;
+        this.clearForm();
     }
     
     clearForm() {
@@ -265,14 +263,22 @@ class BlogEditor {
         const languageField = document.getElementById('blogLanguage');
         const statusField = document.getElementById('blogStatus');
         
+        console.log('Filling form with post data:', post); // Debug log
+        
         if (titleField) titleField.value = post.title || '';
-        if (slugField) slugField.value = post.slug || '';
-        if (excerptField) excerptField.value = post.excerpt || '';
-        if (contentField) contentField.value = post.content || '';
+        if (slugField) slugField.value = post.slug || post.id || '';
+        if (excerptField) excerptField.value = post.excerpt || post.description || '';
+        if (contentField) contentField.value = post.content || post.description || '';
         if (tagsField) tagsField.value = post.tags ? post.tags.join(', ') : '';
         if (imageField) imageField.value = post.image || '';
-        if (languageField) languageField.value = post.language || 'en';
-        if (statusField) statusField.value = post.status || 'draft';
+        if (languageField) languageField.value = post.language || 'tr';
+        if (statusField) statusField.value = post.status || 'active';
+        
+        // Update editor title
+        const editorTitle = document.getElementById('editorTitle');
+        if (editorTitle) {
+            editorTitle.textContent = post.title ? `Edit: ${post.title}` : 'Edit Blog Post';
+        }
     }
     
     async savePost() {
@@ -290,6 +296,7 @@ class BlogEditor {
                 slug: formData.get('slug'),
                 excerpt: formData.get('excerpt'),
                 content: formData.get('content'),
+                description: formData.get('excerpt') || formData.get('content'), // API için description alanı
                 tags: formData.get('tags').split(',').map(tag => tag.trim()).filter(tag => tag),
                 image: formData.get('image'),
                 language: formData.get('language'),
@@ -298,16 +305,25 @@ class BlogEditor {
                 author: 'Pro-Lance Team'
             };
             
+            console.log('Saving post data:', postData); // Debug log
+            
             if (this.currentEditingId) {
                 // Update existing post
-                const index = this.blogPosts.findIndex(p => p.id === this.currentEditingId);
+                const currentIdString = String(this.currentEditingId);
+                const index = this.blogPosts.findIndex(p => String(p.id) === currentIdString);
                 if (index !== -1) {
                     this.blogPosts[index] = { ...this.blogPosts[index], ...postData };
+                    console.log('Updated post at index:', index, this.blogPosts[index]);
                 }
             } else {
                 // Create new post
-                postData.id = Math.max(...this.blogPosts.map(p => p.id), 0) + 1;
+                const maxId = Math.max(...this.blogPosts.map(p => {
+                    const numId = parseInt(p.id);
+                    return isNaN(numId) ? 0 : numId;
+                }), 0);
+                postData.id = (maxId + 1).toString();
                 this.blogPosts.push(postData);
+                console.log('Created new post:', postData);
             }
             
             this.hideBlogForm();
@@ -321,7 +337,8 @@ class BlogEditor {
     }
     
     viewPost(id) {
-        const post = this.blogPosts.find(p => p.id === id);
+        const idString = String(id);
+        const post = this.blogPosts.find(p => String(p.id) === idString);
         if (!post) {
             this.showNotification('Post not found!', 'error');
             return;
@@ -332,7 +349,8 @@ class BlogEditor {
     
     deletePost(id) {
         if (confirm('Are you sure you want to delete this blog post?')) {
-            this.blogPosts = this.blogPosts.filter(p => p.id !== id);
+            const idString = String(id);
+            this.blogPosts = this.blogPosts.filter(p => String(p.id) !== idString);
             this.renderBlogPosts();
             this.showNotification('Blog post deleted successfully!', 'success');
         }
@@ -416,7 +434,7 @@ class BlogEditor {
 
 // Initialize blog editor when DOM is loaded and make it globally accessible
 let blogEditor;
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     blogEditor = new BlogEditor();
     // Make it globally accessible
     window.blogEditor = blogEditor;

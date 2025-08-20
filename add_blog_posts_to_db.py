@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+"""
+Script to add all blog posts to the database
+"""
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from app import supabase, insert_blog_post
+import json
+from datetime import datetime
+
+def add_blog_posts_to_database():
+    """Add all predefined blog posts to the database"""
+    
+    # All blog posts from the main blog page
+    blog_posts = [
+        {
+            'title': 'Müşteriler Neden Freelance Kaynakları Tercih Ediyor',
+            'slug': 'why-clients-choose-freelancers',
+            'excerpt': 'Dinamik pandemi sonrası dünyada, işletmeler yetenek edinimini yeniden tanımlıyor, özellikle kısa vadeli projeler için. İşte müşterilerin neden freelancer\'ları tercih ettiği...',
+            'content': 'Dinamik pandemi sonrası dünyada, işletmeler yetenek edinimini yeniden tanımlıyor, özellikle kısa vadeli projeler için. İşte müşterilerin neden freelancer\'ları tercih ettiği ana nedenler:\n\n1. Esneklik ve Hız\n2. Uzmanlık\n3. Maliyet Etkinliği\n4. Ölçeklenebilirlik\n5. Yenilikçi Yaklaşımlar',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['freelance', 'müşteri', 'tercih', 'esneklik'],
+            'image_url': '/images/who we are image.webp',
+            'published_at': '2024-01-15T00:00:00Z'
+        },
+        {
+            'title': 'Kısa Vadeli Projelerde Proje Yönetiminde Uzmanlaşma',
+            'slug': 'short-term-project-management',
+            'excerpt': 'Hızlı tempolu ERP dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği sağlamada çok önemlidir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir...',
+            'content': 'Hızlı tempolu ERP dünyasında, kısa vadeli projeler inovasyon ve ölçeklenebilirliği sağlamada çok önemlidir. Bu projeleri yönetmek, çevik doğalarına uygun benzersiz bir beceri seti ve strateji gerektirir.\n\nKısa vadeli proje yönetiminin ana unsurları:\n- Hızlı planlama ve başlatma\n- Esnek kaynak yönetimi\n- Sürekli iletişim\n- Hızlı karar verme\n- Sonuç odaklı yaklaşım',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['proje yönetimi', 'kısa vadeli', 'ERP', 'çevik'],
+            'image_url': '/images/what we do image.webp',
+            'published_at': '2024-01-20T00:00:00Z'
+        },
+        {
+            'title': 'SAP ECC Desteğinin Sona Ermesi: S/4HANA\'ya Geçiş',
+            'slug': 'sap-ecc-discontinuation',
+            'excerpt': 'SAP, ECC (ERP Central Component) sistemi için desteğini 2027 yılına kadar sonlandıracağını duyurdu. Bu kararın, hala ECC\'ye bağlı işletmeler için önemli etkileri var ve SAP\'nin yeni nesil ERP paketi S/4HANA\'ya geçişin aciliyetini vurguluyor...',
+            'content': 'SAP, ECC (ERP Central Component) sistemi için desteğini 2027 yılına kadar sonlandıracağını duyurdu. Bu kararın, hala ECC\'ye bağlı işletmeler için önemli etkileri var ve SAP\'nin yeni nesil ERP paketi S/4HANA\'ya geçişin aciliyetini vurguluyor.\n\nS/4HANA\'ya geçiş sürecinde dikkat edilmesi gerekenler:\n- Veri migrasyonu planlaması\n- Sistem entegrasyonu\n- Kullanıcı eğitimi\n- Test süreçleri\n- Go-live stratejisi',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['SAP', 'ECC', 'S4HANA', 'migrasyon', 'ERP'],
+            'image_url': '/images/sap-migration.webp',
+            'published_at': '2024-02-01T00:00:00Z'
+        },
+        {
+            'title': 'Uzaktan Proje Yönetimi ile Olağanüstü Sonuçlar Elde Edin',
+            'slug': 'remote-project-management',
+            'excerpt': 'Günümüzün hızlı tempolu iş dünyasında, uzaktan çalışma artık sadece bir trend değil - en iyi yeteneğe erişmenin ve olağanüstü sonuçlar elde etmenin anahtarıdır...',
+            'content': 'Günümüzün hızlı tempolu iş dünyasında, uzaktan çalışma artık sadece bir trend değil - en iyi yeteneğe erişmenin ve olağanüstü sonuçlar elde etmenin anahtarıdır.\n\nUzaktan proje yönetiminin avantajları:\n- Global yetenek havuzuna erişim\n- 7/24 çalışma imkanı\n- Düşük operasyonel maliyetler\n- Artan verimlilik\n- Esnek çalışma saatleri',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['uzaktan çalışma', 'proje yönetimi', 'global', 'verimlilik'],
+            'image_url': '/images/how we operate image.webp',
+            'published_at': '2024-02-10T00:00:00Z'
+        },
+        {
+            'title': 'SAP Clean Core: Büyüme için Optimize Edilmiş Çözüm',
+            'slug': 'sap-clean-core',
+            'excerpt': 'SAP sistemlerindeki Clean Core yaklaşımı, işletmelerin daha verimli ve sürdürülebilir bir büyüme elde etmelerini sağlar...',
+            'content': 'SAP sistemlerindeki Clean Core yaklaşımı, işletmelerin daha verimli ve sürdürülebilir bir büyüme elde etmelerini sağlar.\n\nClean Core yaklaşımının faydaları:\n- Daha hızlı güncellemeler\n- Düşük bakım maliyetleri\n- Artan sistem performansı\n- Daha iyi güvenlik\n- Gelecek uyumluluğu',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['SAP', 'Clean Core', 'optimizasyon', 'büyüme'],
+            'image_url': '/images/sap-clean-core.jpg',
+            'published_at': '2024-02-15T00:00:00Z'
+        },
+        {
+            'title': 'Daha Hızlı, Daha Akıllı Çözümler için AI Destekli Yazılım Geliştirme',
+            'slug': 'ai-software-development',
+            'excerpt': 'Yazılım geliştirme dünyası hızla gelişiyor ve AI destekli çözümleri kullanan işletmeler önemli bir avantaj elde ediyor...',
+            'content': 'Yazılım geliştirme dünyası hızla gelişiyor ve AI destekli çözümleri kullanan işletmeler önemli bir avantaj elde ediyor.\n\nAI destekli yazılım geliştirmenin avantajları:\n- Otomatik kod üretimi\n- Akıllı hata tespiti\n- Gelişmiş test otomasyonu\n- Kod optimizasyonu\n- Hızlı prototipleme',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['AI', 'yazılım geliştirme', 'otomasyon', 'inovasyon'],
+            'image_url': '/images/what sets pro-lance apart image.webp',
+            'published_at': '2024-02-20T00:00:00Z'
+        },
+        {
+            'title': 'Üretimde Dijital Dönüşüm İçin İpuçları ve Stratejiler',
+            'slug': 'manufacturing-digital-transformation',
+            'excerpt': 'Üretim sektörü, şirketlerin rekabetçi kalmak, operasyonel verimliliği artırmak ve artan müşteri taleplerini karşılamak için dijital dönüşümü benimsemesiyle önemli bir değişim geçiriyor...',
+            'content': 'Üretim sektörü, şirketlerin rekabetçi kalmak, operasyonel verimliliği artırmak ve artan müşteri taleplerini karşılamak için dijital dönüşümü benimsemesiyle önemli bir değişim geçiriyor.\n\nDijital dönüşüm stratejileri:\n- IoT entegrasyonu\n- Veri analizi\n- Otomasyon\n- Bulut tabanlı çözümler\n- Siber güvenlik',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['dijital dönüşüm', 'üretim', 'IoT', 'otomasyon'],
+            'image_url': '/images/digital-transformation.webp',
+            'published_at': '2024-03-01T00:00:00Z'
+        },
+        {
+            'title': 'Yapay Zeka ve Makine Öğrenimi: Üretimin Geleceği',
+            'slug': 'ai-ml-manufacturing',
+            'excerpt': 'Yapay Zeka (AI) ve Makine Öğrenimi (ML), üretimde önemli dönüşümlere yol açıyor...',
+            'content': 'Yapay Zeka (AI) ve Makine Öğrenimi (ML), üretimde önemli dönüşümlere yol açıyor.\n\nAI/ML\'nin üretimdeki uygulamaları:\n- Predictive maintenance\n- Quality control\n- Supply chain optimization\n- Energy management\n- Process automation',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['AI', 'ML', 'üretim', 'predictive maintenance'],
+            'image_url': '/images/ai-ml-manufacturing.webp',
+            'published_at': '2024-03-05T00:00:00Z'
+        },
+        {
+            'title': 'Değişimi Benimsemek: Başarılı Proje Tesliminin Temel Taşı',
+            'slug': 'change-management',
+            'excerpt': 'Yeni BT sistemleri uygularken veya mevcut olanları güncellerken, değişim yönetimi, sorunsuz geçişler sağlamak ve yatırımınızın değerini en üst düzeye çıkarmak için çok önemlidir...',
+            'content': 'Yeni BT sistemleri uygularken veya mevcut olanları güncellerken, değişim yönetimi, sorunsuz geçişler sağlamak ve yatırımınızın değerini en üst düzeye çıkarmak için çok önemlidir.\n\nDeğişim yönetimi süreçleri:\n- Stakeholder engagement\n- Communication planning\n- Training programs\n- Resistance management\n- Success measurement',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['değişim yönetimi', 'BT sistemleri', 'stakeholder', 'eğitim'],
+            'image_url': '/images/change-management.webp',
+            'published_at': '2024-03-10T00:00:00Z'
+        },
+        {
+            'title': 'Agile Proje Yönetimi Araçları: SAP Projelerinde Verimlilik',
+            'slug': 'agile-project-management-tools',
+            'excerpt': 'Agile metodolojiler, SAP projelerinde daha hızlı ve esnek çözümler sunmak için giderek daha popüler hale geliyor...',
+            'content': 'Agile metodolojiler, SAP projelerinde daha hızlı ve esnek çözümler sunmak için giderek daha popüler hale geliyor.\n\nAgile araçları ve faydaları:\n- Jira ve Azure DevOps\n- Kanban boards\n- Sprint planning\n- Continuous integration\n- Automated testing',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['Agile', 'SAP', 'proje yönetimi', 'araçlar'],
+            'image_url': '/images/agile-tools.webp',
+            'published_at': '2024-03-15T00:00:00Z'
+        },
+        {
+            'title': 'SAP S/4HANA\'nın Geleceği: İnovasyon ve Büyüme',
+            'slug': 'sap-s4hana-future',
+            'excerpt': 'SAP S/4HANA, işletmelerin dijital dönüşüm yolculuğunda merkezi bir rol oynuyor...',
+            'content': 'SAP S/4HANA, işletmelerin dijital dönüşüm yolculuğunda merkezi bir rol oynuyor.\n\nS/4HANA\'nın gelecekteki özellikleri:\n- AI ve ML entegrasyonu\n- Cloud-first approach\n- Real-time analytics\n- Enhanced security\n- Industry-specific solutions',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['SAP', 'S4HANA', 'gelecek', 'inovasyon'],
+            'image_url': '/images/sap-future.webp',
+            'published_at': '2024-03-20T00:00:00Z'
+        },
+        {
+            'title': 'SAP Projelerinde Karşılaşılan Zorluklar ve Çözümler',
+            'slug': 'sap-project-challenges',
+            'excerpt': 'SAP projeleri karmaşık ve çok katmanlı olabilir, ancak doğru yaklaşımla bu zorlukların üstesinden gelinebilir...',
+            'content': 'SAP projeleri karmaşık ve çok katmanlı olabilir, ancak doğru yaklaşımla bu zorlukların üstesinden gelinebilir.\n\nYaygın zorluklar ve çözümler:\n- Data migration issues\n- Integration complexity\n- User adoption\n- Performance optimization\n- Change management',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['SAP', 'zorluklar', 'çözümler', 'proje yönetimi'],
+            'image_url': '/images/sap-challenges.webp',
+            'published_at': '2024-03-25T00:00:00Z'
+        },
+        {
+            'title': 'Stream Processing: SAP Sistemlerinde Gerçek Zamanlı Veri İşleme',
+            'slug': 'stream-processing-sap',
+            'excerpt': 'Stream processing, SAP sistemlerinde gerçek zamanlı veri işleme ve analiz için kritik bir teknoloji haline geliyor...',
+            'content': 'Stream processing, SAP sistemlerinde gerçek zamanlı veri işleme ve analiz için kritik bir teknoloji haline geliyor.\n\nStream processing avantajları:\n- Real-time insights\n- Faster decision making\n- Reduced latency\n- Scalable architecture\n- Cost optimization',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['stream processing', 'SAP', 'gerçek zamanlı', 'veri işleme'],
+            'image_url': '/images/Rise-Of-Stream-Names.webp',
+            'published_at': '2024-04-01T00:00:00Z'
+        },
+        {
+            'title': 'Bluefield Yaklaşımı: SAP S/4HANA Geçişinde Yeni Strateji',
+            'slug': 'bluefield-approach-sap',
+            'excerpt': 'Bluefield yaklaşımı, SAP S/4HANA geçişlerinde daha güvenli ve kontrollü bir strateji sunuyor...',
+            'content': 'Bluefield yaklaşımı, SAP S/4HANA geçişlerinde daha güvenli ve kontrollü bir strateji sunuyor.\n\nBluefield yaklaşımının avantajları:\n- Risk reduction\n- Parallel operation\n- Gradual migration\n- Business continuity\n- Cost control',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['Bluefield', 'SAP', 'S4HANA', 'migrasyon'],
+            'image_url': '/images/bluefield.webp',
+            'published_at': '2024-04-05T00:00:00Z'
+        },
+        {
+            'title': 'SAP Agility: Hızlı Değişimlere Uyum Sağlama',
+            'slug': 'sap-agility',
+            'excerpt': 'Günümüzün dinamik iş ortamında, SAP sistemlerinin hızlı değişimlere uyum sağlayabilmesi kritik öneme sahip...',
+            'content': 'Günümüzün dinamik iş ortamında, SAP sistemlerinin hızlı değişimlere uyum sağlayabilmesi kritik öneme sahip.\n\nSAP agility unsurları:\n- Modular architecture\n- Cloud deployment\n- API-first approach\n- Microservices\n- DevOps practices',
+            'author': 'Pro-Lance Team',
+            'language': 'tr',
+            'status': 'published',
+            'tags': ['SAP', 'agility', 'esneklik', 'değişim'],
+            'image_url': '/images/sap-agility.webp',
+            'published_at': '2024-04-10T00:00:00Z'
+        }
+    ]
+    
+    print("Blog posts'ları veritabanına ekleniyor...")
+    
+    success_count = 0
+    error_count = 0
+    
+    for i, post in enumerate(blog_posts, 1):
+        try:
+            print(f"[{i}/{len(blog_posts)}] Ekleniyor: {post['title']}")
+            
+            result = insert_blog_post(post)
+            
+            if result['success']:
+                print(f"✅ Başarılı: {post['title']}")
+                success_count += 1
+            else:
+                print(f"❌ Hata: {post['title']} - {result['message']}")
+                error_count += 1
+                
+        except Exception as e:
+            print(f"❌ Hata: {post['title']} - {str(e)}")
+            error_count += 1
+    
+    print(f"\n📊 Özet:")
+    print(f"✅ Başarılı: {success_count}")
+    print(f"❌ Hata: {error_count}")
+    print(f"📝 Toplam: {len(blog_posts)}")
+    
+    if success_count > 0:
+        print(f"\n🎉 {success_count} blog post başarıyla veritabanına eklendi!")
+    else:
+        print(f"\n⚠️ Hiç blog post eklenemedi. Lütfen hataları kontrol edin.")
+
+if __name__ == "__main__":
+    add_blog_posts_to_database()

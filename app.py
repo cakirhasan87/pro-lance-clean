@@ -76,6 +76,12 @@ def create_requests_session(retries=5, backoff_factor=0.3, status_forcelist=(500
 SUPABASE_PROJECT_ID = 'hhudczwbcjejxvbxglkv'
 SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhodWRjendiejZqZWp4dmJ4Z2xrdiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzA5NzQ3MTU3LCJleHAiOjIwMjUzMjMxNTd9.P_C70m_yEY0H9M72_QvEVX-HSY0nPipJrWpvrdmxQ0M'
 
+# Initialize Supabase client
+supabase = create_client(
+    'https://hhudczwbcjejxvbxglkv.supabase.co',
+    SUPABASE_KEY
+)
+
 # Update SUPABASE_DOMAINS with the correct URL format
 SUPABASE_DOMAINS = [
     'https://hhudczwbcjejxvbxglkv.supabase.co'
@@ -84,6 +90,75 @@ SUPABASE_DOMAINS = [
 # Function to get the appropriate API key based on the domain
 def get_api_key_for_domain(domain):
     return SUPABASE_KEY
+
+# Blog posts database functions
+def insert_blog_post(post_data):
+    """Insert a new blog post into the database"""
+    try:
+        result = supabase.table('blog_posts').insert(post_data).execute()
+        return {
+            'success': True,
+            'data': result.data,
+            'message': 'Blog post inserted successfully'
+        }
+    except Exception as e:
+        logger.error(f"Error inserting blog post: {str(e)}")
+        return {
+            'success': False,
+            'error': str(e),
+            'message': 'Failed to insert blog post'
+        }
+
+def get_all_blog_posts():
+    """Get all blog posts from the database"""
+    try:
+        result = supabase.table('blog_posts').select('*').order('published_at', desc=True).execute()
+        return {
+            'success': True,
+            'data': result.data,
+            'message': 'Blog posts retrieved successfully'
+        }
+    except Exception as e:
+        logger.error(f"Error getting blog posts: {str(e)}")
+        return {
+            'success': False,
+            'error': str(e),
+            'message': 'Failed to get blog posts'
+        }
+
+def update_blog_post(post_id, post_data):
+    """Update an existing blog post"""
+    try:
+        result = supabase.table('blog_posts').update(post_data).eq('id', post_id).execute()
+        return {
+            'success': True,
+            'data': result.data,
+            'message': 'Blog post updated successfully'
+        }
+    except Exception as e:
+        logger.error(f"Error updating blog post: {str(e)}")
+        return {
+            'success': False,
+            'error': str(e),
+            'message': 'Failed to update blog post'
+        }
+
+def delete_blog_post(post_id):
+    """Delete a blog post"""
+    try:
+        result = supabase.table('blog_posts').delete().eq('id', post_id).execute()
+        return {
+            'success': True,
+            'data': result.data,
+            'message': 'Blog post deleted successfully'
+        }
+    except Exception as e:
+        logger.error(f"Error deleting blog post: {str(e)}")
+        return {
+            'success': False,
+            'error': str(e),
+            'message': 'Failed to delete blog post'
+        }
 
 # Global session with increased timeout and retries
 http_session = create_requests_session(retries=7, backoff_factor=0.5)
@@ -123,6 +198,10 @@ def serve_blog_posts(filename):
 @app.route('/en/blog-posts/<path:filename>')
 def serve_en_blog_posts(filename):
     return send_from_directory('en/blog-posts', filename)
+
+@app.route('/admin/')
+def serve_admin_index():
+    return send_from_directory('admin', 'index.html')
 
 @app.route('/admin/<path:filename>')
 def serve_admin(filename):
@@ -741,58 +820,50 @@ def test_form():
 
 @app.route('/api/blog-posts', methods=['GET'])
 def get_blog_posts():
-    """Get all blog posts from both English and Turkish directories"""
+    """Get all blog posts from JSON file and database"""
     try:
         blog_posts = []
         
-        # Helper function to scan blog posts from directories
-        def scan_blog_directory(lang_prefix):
-            posts = []
-            blog_dir = f"{lang_prefix}/blog-posts"
-            if os.path.exists(blog_dir):
-                for file in os.listdir(blog_dir):
-                    if file.endswith('.html'):
-                        try:
-                            file_path = os.path.join(blog_dir, file)
-                            with open(file_path, 'r', encoding='utf-8') as f:
-                                content = f.read()
-                                
-                            # Extract title
-                            title_match = re.search(r'<title>(.*?)</title>', content)
-                            title = title_match.group(1) if title_match else file.replace('.html', '')
-                            if ' - Pro-Lance' in title:
-                                title = title.replace(' - Pro-Lance', '')
-                                
-                            # Extract date if available
-                            date_match = re.search(r'<span class="post-date">(.*?)</span>', content)
-                            date = date_match.group(1) if date_match else datetime.now().strftime('%Y-%m-%d')
-                            
-                            # Extract image
-                            image_match = re.search(r'<img src="(.*?)" alt="', content)
-                            image = image_match.group(1) if image_match else "/images/placeholder.webp"
-                            
-                            posts.append({
-                                'id': file.replace('.html', ''),
-                                'title': title,
-                                'date': date,
-                                'language': 'en' if lang_prefix == 'en' else 'tr',
-                                'image': image,
-                                'file_path': file_path
-                            })
-                        except Exception as e:
-                            logging.error(f"Error parsing blog post {file}: {str(e)}")
-            return posts
+        # First, try to get posts from database
+        try:
+            db_result = get_all_blog_posts()
+            if db_result['success'] and db_result['data']:
+                for post in db_result['data']:
+                    blog_posts.append({
+                        'id': post['id'],
+                        'title': post['title'],
+                        'slug': post['slug'],
+                        'excerpt': post['excerpt'],
+                        'content': post['content'],
+                        'author': post['author'],
+                        'language': post['language'],
+                        'status': post['status'],
+                        'tags': post['tags'] if post['tags'] else [],
+                        'image_url': post['image_url'],
+                        'published_at': post['published_at'],
+                        'created_at': post['created_at'],
+                        'updated_at': post['updated_at']
+                    })
+        except Exception as e:
+            logger.error(f"Database error: {str(e)}")
         
-        # Get English posts
-        en_posts = scan_blog_directory('en')
-        blog_posts.extend(en_posts)
+        # If no posts in database, load from JSON file
+        if not blog_posts:
+            try:
+                with open('blog_posts_data.json', 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    blog_posts = data.get('blog_posts', [])
+                    logger.info(f"Loaded {len(blog_posts)} blog posts from JSON file")
+            except Exception as e:
+                logger.error(f"Error loading JSON file: {str(e)}")
         
-        # Get Turkish posts
-        tr_posts = scan_blog_directory('tr')
-        blog_posts.extend(tr_posts)
+        # If still no posts, return empty list
+        if not blog_posts:
+            logger.warning("No blog posts found in database or JSON file")
+            blog_posts = []
         
-        # Sort by date (newest first)
-        blog_posts.sort(key=lambda x: x.get('date', ''), reverse=True)
+        # Sort by published_at date (newest first)
+        blog_posts.sort(key=lambda x: x.get('published_at', ''), reverse=True)
         
         return jsonify({
             'success': True,
@@ -801,8 +872,7 @@ def get_blog_posts():
         })
     
     except Exception as e:
-        logging.error(f"Error fetching blog posts: {str(e)}")
-        logging.exception(e)
+        logger.error(f"Error fetching blog posts: {str(e)}")
         return jsonify({
             'success': False,
             'message': f'Error: {str(e)}',
@@ -1015,7 +1085,7 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
 
 # Log startup
 logger.info('Pro-Lance startup')

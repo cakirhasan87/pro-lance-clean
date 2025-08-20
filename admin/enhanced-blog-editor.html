@@ -38,7 +38,8 @@
     
     <main class="admin-main">
         <div class="admin-header">
-            <h1>Enhanced Blog Editor</h1>
+            <h1><i class="fas fa-edit"></i> Enhanced Blog Editor</h1>
+            <p>Manage and edit your blog posts with ease</p>
             <button id="addNewBtn" class="btn-primary">
                 <i class="fas fa-plus"></i> Add New Post
             </button>
@@ -51,6 +52,7 @@
                     <option value="">All Status</option>
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
+                    <option value="active">Active</option>
                 </select>
             </div>
             
@@ -58,8 +60,8 @@
                 <label for="languageFilter">Language:</label>
                 <select id="languageFilter">
                     <option value="">All Languages</option>
-                    <option value="en">English</option>
                     <option value="tr">Turkish</option>
+                    <option value="en">English</option>
                 </select>
             </div>
             
@@ -78,62 +80,83 @@
         <div id="blogEditorForm" class="blog-editor-container" style="display: none;">
             <div class="blog-editor-header">
                 <h2 id="editorTitle">New Blog Post</h2>
-                <button onclick="blogEditor.hideBlogForm()" class="btn-secondary">
+                <button onclick="blogEditor.hideBlogForm()" class="close-btn">
                     <i class="fas fa-times"></i> Cancel
                 </button>
             </div>
             
             <form id="blogForm" class="blog-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="blogTitle">Title *</label>
-                        <input type="text" id="blogTitle" name="title" required>
+                <!-- Basic Information Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-info-circle"></i> Basic Information
                     </div>
-                    <div class="form-group">
-                        <label for="blogSlug">Slug</label>
-                        <input type="text" id="blogSlug" name="slug">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="blogTitle">Title *</label>
+                            <input type="text" id="blogTitle" name="title" required placeholder="Enter blog post title">
+                        </div>
+                        <div class="form-group">
+                            <label for="blogSlug">Slug</label>
+                            <input type="text" id="blogSlug" name="slug" placeholder="auto-generated from title">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="blogLanguage">Language</label>
+                            <select id="blogLanguage" name="language">
+                                <option value="tr">Turkish</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="blogStatus">Status</label>
+                            <select id="blogStatus" name="status">
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="blogLanguage">Language</label>
-                        <select id="blogLanguage" name="language">
-                            <option value="en">English</option>
-                            <option value="tr">Turkish</option>
-                        </select>
+                <!-- Content Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-file-alt"></i> Content
                     </div>
                     <div class="form-group">
-                        <label for="blogStatus">Status</label>
-                        <select id="blogStatus" name="status">
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                        </select>
+                        <label for="blogExcerpt">Excerpt</label>
+                        <textarea id="blogExcerpt" name="excerpt" rows="4" placeholder="Brief description of the blog post..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="blogContent">Content *</label>
+                        <textarea id="blogContent" name="content" rows="15" required placeholder="Write your blog post content here..."></textarea>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="blogExcerpt">Excerpt</label>
-                    <textarea id="blogExcerpt" name="excerpt" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="blogContent">Content *</label>
-                    <textarea id="blogContent" name="content" rows="10" required></textarea>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="blogTags">Tags (comma separated)</label>
-                        <input type="text" id="blogTags" name="tags" placeholder="AI, Software Development, Technology">
+                <!-- Media & Tags Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-tags"></i> Media & Tags
                     </div>
-                    <div class="form-group">
-                        <label for="blogImage">Featured Image URL</label>
-                        <input type="url" id="blogImage" name="image" placeholder="https://example.com/image.jpg">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="blogTags">Tags (comma separated)</label>
+                            <input type="text" id="blogTags" name="tags" placeholder="AI, Software Development, Technology">
+                        </div>
+                        <div class="form-group">
+                            <label for="blogImage">Featured Image URL</label>
+                            <input type="url" id="blogImage" name="image" placeholder="/images/your-image.webp">
+                        </div>
                     </div>
                 </div>
                 
                 <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="blogEditor.hideBlogForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
                     <button type="submit" class="btn-primary">
                         <i class="fas fa-save"></i> Save Post
                     </button>
@@ -145,7 +168,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Title</th>
+                        <th>Blog Post</th>
                         <th>Language</th>
                         <th>Status</th>
                         <th>Date</th>
@@ -227,6 +250,13 @@
 
         // Initialize authentication
         const adminAuth = new AdminAuth();
+        
+        // Initialize blog editor
+        let blogEditor;
+        document.addEventListener('DOMContentLoaded', function() {
+            blogEditor = new BlogEditor();
+            window.blogEditor = blogEditor;
+        });
     </script>
 </body>
 </html> 

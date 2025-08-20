@@ -296,7 +296,7 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1;
 }
 
@@ -318,6 +318,16 @@ main {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
+.hero-headline {
+    font-size: 4.5rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+}
+
 .hero-content p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
@@ -330,23 +340,166 @@ main {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #ff7b00;
+    background-color: #0066FF;
     color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 30px;
-    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
     text-decoration: none;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
     gap: 8px;
     margin-top: auto;
+    min-width: 160px;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.4;
+    min-height: 48px;
+}
+
+.hero-cta-btn {
+    display: inline-block;
+    background-color: #0066FF;
+    color: white;
+    text-decoration: none;
+    padding: 18px 32px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+.hero-cta-btn:hover {
+    background-color: #0052CC;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+}
+
+.hero-cta-btn i {
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    .hero-headline {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-cta-btn {
+        font-size: 16px;
+        padding: 18px 24px;
+        margin-top: 1.5rem;
+        width: 100%;
+        max-width: 320px;
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* General CTA button responsive styles */
+    .cta-button,
+    .calendly-btn,
+    .submit-btn {
+        width: 100%;
+        max-width: 320px;
+        min-height: 56px;
+        padding: 18px 24px;
+        font-size: 16px;
+        white-space: normal;
+        word-wrap: break-word;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-headline {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-cta-btn {
+        font-size: 15px;
+        padding: 16px 20px;
+        margin-top: 1rem;
+        min-height: 52px;
+    }
+    
+    /* Mobile-specific button styles */
+    .cta-button,
+    .calendly-btn,
+    .submit-btn {
+        width: 100%;
+        max-width: 100%;
+        min-height: 52px;
+        padding: 16px 20px;
+        font-size: 15px;
+        margin: 0.5rem 0;
+    }
+}
+
+/* Button alignment utilities */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.button-group .cta-button,
+.button-group .calendly-btn,
+.button-group .submit-btn {
+    flex: 1;
+    min-width: 160px;
+    max-width: 200px;
+}
+
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+    
+    .button-group .cta-button,
+    .button-group .calendly-btn,
+    .button-group .submit-btn {
+        width: 100%;
+        max-width: 320px;
+        min-height: 56px;
+        padding: 18px 24px;
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .button-group {
+        gap: 0.75rem;
+    }
+    
+    .button-group .cta-button,
+    .button-group .calendly-btn,
+    .button-group .submit-btn {
+        max-width: 100%;
+        min-height: 52px;
+        padding: 16px 20px;
+    }
 }
 
 .cta-button:hover {
-    background-color: #e67000;
+    background-color: #0052CC;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 123, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
 }
 
 .cta-button i {
@@ -418,8 +571,16 @@ main {
 .about-image img {
     width: 100%;
     height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.about-image img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
 .about-content {
@@ -462,9 +623,47 @@ main {
     .about-image {
         max-width: 100%;
     }
+    
+    .about-image img {
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+    }
 
     .about-content {
         padding: 1rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-image img {
+        max-height: 300px;
+        border-radius: 12px;
+    }
+    
+    .blog-image {
+        height: 200px;
+    }
+    
+    .blog-image img {
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-image img {
+        max-height: 250px;
+        border-radius: 8px;
+    }
+    
+    .blog-image {
+        height: 180px;
+        border-radius: 8px;
+    }
+    
+    .blog-image img {
+        border-radius: 8px;
     }
 }
 
@@ -486,13 +685,15 @@ main {
 .service-card {
     background: white;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.12);
 }
 
 .service-card i {
@@ -519,6 +720,64 @@ main {
 @media (max-width: 992px) {
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .service-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .service-card {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .service-card i {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .service-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .service-card p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-grid {
+        padding: 0 0.5rem;
+    }
+    
+    .service-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .service-card i {
+        font-size: 1.8rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .service-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .service-card p {
+        font-size: 0.9rem;
     }
 }
 
@@ -564,19 +823,23 @@ main {
 
 .blog-image {
     width: 100%;
-    height: 200px;
+    height: 240px;
     overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
 
 .blog-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    aspect-ratio: 16/9;
 }
 
 .blog-card:hover .blog-image img {
     transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
 .blog-content {
@@ -625,13 +888,33 @@ main {
 @media (max-width: 992px) {
     .blog-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
     .blog-grid {
         grid-template-columns: 1fr;
-        padding: 1rem;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .blog-card {
+        margin-bottom: 1rem;
+    }
+    
+    .blog-content {
+        padding: 1.25rem;
+    }
+    
+    .blog-content h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .blog-content p {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
     }
     
     .blog-hero h1 {
@@ -645,9 +928,33 @@ main {
     .blog-posts {
         padding: 1rem;
     }
+}
+
+@media (max-width: 480px) {
+    .blog-grid {
+        padding: 0 0.5rem;
+    }
+    
+    .blog-card {
+        border-radius: 12px;
+    }
+    
+    .blog-content {
+        padding: 1rem;
+    }
     
     .blog-content h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .blog-content p {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .read-more {
+        font-size: 0.9rem;
     }
 }
 
@@ -854,21 +1161,45 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--primary-color);
+    gap: 8px;
+    padding: 14px 28px;
+    background-color: #0066FF;
     color: white;
     border: none;
-    border-radius: 4px;
-        font-size: 1rem;
-    font-weight: 500;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 160px;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.4;
+    min-height: 48px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+    left: 100%;
 }
 
 .submit-btn:hover {
-    background-color: #43a047;
-    transform: translateY(-1px);
+    background-color: #0052CC;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
 }
 
 .submit-btn:active {
