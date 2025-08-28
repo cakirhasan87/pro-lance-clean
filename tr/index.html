@@ -84,6 +84,52 @@
         .lang-switch a:hover {
             background-color: #f8f9fa !important;
         }
+        
+        /* Mobile navigation styles for Turkish page */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: rgba(255,255,255,0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                padding: 1rem;
+                z-index: 999;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+            
+            .nav-list li {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-list li a {
+                font-size: 1.2rem;
+                padding: 1rem 2rem;
+                display: block;
+                width: 100%;
+                text-align: center;
+                color: #333 !important;
+                text-decoration: none !important;
+                transition: all 0.3s ease;
+                border-radius: 8px;
+                margin: 0 1rem;
+            }
+            
+            .nav-list li a:hover {
+                background: rgba(0, 123, 255, 0.1);
+                color: #007bff !important;
+            }
+        }
     </style>
  
 </head>
@@ -128,8 +174,8 @@
             <div class="hero-content">
                 <h1 class="hero-headline">Yetenekler Buluşur, Projeler Büyür</h1>
                 <p>Pro-Lance ile yeteneklerinizi keşfedin ve Online bir görüşme planlayın</p>
-                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" aria-label="30 dakikalık ücretsiz danışma görüşmesi planlamak için Calendly'yi aç">
-                    <i class="far fa-calendar-alt" aria-hidden="true"></i> Online Görüşme Planlayın
+                <a href="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" target="_blank" class="hero-cta-btn" aria-label="Hızlı eşleşme için formu aç">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i> Hızlı Eşleşme için Formu Doldur
                 </a>
             </div>
         </section>

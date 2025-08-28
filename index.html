@@ -125,6 +125,69 @@
         .hero-overlay {
             background: rgba(0,0,0,0.4) !important;
         }
+        
+        /* Mobile navigation styles for main page */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none !important;
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                background-color: rgba(255,255,255,0.95) !important;
+                backdrop-filter: blur(10px) !important;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+                padding: 1rem !important;
+                z-index: 999 !important;
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+            
+            .nav-list.active {
+                display: flex !important;
+            }
+            
+            .nav-list li {
+                margin: 0 !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            .nav-list li a {
+                font-size: 1.2rem !important;
+                padding: 1rem 2rem !important;
+                display: block !important;
+                width: 100% !important;
+                text-align: center !important;
+                color: #333 !important;
+                text-decoration: none !important;
+                transition: all 0.3s ease !important;
+                border-radius: 8px !important;
+                margin: 0 1rem !important;
+                font-weight: 500 !important;
+                background-color: transparent !important;
+                border: none !important;
+                outline: none !important;
+            }
+            
+            .nav-list li a:visited {
+                color: #333 !important;
+            }
+            
+            .nav-list li a:active {
+                color: #333 !important;
+            }
+            
+            .nav-list li a:hover {
+                background: rgba(0, 123, 255, 0.1) !important;
+                color: #007bff !important;
+            }
+            
+            /* Ensure hamburger is visible */
+            .hamburger {
+                display: block !important;
+            }
+        }
     </style>
     
     <!-- Defer non-critical CSS -->
@@ -216,83 +279,34 @@
     <!-- Include Universal Header -->
     <div id="header"></div>
     <script>
-        fetch('header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header').innerHTML = data;
-                
-                // Initialize hamburger menu after header is loaded
-                initializeHamburgerMenu();
-            })
-            .catch(error => console.error('Error loading header:', error));
-            
-        function initializeHamburgerMenu() {
-            const hamburger = document.querySelector('.hamburger');
-            const navList = document.querySelector('.nav-list');
-            
-            console.log('TR - Hamburger found:', hamburger);
-            console.log('TR - Nav list found:', navList);
-            
-            if (hamburger && navList) {
-                // Remove any existing event listeners
-                hamburger.replaceWith(hamburger.cloneNode(true));
-                const newHamburger = document.querySelector('.hamburger');
-                
-                newHamburger.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
                     
-                    console.log('TR - Hamburger clicked!');
+                    const hamburger = document.querySelector('.hamburger');
+                    const nav = document.querySelector('.nav');
                     
-                    const isExpanded = navList.classList.contains('active');
-                    console.log('TR - Is expanded:', isExpanded);
-                    
-                    // Toggle menu state
-                    if (isExpanded) {
-                        navList.classList.remove('active');
-                        newHamburger.classList.remove('active');
-                        newHamburger.setAttribute('aria-expanded', 'false');
-                        console.log('TR - Menu closed');
-                    } else {
-                        navList.classList.add('active');
-                        newHamburger.classList.add('active');
-                        newHamburger.setAttribute('aria-expanded', 'true');
-                        console.log('TR - Menu opened');
+                    if (hamburger && nav) {
+                        hamburger.addEventListener('click', () => {
+                            hamburger.classList.toggle('active');
+                            nav.classList.toggle('active');
+                        });
+
+                        // Close mobile menu when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                                nav.classList.remove('active');
+                                hamburger.classList.remove('active');
+                            }
+                        });
                     }
+                })
+                .catch(error => {
+                    console.error('Error loading header:', error);
                 });
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', function(event) {
-                    if (!newHamburger.contains(event.target) && !navList.contains(event.target)) {
-                        navList.classList.remove('active');
-                        newHamburger.classList.remove('active');
-                        newHamburger.setAttribute('aria-expanded', 'false');
-                    }
-                });
-                
-                // Close menu on Escape key
-                document.addEventListener('keydown', function(event) {
-                    if (event.key === 'Escape' && navList.classList.contains('active')) {
-                        navList.classList.remove('active');
-                        newHamburger.classList.remove('active');
-                        newHamburger.setAttribute('aria-expanded', 'false');
-                        newHamburger.focus();
-                    }
-                });
-                
-                // Close menu when clicking on a link
-                const navLinks = navList.querySelectorAll('a');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        if (window.innerWidth <= 768) {
-                            navList.classList.remove('active');
-                            newHamburger.classList.remove('active');
-                            newHamburger.setAttribute('aria-expanded', 'false');
-                        }
-                    });
-                });
-            }
-        }
+        });
     </script>
 
     <!-- Ana Bölüm -->
@@ -303,9 +317,9 @@
             <div class="hero-content">
                 <h1 class="hero-headline">Yetenekler Buluşur, Projeler Büyür</h1>
                 <p>Pro-Lance ile yeteneklerinizi keşfedin ve Online bir görüşme planlayın</p>
-                                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" aria-label="30 dakikalık ücretsiz danışma görüşmesi planlamak için Calendly'yi aç">
-                        <i class="far fa-calendar-alt" aria-hidden="true"></i> Online Görüşme Planlayın
-                    </a>
+                                                    <a href="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" target="_blank" class="hero-cta-btn" aria-label="Hızlı eşleşme için formu aç">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i> Hızlı Eşleşme için Formu Doldur
+                </a>
             </div>
         </section>
 

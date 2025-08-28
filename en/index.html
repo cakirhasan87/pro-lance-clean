@@ -93,22 +93,63 @@
         /* Mobile menu styles */
         @media (max-width: 768px) {
             .nav-list {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: rgba(255,255,255,0.95);
-                backdrop-filter: blur(10px);
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                padding: 1rem;
-                z-index: 999;
-                flex-direction: column;
-                gap: 1rem;
+                display: none !important;
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                background-color: rgba(255,255,255,0.95) !important;
+                backdrop-filter: blur(10px) !important;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+                padding: 1rem !important;
+                z-index: 999 !important;
+                flex-direction: column !important;
+                gap: 1rem !important;
             }
             
             .nav-list.active {
-                display: flex;
+                display: flex !important;
+            }
+            
+            .nav-list li {
+                margin: 0 !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            .nav-list li a {
+                font-size: 1.2rem !important;
+                padding: 1rem 2rem !important;
+                display: block !important;
+                width: 100% !important;
+                text-align: center !important;
+                color: #333 !important;
+                text-decoration: none !important;
+                transition: all 0.3s ease !important;
+                border-radius: 8px !important;
+                margin: 0 1rem !important;
+                font-weight: 500 !important;
+                background-color: transparent !important;
+                border: none !important;
+                outline: none !important;
+            }
+            
+            .nav-list li a:visited {
+                color: #333 !important;
+            }
+            
+            .nav-list li a:active {
+                color: #333 !important;
+            }
+            
+            .nav-list li a:hover {
+                background: rgba(0, 123, 255, 0.1) !important;
+                color: #007bff !important;
+            }
+            
+            /* Ensure hamburger is visible */
+            .hamburger {
+                display: block !important;
             }
         }
         
@@ -200,8 +241,8 @@
             <div class="hero-content">
                 <h1 class="hero-headline">Talents Meet, Projects Grow</h1>
                 <p>Discover your talents with Pro-Lance and schedule an online consultation</p>
-                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" aria-label="Schedule a 30-minute free consultation meeting by opening Calendly">
-                    <i class="far fa-calendar-alt" aria-hidden="true"></i> Schedule Online Meeting
+                <a href="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" target="_blank" class="hero-cta-btn" aria-label="Fill out the form for quick matching">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i> Fill Out Form for Quick Matching
                 </a>
             </div>
         </section>
