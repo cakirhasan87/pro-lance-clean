@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .error { color: red; }
+        .success { color: green; }
+        .debug-log { background: #f8f9fa; padding: 10px; margin: 10px 0; border: 1px solid #ddd; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Contact Form Debug</h1>
+    
+    <form id="contact-form" action="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" method="POST">
+        <div class="form-group">
+            <label for="name">Ad Soyad *</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">E-posta *</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Telefon *</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="subject">Konu *</label>
+            <select id="subject" name="subject" required>
+                <option value="">Bir seçenek seçin...</option>
+                <option value="General Information">Genel Bilgi</option>
+                <option value="Business Collaboration">İş Birliği</option>
+                <option value="Technical Support">Teknik Destek</option>
+                <option value="Other">Diğer</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Mesaj *</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        
+        <button type="submit">Gönder</button>
+    </form>
+    
+    <div id="debug-log" class="debug-log"></div>
+    
+    <script>
+        function log(message) {
+            const debugLog = document.getElementById('debug-log');
+            const timestamp = new Date().toLocaleTimeString();
+            debugLog.innerHTML += `[${timestamp}] ${message}<br>`;
+            console.log(`[${timestamp}] ${message}`);
+        }
+        
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            log('Form submit event triggered');
+            
+            const formData = new FormData(this);
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('source', 'debug-test');
+            
+            // Log form data
+            log('Form data:');
+            for (let [key, value] of formData.entries()) {
+                log(`  ${key}: ${value}`);
+            }
+            
+            // Create data for n8n in the correct format
+            const n8nData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                subject: formData.get('subject'),
+                message: formData.get('message'),
+                timestamp: formData.get('timestamp'),
+                source: formData.get('source')
+            };
+            
+            log('n8n data:');
+            log(`  ${JSON.stringify(n8nData, null, 2)}`);
+            
+            try {
+                log('Sending to n8n...');
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(n8nData)
+                });
+                
+                log(`Response status: ${response.status}`);
+                log(`Response headers: ${JSON.stringify([...response.headers.entries()])}`);
+                
+                const responseText = await response.text();
+                log(`Response text: ${responseText}`);
+                
+                if (response.ok) {
+                    log('✅ SUCCESS: Form submitted successfully');
+                } else {
+                    log('❌ ERROR: Form submission failed');
+                }
+                
+            } catch (error) {
+                log(`❌ ERROR: ${error.message}`);
+                console.error('Error:', error);
+            }
+        });
+        
+        log('Debug page loaded');
+    </script>
+</body>
+</html>

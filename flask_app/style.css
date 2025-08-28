@@ -45,6 +45,11 @@ body {
     font-weight: 700;
     color: #333;
     letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+.logo a:hover {
+    color: #0066FF;
 }
 
 .logo-text {
@@ -181,8 +186,8 @@ body {
         padding: 0.7rem 1.5rem;
     }
     
-    .logo img {
-        height: 30px;
+    .logo a {
+        font-size: 1.3rem;
     }
     
     .right-header {
@@ -236,8 +241,8 @@ body {
         padding: 0.6rem 1.2rem;
     }
     
-    .logo img {
-        height: 28px;
+    .logo a {
+        font-size: 1.2rem;
     }
     
     .nav {
@@ -250,8 +255,8 @@ body {
         padding: 0.5rem 1rem;
     }
     
-    .logo img {
-        height: 25px;
+    .logo a {
+        font-size: 1.1rem;
     }
     
     .nav {
@@ -385,6 +390,12 @@ main {
 }
 
 @media (max-width: 768px) {
+    .hero-content {
+        padding: 0 1.5rem;
+        width: 100%;
+        max-width: 100%;
+    }
+    
     .hero-headline {
         font-size: 3rem;
         margin-bottom: 1.5rem;
@@ -400,6 +411,8 @@ main {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     /* General CTA button responsive styles */
@@ -421,6 +434,12 @@ main {
 }
 
 @media (max-width: 480px) {
+    .hero-content {
+        padding: 0 1rem;
+        width: 100%;
+        max-width: 100%;
+    }
+    
     .hero-headline {
         font-size: 2.5rem;
         margin-bottom: 1rem;
@@ -431,6 +450,8 @@ main {
         padding: 16px 20px;
         margin-top: 1rem;
         min-height: 52px;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     /* Mobile-specific button styles */

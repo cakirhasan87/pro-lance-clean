@@ -30,10 +30,11 @@
     
     <!-- Critical CSS inline -->
     <style>
+        /* Cache Busting - Updated: 2025-08-24 09:07:00 */
         /* Critical CSS for above-the-fold content */
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
-        .hero-section { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body { margin: 0 !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); margin: 0 !important; margin-bottom: 0 !important; }
+        .hero-section { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 !important; padding: 0 !important; margin-top: 0 !important; }
         .hero-content { position: relative; z-index: 2; text-align: center; color: white; padding: 2rem; }
         .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1; }
         .hero-section img { width: 100%; height: 100%; object-fit: cover; }
@@ -52,20 +53,79 @@
         /* Responsive design */
         @media (min-width: 768px) {
             .nav-list { display: flex; list-style: none; margin: 0; padding: 0; }
-            .nav-list li { margin: 0 1rem; }
             .nav-list a { text-decoration: none; color: #333; transition: color 0.3s; }
             .nav-list a:hover, .nav-list a.active { color: #007bff; }
             .hamburger { display: none; }
         }
+        
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #ffffff;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                padding: 1rem;
+                z-index: 999;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+        }
     </style>
     
     <!-- Preload critical assets -->
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
+    <link rel="preload" href="style.min.css?v=202508240907" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="style.min.css?v=202508240907"></noscript>
     
     <!-- Preload hero image with high priority -->
     <link rel="preload" href="images/remote-office.webp" as="image" fetchpriority="high" media="(min-width: 601px)">
     <link rel="preload" href="images/remote-office-mobile.webp" as="image" fetchpriority="high" media="(max-width: 600px)">
+    
+    <style>
+        /* Ensure hero image shows on main page */
+        .hero-section {
+            background-image: url('images/remote-office.webp') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        @media (max-width: 600px) {
+            .hero-section {
+                background-image: url('images/remote-office-mobile.webp') !important;
+            }
+        }
+        
+        /* Remove white space between header and hero */
+        main {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        .hero-section {
+            position: relative !important;
+            height: 100vh !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Make hero overlay brighter like English page */
+        .hero-overlay {
+            background: rgba(0,0,0,0.4) !important;
+        }
+    </style>
     
     <!-- Defer non-critical CSS -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -107,6 +167,26 @@
     }
     </script>
     
+    <script>
+        // Cache Busting - Force reload if needed
+        if (performance.navigation.type === 1) {
+            // Page was reloaded, clear any cached data
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+        }
+        
+        // Force reload CSS if needed
+        const cssLink = document.querySelector('link[href*="style.min.css"]');
+        if (cssLink) {
+            cssLink.href = cssLink.href.split('?')[0] + '?v=' + Date.now();
+        }
+    </script>
+    
     <!-- Google Analytics - Deferred to prevent blocking -->
     <script>
         // Defer Google Analytics to prevent blocking
@@ -130,93 +210,152 @@
     </script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header flex">
-        <div class="logo">
-            <a href="/">Pro-Lance</a>
-        </div>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li><a href="/" class="active">Ana Sayfa</a></li>
-                <li><a href="/services.html" class="">Hizmetler</a></li>
-                <li><a href="/collaboration.html" class="">İş Birliği</a></li>
-                <li><a href="/blog.html" class="">Blog</a></li>
-                <li><a href="/about.html" class="">Hakkımızda</a></li>
-                <li><a href="/contact.html" class="">İletişim</a></li>
-            </ul>
-        </nav>
-        <div class="right-header">
-            <div class="lang-switch">
-                <a href="#" class="active">TR</a>
-                <a href="/en/index.html">EN</a>
-            </div>
-            <button class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Ana içeriğe geç</a>
+    
+    <!-- Include Universal Header -->
+    <div id="header"></div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+                
+                // Initialize hamburger menu after header is loaded
+                initializeHamburgerMenu();
+            })
+            .catch(error => console.error('Error loading header:', error));
+            
+        function initializeHamburgerMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navList = document.querySelector('.nav-list');
+            
+            console.log('TR - Hamburger found:', hamburger);
+            console.log('TR - Nav list found:', navList);
+            
+            if (hamburger && navList) {
+                // Remove any existing event listeners
+                hamburger.replaceWith(hamburger.cloneNode(true));
+                const newHamburger = document.querySelector('.hamburger');
+                
+                newHamburger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('TR - Hamburger clicked!');
+                    
+                    const isExpanded = navList.classList.contains('active');
+                    console.log('TR - Is expanded:', isExpanded);
+                    
+                    // Toggle menu state
+                    if (isExpanded) {
+                        navList.classList.remove('active');
+                        newHamburger.classList.remove('active');
+                        newHamburger.setAttribute('aria-expanded', 'false');
+                        console.log('TR - Menu closed');
+                    } else {
+                        navList.classList.add('active');
+                        newHamburger.classList.add('active');
+                        newHamburger.setAttribute('aria-expanded', 'true');
+                        console.log('TR - Menu opened');
+                    }
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!newHamburger.contains(event.target) && !navList.contains(event.target)) {
+                        navList.classList.remove('active');
+                        newHamburger.classList.remove('active');
+                        newHamburger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // Close menu on Escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && navList.classList.contains('active')) {
+                        navList.classList.remove('active');
+                        newHamburger.classList.remove('active');
+                        newHamburger.setAttribute('aria-expanded', 'false');
+                        newHamburger.focus();
+                    }
+                });
+                
+                // Close menu when clicking on a link
+                const navLinks = navList.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            navList.classList.remove('active');
+                            newHamburger.classList.remove('active');
+                            newHamburger.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                });
+            }
+        }
+    </script>
 
     <!-- Ana Bölüm -->
-    <main>
+    <main id="main-content" role="main">
         <!-- Hero Section -->
         <section class="hero-section">
-            <picture>
-                <source srcset="images/remote-office-mobile.webp" media="(max-width: 600px)">
-                <img src="images/remote-office.webp" alt="Modern uzaktan çalışma ofisi" style="width:100%;height:auto;object-fit:cover;position:absolute;top:0;left:0;z-index:0;min-height:100%;max-height:100vh;">
-            </picture>
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <h1 class="hero-headline">Yetenekler Buluşur, Projeler Büyür</h1>
                 <p>Pro-Lance ile yeteneklerinizi keşfedin ve Online bir görüşme planlayın</p>
-                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn">
-                    <i class="far fa-calendar-alt"></i> Online Görüşme Planlayın
-                </a>
+                                    <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" aria-label="30 dakikalık ücretsiz danışma görüşmesi planlamak için Calendly'yi aç">
+                        <i class="far fa-calendar-alt" aria-hidden="true"></i> Online Görüşme Planlayın
+                    </a>
             </div>
         </section>
 
         <!-- About Section -->
         <section id="about" class="about-section">
             <div class="section-header">
-                <h2>Biz Kimiz?</h2>
+                <h2>Pro-Lance ile Geleceğin Çalışma Modeli</h2>
             </div>
             <div class="about-row">
-                <div class="about-image">
-                    <img src="images/collaboration-bg.jpg" alt="Takım İşbirliği ve Proje Yönetimi" loading="lazy">
-                </div>
+                                        <div class="about-image">
+                            <img src="images/collaboration-bg.jpg" alt="Profesyonel takım üyeleri bir proje üzerinde işbirliği yaparken, modern ofis ortamında beyaz tahta etrafında toplanmış" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
+                        </div>
                 <div class="about-content">
-                    <h3>Biz Kimiz</h3>
-                    <p>Pro-Lance'e hoş geldiniz, burada olağanüstü yetenek sınırsız olanaklarla buluşuyor. Farklı geçmişlerden gelen yetenekli profesyonelleri üst düzey hizmet arayan müşterilerle buluşturan dinamik bir platform oluşturmaya kendimizi adadık.</p>
-                    <p>Bugün bize katılın ve yetenekli freelancerlarımızla işbirliğinin gücünü deneyimleyin!</p>
+                    <h3>İşbirliği Gücünü Keşfedin</h3>
+                    <p>Olağanüstü yeteneklerin, doğru projelerle buluştuğu noktadayız. Pro-Lance, farklı alanlardan gelen profesyonelleri; yenilik, kalite ve hız arayan işletmelerle bir araya getiren güvenilir bir platformdur.</p>
+                    <p>Pro-Lance, yetenekli freelancer'ları işletmelerin ihtiyaçlarıyla uyumlu şekilde eşleştirir. Amacımız; şirketlerin hedeflerine en kısa sürede, verimli ve sürdürülebilir çözümlerle ulaşmasını sağlamak. Kullanıcı dostu platformumuzla, proje yönetiminden teslimata kadar tüm süreci kolaylaştırıyoruz.</p>
                 </div>
             </div>
             <div class="about-row reverse">
-                <div class="about-image">
-                    <img src="images/project-management.webp" alt="Proje Yönetimi ve Planlama" loading="lazy">
-                </div>
+                                        <div class="about-image">
+                            <img src="images/project-management.webp" alt="Proje yönetimi sürecini gösteren dijital dashboard, grafikler ve zaman çizelgesi ile birlikte" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
+                        </div>
                 <div class="about-content">
-                    <h3>Ne Yapıyoruz?</h3>
-                    <p>Pro-Lance'de, müşterilerin istisnai yeteneklerle sorunsuz bir şekilde bağlantı kurabildiği gelişen bir serbest çalışma ekosistemi oluşturmaya kendimizi adadık. İşletmelerin hedeflerine verimli ve uygun maliyetli bir şekilde ulaşmasını sağlayan kullanıcı dostu bir platform sunmaya çalışıyoruz.</p>
+                    <h3>Her Adımı Net, Her Sonuç Ölçülebilir</h3>
+                    <p>İhtiyaçlarınızı belirleyin, projenizin kapsamını ve bütçesini tanımlayın; gerisini bize bırakın. Freelancerlarımız, uzmanlık alanlarını ve portföylerini titizlikle sergilerken, siz de hedefinize en uygun teklifleri kolayca değerlendirebilirsiniz.</p>
                 </div>
             </div>
             <div class="about-row">
-                <div class="about-image">
-                    <img src="images/digital-transformation.webp" alt="Dijital Dönüşüm ve İnovasyon" loading="lazy">
-                </div>
+                                        <div class="about-image">
+                            <img src="images/digital-transformation.webp" alt="Dijital dönüşüm sürecini temsil eden teknoloji ve inovasyon görseli, modern iş süreçlerini gösteren diyagram" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
+                        </div>
                 <div class="about-content">
-                    <h3>Nasıl Çalışıyoruz</h3>
-                    <p>Platformumuz, çeşitli yetenekli freelancerlardan oluşan bir topluluğa ev sahipliği yapıyor. Freelancerlarımızın niteliklerini, uzmanlıklarını ve portfolyolarını titizlikle inceliyor ve doğruluyoruz, böylece en iyi profesyonellerden oluşan bir havuza erişiminizi sağlıyoruz.</p>
-                    <p>Proje gereksinimlerinizi ve özelliklerinizi platformumuzda kolayca paylaşabilirsiniz. Projenizin kapsamını, zaman çizelgesini ve bütçesini belirleyin, freelancerlarımıza ne aradığınızı bildirin. Bu sayede freelancerlarımız ihtiyaçlarınızı anlayabilir ve proje vizyonunuza uygun teklifler sunabilirler.</p>
+                    <h3>Doğrulanmış Uzmanlık, Güvenli İşbirliği</h3>
+                    <p>Platformumuzda yer alan her freelancer, deneyimi ve uzmanlığıyla doğrulanmıştır. Böylece yalnızca güvenilir ve nitelikli profesyonellerle çalışma şansı elde edersiniz. Projelerinizi hayata geçirirken riskleri azaltır, kaliteyi artırırsınız.</p>
                 </div>
             </div>
             <div class="about-row reverse">
-                <div class="about-image">
-                    <img src="images/modern-freelance.webp" alt="Modern Freelance Çalışma Ortamı" loading="lazy">
-                </div>
+                                        <div class="about-image">
+                            <img src="images/modern-freelance.webp" alt="Modern freelance çalışma ortamı, uzaktan çalışan profesyonellerin laptop ve dijital araçlarla çalıştığı rahat ofis ortamı" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
+                        </div>
                 <div class="about-content">
-                    <h3>Pro-lance.com'u Farklı Kılan Ne?</h3>
-                    <p>Kısa vadeli iş atamalarında uzmanlaşıyoruz ve Projelerinizin uzun vadeli taahhütler olmadan eşsiz uzmanlık almasını sağlıyoruz.</p>
+                    <h3>Pro-Lance'i Farklı Kılan Ne?</h3>
+                    <p>Pro-Lance, yalnızca kısa vadeli görevler için değil, uzun vadeli işbirlikleri için de esnek çözümler sunar. İster tek seferlik bir proje, ister stratejik ve devamlı bir iş modeli olsun; her iki senaryoya da uygun iş akışıyla hareket ederiz.</p>
+                    <p>İş atamalarını sizin ihtiyaçlarınıza göre özelleştiriyoruz:</p>
+                    <ul>
+                        <li><strong>Proje Bazlı İşler:</strong> Belirli bir hedefi olan, net kapsamlı projeler için.</li>
+                        <li><strong>Süreç Yönetimi:</strong> Daha uzun vadeli, adım adım ilerleyen, raporlama gerektiren işler için.</li>
+                        <li><strong>Uzman Danışmanlık:</strong> Stratejik kararlar, analiz ve dijital dönüşüm süreçleri için.</li>
+                    </ul>
+                    <p>Kısacası Pro-Lance, esneklik ve uzmanlığı tek çatı altında sunar.</p>
                 </div>
             </div>
         </section>
@@ -260,7 +399,10 @@
                 </div>
             </div>
             <div class="text-center" style="margin-top: 2rem;">
-                <a href="services.html" class="cta-button">Tüm Hizmetleri Gör</a>
+                <a href="services.html" class="contact-btn-primary" style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                    <i class="fas fa-arrow-right" style="margin-right: 10px;"></i>
+                    Tüm Hizmetleri Gör
+                </a>
             </div>
         </section>
 
@@ -272,7 +414,7 @@
             <div class="blog-grid">
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="images/agile-tools.webp" alt="Agile Proje Yönetimi Araçları" loading="lazy">
+                        <img src="images/agile-tools.webp" alt="Agile Proje Yönetimi Araçları" loading="lazy" style="display: block !important; visibility: visible !important;">
                     </div>
                     <div class="blog-content">
                         <h3>Uzaktan Proje Yönetimi ile Olağanüstü Sonuçlar</h3>
@@ -282,7 +424,7 @@
                 </div>
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="images/ai-development.webp" alt="AI ve Makine Öğrenmesi Geliştirme" loading="lazy">
+                        <img src="images/ai-development.webp" alt="AI ve Makine Öğrenmesi Geliştirme" loading="lazy" style="display: block !important; visibility: visible !important;">
                     </div>
                     <div class="blog-content">
                         <h3>SAP Clean Core: Büyüme için Optimize Edilmiş Çözüm</h3>
@@ -292,7 +434,7 @@
                 </div>
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="images/ai-ml-manufacturing.webp" alt="Üretimde AI ve Makine Öğrenmesi" loading="lazy">
+                        <img src="images/ai-ml-manufacturing.webp" alt="Üretimde AI ve Makine Öğrenmesi" loading="lazy" style="display: block !important; visibility: visible !important;">
                     </div>
                     <div class="blog-content">
                         <h3>Daha Hızlı, Daha Akıllı Çözümler için AI Destekli Yazılım Geliştirme</h3>
@@ -302,7 +444,10 @@
                 </div>
             </div>
             <div class="text-center" style="margin-top: 2rem;">
-                <a href="blog.html" class="cta-button">Tüm Blog Yazılarını Gör</a>
+                <a href="blog.html" class="contact-btn-primary" style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                    <i class="fas fa-arrow-right" style="margin-right: 10px;"></i>
+                    Tüm Blog Yazılarını Gör
+                </a>
             </div>
         </section>
     </main>
@@ -312,7 +457,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Pro-Lance</h3>
-                <p>Freelancer dünyasında güvenilir adresiniz</p>
+                <p>Yetenekler Buluşur, Projeler Büyür</p>
             </div>
             <div class="footer-section">
                 <h3>Hızlı Linkler</h3>
@@ -346,10 +491,11 @@
         </div>
     </footer>
 
-    <script src="script.min.js"></script>
+    <script src="script.js"></script>
+    <script src="accessibility-test.js"></script>
     
-            <!-- Cookie Consent Script -->
-        <script type="module" src="cookie-consent.js"></script>
+                <!-- Cookie Consent Script - Temporarily disabled for testing -->
+    <script type="module" src="cookie-consent.js"></script>
     
 
 </body>

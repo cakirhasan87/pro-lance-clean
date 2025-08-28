@@ -191,6 +191,14 @@ def serve_images(filename):
 def serve_en(filename):
     return send_from_directory('en', filename)
 
+@app.route('/tr/')
+def serve_tr_index():
+    return send_from_directory('tr', 'index.html')
+
+@app.route('/tr/<path:filename>')
+def serve_tr(filename):
+    return send_from_directory('tr', filename)
+
 @app.route('/blog-posts/<path:filename>')
 def serve_blog_posts(filename):
     return send_from_directory('blog-posts', filename)

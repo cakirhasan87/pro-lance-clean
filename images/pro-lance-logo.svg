@@ -1,0 +1,13 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background rectangle for better visibility -->
+  <rect width="120" height="40" fill="transparent"/>
+  
+  <!-- Letter "P" -->
+  <text x="8" y="28" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333333">P</text>
+  
+  <!-- Blue dash/line (parallelogram) -->
+  <polygon points="32,12 42,10 40,18 30,20" fill="#0066FF"/>
+  
+  <!-- "pro-lance.com" text -->
+  <text x="8" y="36" font-family="Arial, sans-serif" font-size="8" fill="#666666">pro-lance.com</text>
+</svg>

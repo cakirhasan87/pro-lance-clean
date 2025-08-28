@@ -17,33 +17,16 @@
 
 </head>
 <body>
-    <!-- Header -->
-<header class="header flex">
-    <div class="logo">
-        <a href="/">Pro-Lance</a>
-    </div>
-            <nav class="nav">
-            <ul class="nav-list">
-                <li><a href="/" class="">Ana Sayfa</a></li>
-                <li><a href="/services.html" class="">Hizmetler</a></li>
-                <li><a href="/collaboration.html" class="">İş Birliği</a></li>
-                <li><a href="/blog.html" class="">Blog</a></li>
-                <li><a href="/about.html" class="">Hakkımızda</a></li>
-                <li><a href="/contact.html" class="active">İletişim</a></li>
-            </ul>
-        </nav>
-    <div class="right-header">
-        <div class="lang-switch">
-            <a href="#" class="active">TR</a>
-            <a href="/en/contact.html">EN</a>
-        </div>
-        <button class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-</header>
+        <!-- Include Universal Header -->
+    <div id="header"></div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
 
 
 
@@ -75,46 +58,84 @@
         </section>
 
         <section class="contact-section">
-            <div class="contact-container">
-                <div class="contact-form-wrapper">
-                    <div class="meeting-icon">
-                        <i class="fas fa-handshake"></i>
+            <div class="contact-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <!-- Sol Kart: İletişim Formu -->
+                <div class="contact-card" style="background: white; border-radius: 12px; padding: 40px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 620px; min-height: 620px; width: 100%;">
+                    <!-- İkon -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <i class="fas fa-handshake contact-icon-handshake" style="font-size: 48px; color: #ff6b35; transition: all 0.3s ease;"></i>
                     </div>
-                    <h2>İletişim Formunu Doldurun</h2>
                     
-                    <!-- n8n Form Link -->
-                    <div class="button-group" style="margin: 2rem auto;">
-                        <a href="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" 
-                           target="_blank" 
-                           class="submit-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            İletişim Formunu Aç
-                        </a>
+                    <!-- Başlık -->
+                    <h3 style="text-align: center; margin-bottom: 25px; color: #333; font-size: 26px; font-weight: bold;">İletişim Formunu Doldurun</h3>
+                    
+                    <!-- Açıklama -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <p style="color: #666; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 30px;">
+                            Mesajınızı göndermek için aşağıdaki butona tıklayın. Form yeni sekmede açılacak ve tüm bilgilerinizi güvenle iletebilirsiniz.
+                        </p>
+                        
+                        <!-- Ana Buton -->
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <a href="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" 
+                               target="_blank" 
+                               class="contact-btn-primary"
+                               style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                                <i class="fas fa-paper-plane" style="margin-right: 10px;"></i>
+                                İletişim Formunu Aç
+                            </a>
+                        </div>
+                        
+                        <p style="text-align: center; color: #888; font-size: 16px; margin-bottom: 20px;">
+                            Form yeni sekmede açılacaktır
+                        </p>
+                        
+                        <!-- Ayırıcı -->
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <span style="color: #999; font-size: 18px;">veya</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Alt Buton -->
+                    <div style="text-align: center;">
                         <a href="https://t.me/Eneytenbot" 
                            target="_blank" 
-                           class="submit-btn" 
-                           style="background-color: #0088cc;">
-                            <i class="fab fa-telegram"></i>
+                           class="contact-btn-telegram"
+                           style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #0088cc 0%, #006699 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease;">
+                            <i class="fab fa-telegram" style="margin-right: 10px;"></i>
                             Telegram Pro-lancebot
                         </a>
                     </div>
                 </div>
 
-                <div class="meeting-request">
-                    <div class="meeting-icon">
-                        <i class="fas fa-calendar-check"></i>
+                <!-- Sağ Kart: Görüşme Planla -->
+                <div class="meeting-card" style="background: white; border-radius: 12px; padding: 40px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 620px; min-height: 620px; width: 100%;">
+                    <!-- İkon -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <i class="fas fa-calendar-check contact-icon-calendar" style="font-size: 48px; color: #007bff; transition: all 0.3s ease;"></i>
                     </div>
-                    <h3>Online Görüşme Planlayın</h3>
-                    <p style="text-align: justify; display: flex; flex-direction: column; gap: 1.5rem;">
-                        <span>Projelerinizin ihtiyaçlarını en iyi şekilde anlamak ve size özel çözümler sunabilmek için birebir görüşme yapmaya davet ediyoruz. Sizin için en uygun zamanı belirleyerek, takvimimizden bir toplantı saati seçebilirsiniz.</span>
-
-                        <span>Bu görüşmede, mevcut projelerinizin detaylarını ele alarak hedeflerinizi, beklentilerinizi ve karşılaştığınız zorlukları analiz edeceğiz. Alanında uzman ekiplerle birlikte, ihtiyaçlarınıza en uygun stratejileri oluşturacak ve size özel çözümler sunacağız.</span>
-
-                        <span>Daha verimli, yenilikçi ve sürdürülebilir projeler geliştirmek için bizimle iletişime geçin. Şimdi bir toplantı planlayarak, fikirlerinizi gerçeğe dönüştürmek için ilk adımı atın!</span>
-                    </p>
-                    <div class="contact-buttons-container" style="margin-top: 1.5rem;">
-                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
-                            <i class="fas fa-video"></i>
+                    
+                    <!-- Başlık -->
+                    <h3 style="text-align: center; margin-bottom: 25px; color: #333; font-size: 26px; font-weight: bold;">Online Görüşme Planlayın</h3>
+                    
+                    <!-- Açıklama -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <p style="color: #666; font-size: 18px; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+                            Projelerinizin ihtiyaçlarını en iyi şekilde anlamak ve size özel çözümler sunabilmek için birebir görüşme yapmaya davet ediyoruz. Sizin için en uygun zamanı belirleyerek, takvimimizden bir toplantı saati seçebilirsiniz.
+                        </p>
+                        
+                        <p style="color: #666; font-size: 18px; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+                            Bu görüşmede, mevcut projelerinizin detaylarını ele alarak hedeflerinizi, beklentilerinizi ve karşılaştığınız zorlukları analiz edeceğiz. Alanında uzman ekiplerle birlikte, ihtiyaçlarınıza en uygun stratejileri oluşturacak ve size özel çözümler sunacağız.
+                        </p>
+                    </div>
+                    
+                    <!-- Alt Buton -->
+                    <div style="text-align: center;">
+                        <a href="https://calendly.com/pro-lance-support/30min" 
+                           target="_blank" 
+                           class="contact-btn-calendly"
+                           style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
+                            <i class="fas fa-video" style="margin-right: 10px;"></i>
                             Görüşme Planla
                         </a>
                     </div>

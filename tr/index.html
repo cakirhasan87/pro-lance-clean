@@ -19,8 +19,72 @@
       }, 2000);
     </script>
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Fix hero section for Turkish page */
+        html body .hero-section,
+        body .hero-section {
+            background-image: url('../images/remote-office.webp') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            position: relative !important;
+            overflow: hidden !important;
+            height: 100vh !important;
+            min-height: 600px !important;
+        }
+        
+        @media (max-width: 600px) {
+            body .hero-section {
+                background-image: url('../images/remote-office-mobile.webp') !important;
+            }
+        }
+        
+        /* Fix navigation text display */
+        .nav-list li a {
+            color: #333 !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            font-size: 18px !important;
+            display: block !important;
+        }
+        
+        .nav-list li a:hover {
+            color: #007bff !important;
+        }
+        
+        /* Remove white space between header and hero */
+        main {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        .hero-section {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        /* Fix language switcher CSS */
+        .lang-switch a {
+            color: #333 !important;
+            text-decoration: none !important;
+            margin-left: 1rem !important;
+            padding: 2px 8px !important;
+            border-radius: 3px !important;
+            font-weight: 500 !important;
+        }
+        
+        .lang-switch a.active {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+        
+        .lang-switch a:hover {
+            background-color: #f8f9fa !important;
+        }
+    </style>
  
 </head>
 <body>
@@ -57,11 +121,109 @@
         });
     </script>
 
-    <main>
-        <!-- Rest of the existing content -->
-        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn" onclick="gtag('event', 'schedule_call_click', {event_category: 'engagement', event_label: 'Görüşme Planla Butonu'});">
-            <i class="far fa-calendar-alt"></i> 30 Dakikalık Görüşme Planla
-        </a>
+    <main id="main-content" role="main">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-headline">Yetenekler Buluşur, Projeler Büyür</h1>
+                <p>Pro-Lance ile yeteneklerinizi keşfedin ve Online bir görüşme planlayın</p>
+                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" aria-label="30 dakikalık ücretsiz danışma görüşmesi planlamak için Calendly'yi aç">
+                    <i class="far fa-calendar-alt" aria-hidden="true"></i> Online Görüşme Planlayın
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="section-header">
+                <h2>Pro-Lance ile Geleceğin Çalışma Modeli</h2>
+            </div>
+            <div class="about-row">
+                <div class="about-image">
+                    <img src="../images/collaboration-bg.jpg" alt="Profesyonel takım üyeleri bir proje üzerinde işbirliği yaparken, modern ofis ortamında beyaz tahta etrafında toplanmış" loading="lazy" width="600" height="400">
+                </div>
+                <div class="about-content">
+                    <h3>İşbirliği Gücünü Keşfedin</h3>
+                    <p>Olağanüstü yeteneklerin, doğru projelerle buluştuğu noktadayız. Pro-Lance, farklı alanlardan gelen profesyonelleri; yenilik, kalite ve hız arayan işletmelerle bir araya getiren güvenilir bir platformdur.</p>
+                    <p>Pro-Lance, yetenekli freelancer'ları işletmelerin ihtiyaçlarıyla uyumlu şekilde eşleştirir. Amacımız; şirketlerin hedeflerine en kısa sürede, verimli ve sürdürülebilir çözümlerle ulaşmasını sağlamak. Kullanıcı dostu platformumuzla, proje yönetiminden teslimata kadar tüm süreci kolaylaştırıyoruz.</p>
+                </div>
+            </div>
+            <div class="about-row reverse">
+                <div class="about-image">
+                    <img src="../images/project-management.webp" alt="Proje yönetimi sürecini gösteren dijital dashboard, grafikler ve zaman çizelgesi ile birlikte" loading="lazy" width="600" height="400">
+                </div>
+                <div class="about-content">
+                    <h3>Her Adımı Net, Her Sonuç Ölçülebilir</h3>
+                    <p>İhtiyaçlarınızı belirleyin, projenizin kapsamını ve bütçesini tanımlayın; gerisini bize bırakın. Freelancerlarımız, uzmanlık alanlarını ve portföylerini titizlikle sergilerken, siz de hedefinize en uygun teklifleri kolayca değerlendirebilirsiniz.</p>
+                </div>
+            </div>
+            <div class="about-row">
+                <div class="about-image">
+                    <img src="../images/digital-transformation.webp" alt="Dijital dönüşüm sürecini temsil eden teknoloji ve inovasyon görseli, modern iş süreçlerini gösteren diyagram" loading="lazy" width="600" height="400">
+                </div>
+                <div class="about-content">
+                    <h3>Doğrulanmış Uzmanlık, Güvenli İşbirliği</h3>
+                    <p>Platformumuzda yer alan her freelancer, deneyimi ve uzmanlığıyla doğrulanmıştır. Böylece yalnızca güvenilir ve nitelikli profesyonellerle çalışma şansı elde edersiniz. Projelerinizi hayata geçirirken riskleri azaltır, kaliteyi artırırsınız.</p>
+                </div>
+            </div>
+            <div class="about-row reverse">
+                <div class="about-image">
+                    <img src="../images/modern-freelance.webp" alt="Modern freelance çalışma ortamı, uzaktan çalışan profesyonellerin laptop ve dijital araçlarla çalıştığı rahat ofis ortamı" loading="lazy" width="600" height="400">
+                </div>
+                <div class="about-content">
+                    <h3>Pro-Lance'i Farklı Kılan Ne?</h3>
+                    <p>Pro-Lance, yalnızca kısa vadeli görevler için değil, uzun vadeli işbirlikleri için de esnek çözümler sunar. İster tek seferlik bir proje, ister stratejik ve devamlı bir iş modeli olsun; her iki senaryoya da uygun iş akışıyla hareket ederiz.</p>
+                    <p>İş atamalarını sizin ihtiyaçlarınıza göre özelleştiriyoruz:</p>
+                    <ul>
+                        <li><strong>Proje Bazlı İşler:</strong> Belirli bir hedefi olan, net kapsamlı projeler için.</li>
+                        <li><strong>Süreç Yönetimi:</strong> Daha uzun vadeli, adım adım ilerleyen, raporlama gerektiren işler için.</li>
+                        <li><strong>Uzman Danışmanlık:</strong> Stratejik kararlar, analiz ve dijital dönüşüm süreçleri için.</li>
+                    </ul>
+                    <p>Kısacası Pro-Lance, esneklik ve uzmanlığı tek çatı altında sunar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services-section">
+            <div class="section-header">
+                <h2>Hizmetlerimiz</h2>
+                <p>İşletmenizin ihtiyaçları için profesyonel çözümler</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-server"></i>
+                    <h3>Teknik Danışmanlık</h3>
+                    <p>Teknik zorluklar ve proje yönetimi ihtiyaçlarınız için uzman rehberlik ve çözümler.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-code"></i>
+                    <h3>Web Geliştirme</h3>
+                    <p>Kullanıcı deneyimi ve yenilikçi tasarıma odaklanan modern ve duyarlı web geliştirme çözümleri.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobil Uygulamalar</h3>
+                    <p>iOS ve Android platformları için kullanıcı dostu arayüzler ve performans optimizasyonu ile özel mobil çözümler.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Workshop</h3>
+                    <p>Ekibinizin becerilerini geliştirmek için interaktif ve uygulamalı workshop oturumları düzenliyoruz.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Eğitim</h3>
+                    <p>SAP ve yazılım geliştirme konularında kapsamlı eğitim programları ile ekibinizi güçlendirin.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Çözüm Tasarımı</h3>
+                    <p>Uzmanlarımız, optimum performans ve verimliliği sağlamak için benzersiz iş gereksinimlerinize uygun özel çözümler oluşturmak üzere sizinle yakın işbirliği içinde çalışır.</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Include the footer -->

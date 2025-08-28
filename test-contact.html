@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Contact Form Test</h1>
+    
+    <form id="contact-form" action="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" method="POST">
+        <div class="form-group">
+            <label for="name">Ad Soyad *</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">E-posta *</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Telefon *</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="subject">Konu *</label>
+            <select id="subject" name="subject" required>
+                <option value="">Bir seçenek seçin...</option>
+                <option value="General Information">Genel Bilgi</option>
+                <option value="Business Collaboration">İş Birliği</option>
+                <option value="Technical Support">Teknik Destek</option>
+                <option value="Other">Diğer</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Mesaj *</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        
+        <button type="submit">Test Gönder</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('source', 'test-page');
+            
+            // Create URL-encoded data
+            const urlData = new URLSearchParams();
+            for (let [key, value] of formData.entries()) {
+                urlData.append(key, value);
+            }
+            
+            console.log('Sending data:', urlData.toString());
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Gönderiliyor...';
+            
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: urlData
+                });
+                
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = '<div class="success">Başarılı! Response: ' + responseText + '</div>';
+                } else {
+                    resultDiv.innerHTML = '<div class="error">Hata! Status: ' + response.status + ', Response: ' + responseText + '</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = '<div class="error">Hata: ' + error.message + '</div>';
+            }
+        });
+    </script>
+</body>
+</html>

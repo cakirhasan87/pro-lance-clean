@@ -29,10 +29,11 @@
     <meta property="twitter:image" content="https://pro-lance.com/images/remote-office.webp">
     
     <!-- Preload critical assets -->
-    <link rel="preload" href="../style.css" as="style">
-    <link rel="preload" href="../images/remote-office.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="../style.min.css?v=202508240907" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../style.min.css?v=202508240907"></noscript>
+    <link rel="preload" href="../images/remote-office.webp" as="image" fetchpriority="high" media="(min-width: 601px)">
+    <link rel="preload" href="../images/remote-office-mobile.webp" as="image" fetchpriority="high" media="(max-width: 600px)">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" as="style">
     
     <!-- Google tag (gtag.js) -->
     <script>
@@ -58,7 +59,75 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" media="print" onload="this.media='all'" />
+    
+    <!-- Critical CSS inline -->
+    <style>
+        /* Cache Busting - Updated: 2025-08-24 09:07:00 */
+        /* Critical CSS for above-the-fold content */
+        body { margin: 0 !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); margin: 0 !important; margin-bottom: 0 !important; }
+        .hero-section { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 !important; padding: 0 !important; margin-top: 0 !important; }
+        .hero-content { position: relative; z-index: 2; text-align: center; color: white; padding: 2rem; }
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1; }
+        .hero-section img { width: 100%; height: 100%; object-fit: cover; }
+        .flex { display: flex; align-items: center; justify-content: space-between; }
+        .logo a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.5rem; }
+        .nav-list { display: none; }
+        .hamburger { display: block; background: none; border: none; cursor: pointer; }
+        .hamburger span { display: block; width: 25px; height: 3px; background: #333; margin: 5px 0; transition: 0.3s; }
+        .lang-switch a { text-decoration: none; color: #333; margin-left: 1rem; }
+        .lang-switch a.active { font-weight: bold; }
+        .calendly-btn, .submit-btn { background: #007bff; color: white; text-decoration: none; border-radius: 8px; transition: background 0.3s; }
+        .calendly-btn:hover, .submit-btn:hover { background: #0056b3; }
+        .submit-btn { background: #28a745; }
+        .submit-btn:hover { background: #1e7e34; }
+        
+        /* Responsive design */
+        @media (min-width: 768px) {
+            .nav-list { display: flex; list-style: none; margin: 0; padding: 0; }
+            .nav-list a { text-decoration: none; color: #333; transition: color 0.3s; }
+            .nav-list a:hover, .nav-list a.active { color: #007bff; }
+            .hamburger { display: none; }
+        }
+        
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: rgba(255,255,255,0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                padding: 1rem;
+                z-index: 999;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-list.active {
+                display: flex;
+            }
+        }
+        
+        /* Ensure header styling is applied */
+        .header {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(10px) !important;
+        }
+        
+        .nav-list li a {
+            color: #333 !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+        }
+        
+        .nav-list li a:hover {
+            color: #007bff !important;
+        }
+    </style>
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -126,17 +195,13 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section id="hero" class="hero-section">
-            <picture>
-                <source srcset="../images/remote-office-mobile.webp" media="(max-width: 600px)">
-                <img src="../images/remote-office.webp" alt="Modern remote working office" style="width:100%;height:auto;object-fit:cover;position:absolute;top:0;left:0;z-index:0;min-height:100%;max-height:100vh;">
-            </picture>
+        <section class="hero-section">
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <h1 class="hero-headline">Talents Meet, Projects Grow</h1>
                 <p>Discover your talents with Pro-Lance and schedule an online consultation</p>
-                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" onclick="gtag('event', 'schedule_call_click', {event_category: 'engagement', event_label: 'Schedule Call Button'});">
-                    <i class="far fa-calendar-alt"></i> Schedule Online Meeting
+                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="hero-cta-btn" aria-label="Schedule a 30-minute free consultation meeting by opening Calendly">
+                    <i class="far fa-calendar-alt" aria-hidden="true"></i> Schedule Online Meeting
                 </a>
             </div>
         </section>
@@ -144,44 +209,50 @@
         <!-- About Section -->
         <section id="about" class="about-section">
             <div class="section-header">
-                <h2>Who We Are?</h2>
+                <h2>Future of Work Model with Pro-Lance</h2>
             </div>
             <div class="about-row">
                 <div class="about-image">
-                    <img src="../images/collaboration-bg.jpg" alt="Team Collaboration and Project Management" loading="lazy">
+                    <img src="../images/collaboration-bg.jpg" alt="Professional team members collaborating on a project, gathered around a whiteboard in a modern office environment" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
                 </div>
                 <div class="about-content">
-                    <h3>Who We Are</h3>
-                    <p>Welcome to Pro-lance where exceptional talent meets endless possibilities. We are committed to fostering a dynamic platform that connects skilled professionals from diverse backgrounds with clients seeking top-notch services.</p>
-                    <p>Join us today and experience the power of collaboration with our skilled freelancers!</p>
+                    <h3>Discover the Power of Collaboration</h3>
+                    <p>We are at the point where extraordinary talents meet the right projects. Pro-Lance is a reliable platform that brings together professionals from different fields with businesses seeking innovation, quality, and speed.</p>
+                    <p>Pro-Lance matches talented freelancers with business needs in a compatible way. Our goal is to help companies reach their targets in the shortest time possible with efficient and sustainable solutions. With our user-friendly platform, we facilitate the entire process from project management to delivery.</p>
                 </div>
             </div>
             <div class="about-row reverse">
                 <div class="about-image">
-                    <img src="../images/project-management.webp" alt="Project Management and Planning" loading="lazy">
+                    <img src="../images/project-management.webp" alt="Digital dashboard showing project management process with charts and timeline" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
                 </div>
                 <div class="about-content">
-                    <h3>What We Do</h3>
-                    <p>At Pro-lance, we are committed to fostering a thriving freelance ecosystem where clients can seamlessly connect with exceptional talent. We strive to provide a user-friendly platform that empowers businesses to achieve their goals efficiently and cost-effectively.</p>
+                    <h3>Every Step Clear, Every Result Measurable</h3>
+                    <p>Define your needs, specify the scope and budget of your project; leave the rest to us. While our freelancers meticulously showcase their expertise and portfolios, you can easily evaluate the most suitable offers for your target.</p>
                 </div>
             </div>
             <div class="about-row">
                 <div class="about-image">
-                    <img src="../images/digital-transformation.webp" alt="Digital Transformation and Innovation" loading="lazy">
+                    <img src="../images/digital-transformation.webp" alt="Technology and innovation visual representing digital transformation process, diagram showing modern business processes" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
                 </div>
                 <div class="about-content">
-                    <h3>How We Operate</h3>
-                    <p>Our platform hosts a diverse community of talented freelancers. We meticulously screen and verify the qualifications, expertise, and portfolios of our freelancers to ensure you have access to a pool of top-notch professionals.</p>
-                    <p>Easily post your project requirements and specifications on our platform. Describe the scope, timeline, and budget for your project, and let our freelancers know what you're looking for. This allows our freelancers to understand your needs and submit proposals that align with your project vision.</p>
+                    <h3>Verified Expertise, Secure Collaboration</h3>
+                    <p>Every freelancer on our platform is verified with their experience and expertise. This way, you get the chance to work only with reliable and qualified professionals. While bringing your projects to life, you reduce risks and increase quality.</p>
                 </div>
             </div>
             <div class="about-row reverse">
                 <div class="about-image">
-                    <img src="../images/modern-freelance.webp" alt="Modern Freelance Work Environment" loading="lazy">
+                    <img src="../images/modern-freelance.webp" alt="Modern freelance work environment, remote working professionals working with laptops and digital tools in a comfortable office setting" loading="lazy" width="600" height="400" style="display: block !important; visibility: visible !important;">
                 </div>
                 <div class="about-content">
-                    <h3>What Sets pro-lance.com Apart?</h3>
-                    <p>We specialize in short-term work assignments, ensuring that your SAP projects receive unmatched expertise without the burden of long-term commitments.</p>
+                    <h3>What Makes Pro-Lance Different?</h3>
+                    <p>Pro-Lance offers flexible solutions not only for short-term tasks but also for long-term collaborations. Whether it's a one-time project or a strategic and continuous business model, we operate with workflows suitable for both scenarios.</p>
+                    <p>We customize job assignments according to your needs:</p>
+                    <ul>
+                        <li><strong>Project-Based Work:</strong> For projects with specific goals and clear scope.</li>
+                        <li><strong>Process Management:</strong> For longer-term, step-by-step work requiring reporting.</li>
+                        <li><strong>Expert Consulting:</strong> For strategic decisions, analysis, and digital transformation processes.</li>
+                    </ul>
+                    <p>In short, Pro-Lance offers flexibility and expertise under one roof.</p>
                 </div>
             </div>
         </section>
@@ -225,7 +296,10 @@
                 </div>
             </div>
             <div class="text-center" style="margin-top: 2rem;">
-                <a href="services.html" class="cta-button">See All Services</a>
+                <a href="services.html" class="contact-btn-primary" style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                    <i class="fas fa-arrow-right" style="margin-right: 10px;"></i>
+                    See All Services
+                </a>
             </div>
         </section>
 
@@ -237,37 +311,40 @@
             <div class="blog-grid">
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="../images/agile-tools.webp" alt="Agile Project Management Tools" loading="lazy">
+                        <img src="../images/agile-tools.webp" alt="Agile Project Management Tools" loading="lazy" style="display: block !important; visibility: visible !important;">
                     </div>
                     <div class="blog-content">
                         <h3>Achieve Extraordinary Results with Remote Project Management</h3>
                         <p>In today's fast-paced business world, remote work is no longer just a trend - it's the key to accessing the best talent and achieving extraordinary results...</p>
-                        <a href="blog-posts/remote-project-management.html" class="read-more">Read More</a>
+                        <a href="blog-posts/remote-project-management.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="../images/ai-development.webp" alt="AI and Machine Learning Development" loading="lazy">
+                        <img src="../images/ai-development.webp" alt="AI and Machine Learning Development" loading="lazy" style="display: block !important; visibility: visible !important;">
                     </div>
                     <div class="blog-content">
                         <h3>SAP Clean Core: Solution Optimized for Growth</h3>
                         <p>The Clean Core approach in SAP systems enables businesses to achieve more efficient and sustainable growth...</p>
-                        <a href="blog-posts/sap-clean-core.html" class="read-more">Read More</a>
+                        <a href="blog-posts/sap-clean-core.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
                     <div class="blog-image">
-                        <img src="../images/ai-ml-manufacturing.webp" alt="AI and ML in Manufacturing" loading="lazy">
+                        <img src="../images/ai-ml-manufacturing.webp" alt="AI and ML in Manufacturing" loading="lazy" style="display: block !important; visibility: visible !important;">
                     </div>
                     <div class="blog-content">
                         <h3>AI-Driven Software Development for Faster, Smarter Solutions</h3>
                         <p>The world of software development is evolving rapidly, and businesses that leverage AI-powered solutions gain a significant edge...</p>
-                        <a href="blog-posts/ai-software-development.html" class="read-more">Read More</a>
+                        <a href="blog-posts/ai-software-development.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
             <div class="text-center" style="margin-top: 2rem;">
-                <a href="blog.html" class="cta-button">See All Blog Posts</a>
+                <a href="blog.html" class="contact-btn-primary" style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                    <i class="fas fa-arrow-right" style="margin-right: 10px;"></i>
+                    See All Blog Posts
+                </a>
             </div>
         </section>
     </main>
@@ -328,10 +405,32 @@
         });
     </script>
 
-    <script src="../script.min.js" defer></script>
+    <script src="../script.js" defer></script>
     
             <!-- Cookie Consent Script -->
-        <script type="module" src="../en/cookie-consent.js"></script>
+        <script type="module" src="cookie-consent.js"></script>
+
+    <script>
+        // Cache Busting - Force reload if needed
+        if (performance.navigation.type === 1) {
+            // Page was reloaded, clear any cached data
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+        }
+        
+        // Force reload CSS if needed
+        const cssLink = document.querySelector('link[href*="style.min.css"]');
+        if (cssLink) {
+            cssLink.href = cssLink.href.split('?')[0] + '?v=' + Date.now();
+        }
+    </script>
+    
+    <!-- Google Analytics - Deferred to prevent blocking -->
 
 
 </body>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Google Sheets Mapping Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; margin: 5px; }
+        .error { color: red; }
+        .success { color: green; }
+        .debug { background: #f8f9fa; padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
+        pre { background: #f1f1f1; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>n8n Google Sheets Mapping Test</h1>
+    
+    <div class="debug">
+        <h3>Test 1: Standart Form Data</h3>
+        <button onclick="testStandardForm()">Test Standart Form</button>
+        <div id="result1"></div>
+    </div>
+    
+    <div class="debug">
+        <h3>Test 2: JSON Data</h3>
+        <button onclick="testJsonData()">Test JSON Data</button>
+        <div id="result2"></div>
+    </div>
+    
+    <div class="debug">
+        <h3>Test 3: Flat Object Data</h3>
+        <button onclick="testFlatData()">Test Flat Data</button>
+        <div id="result3"></div>
+    </div>
+    
+    <div class="debug">
+        <h3>n8n Workflow Kontrol Listesi</h3>
+        <ol>
+            <li>n8n dashboard'una giriş yapın</li>
+            <li>Contact form workflow'unu açın</li>
+            <li>Webhook node'unu kontrol edin</li>
+            <li>Google Sheets node'unu kontrol edin</li>
+            <li>Data mapping'i kontrol edin</li>
+        </ol>
+    </div>
+    
+    <script>
+        const n8nUrl = 'https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90';
+        
+        function logResult(resultDiv, message, isSuccess = true) {
+            resultDiv.innerHTML = `<div class="${isSuccess ? 'success' : 'error'}">${message}</div>`;
+        }
+        
+        async function testStandardForm() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.innerHTML = 'Testing...';
+            
+            const formData = new FormData();
+            formData.append('name', 'Test User');
+            formData.append('email', 'test@example.com');
+            formData.append('phone', '5551234567');
+            formData.append('subject', 'Test Subject');
+            formData.append('message', 'Test message from standard form');
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('source', 'test-standard');
+            
+            console.log('Standard form data:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            try {
+                const response = await fetch(n8nUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const responseText = await response.text();
+                console.log('Response:', responseText);
+                
+                if (response.ok) {
+                    logResult(resultDiv, `✅ Başarılı! Status: ${response.status}<br>Response: ${responseText}`);
+                } else {
+                    logResult(resultDiv, `❌ Hata! Status: ${response.status}<br>Response: ${responseText}`, false);
+                }
+            } catch (error) {
+                logResult(resultDiv, `❌ Hata: ${error.message}`, false);
+            }
+        }
+        
+        async function testJsonData() {
+            const resultDiv = document.getElementById('result2');
+            resultDiv.innerHTML = 'Testing...';
+            
+            const jsonData = {
+                name: 'Test User JSON',
+                email: 'test@example.com',
+                phone: '5551234567',
+                subject: 'Test Subject JSON',
+                message: 'Test message from JSON data',
+                timestamp: new Date().toISOString(),
+                source: 'test-json'
+            };
+            
+            console.log('JSON data:', jsonData);
+            
+            try {
+                const response = await fetch(n8nUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+                });
+                
+                const responseText = await response.text();
+                console.log('Response:', responseText);
+                
+                if (response.ok) {
+                    logResult(resultDiv, `✅ Başarılı! Status: ${response.status}<br>Response: ${responseText}`);
+                } else {
+                    logResult(resultDiv, `❌ Hata! Status: ${response.status}<br>Response: ${responseText}`, false);
+                }
+            } catch (error) {
+                logResult(resultDiv, `❌ Hata: ${error.message}`, false);
+            }
+        }
+        
+        async function testFlatData() {
+            const resultDiv = document.getElementById('result3');
+            resultDiv.innerHTML = 'Testing...';
+            
+            const urlData = new URLSearchParams();
+            urlData.append('name', 'Test User Flat');
+            urlData.append('email', 'test@example.com');
+            urlData.append('phone', '5551234567');
+            urlData.append('subject', 'Test Subject Flat');
+            urlData.append('message', 'Test message from flat data');
+            urlData.append('timestamp', new Date().toISOString());
+            urlData.append('source', 'test-flat');
+            
+            console.log('Flat data:', urlData.toString());
+            
+            try {
+                const response = await fetch(n8nUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: urlData
+                });
+                
+                const responseText = await response.text();
+                console.log('Response:', responseText);
+                
+                if (response.ok) {
+                    logResult(resultDiv, `✅ Başarılı! Status: ${response.status}<br>Response: ${responseText}`);
+                } else {
+                    logResult(resultDiv, `❌ Hata! Status: ${response.status}<br>Response: ${responseText}`, false);
+                }
+            } catch (error) {
+                logResult(resultDiv, `❌ Hata: ${error.message}`, false);
+            }
+        }
+    </script>
+</body>
+</html>

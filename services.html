@@ -18,33 +18,16 @@
  
 </head>
 <body>
-    <!-- Header -->
-    <header class="header flex">
-        <div class="logo">
-            <a href="/">Pro-Lance</a>
-        </div>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li><a href="/" class="">Ana Sayfa</a></li>
-                <li><a href="/services.html" class="active">Hizmetler</a></li>
-                <li><a href="/collaboration.html" class="">İş Birliği</a></li>
-                <li><a href="/blog.html" class="">Blog</a></li>
-                <li><a href="/about.html" class="">Hakkımızda</a></li>
-                <li><a href="/contact.html" class="">İletişim</a></li>
-            </ul>
-        </nav>
-        <div class="right-header">
-            <div class="lang-switch">
-                <a href="#" class="active">TR</a>
-                <a href="/en/services.html">EN</a>
-            </div>
-            <button class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
+    <!-- Include Universal Header -->
+    <div id="header"></div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
 
     <script>
         // Mobile menu functionality
@@ -104,14 +87,14 @@
 
                 <div class="service-card">
                     <i class="fas fa-chalkboard-teacher"></i>
-                    <h3>Workshop</h3>
-                    <p>SAP çözümlerini derinlemesine keşfettiğimiz, anlayışınızı geliştiren ve iş süreçlerinizi optimize eden interaktif oturumlar düzenliyoruz.</p>
+                    <h3>SAP Danışmanlık Hizmetleri</h3>
+                    <p>SAP altyapısının kurulumu, upgrade, performans ve güvenlik yönetimi. İş süreçlerine özel fonksiyonel danışmanlık ve uyarlama.</p>
                     <ul class="service-features">
-                        <li>İnteraktif Öğrenme Oturumları</li>
-                        <li>Uygulamalı Pratik</li>
-                        <li>Uzman Rehberliği</li>
-                        <li>Süreç Optimizasyonu</li>
-                        <li>Grup Çalışması</li>
+                        <li>Sistem Kurulum & Yönetim</li>
+                        <li>Modül Desteği (FI, CO, MM, SD, PP, QM)</li>
+                        <li>Entegrasyon & Otomasyon</li>
+                        <li>İş Süreci Analizi & İyileştirme</li>
+                        <li>Uygulama ve Test Desteği</li>
                     </ul>
                 </div>
 
@@ -223,8 +206,9 @@
             <div class="cta-content">
                 <h2>Projeniz için Freelancer mı Arıyorsunuz?</h2>
                 <p>Pro-Lance ile yeteneklerinizi keşfedin ve çevrimiçi bir danışma toplantısı planlayın</p>
-                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
-                    <i class="far fa-calendar-alt"></i> 30 Dakikalık Görüşme Planla
+                <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="contact-btn-calendly" style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
+                    <i class="fas fa-video" style="margin-right: 10px;"></i>
+                    Görüşme Planla
                 </a>
             </div>
         </section>

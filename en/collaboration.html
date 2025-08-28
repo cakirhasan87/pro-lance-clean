@@ -18,33 +18,16 @@
  
 </head>
 <body>
-    <!-- Header -->
-<header class="header flex">
-    <div class="logo">
-        <a href="/en/index.html">Pro-Lance</a>
-    </div>
-    <nav class="nav">
-        <ul class="nav-list">
-            <li><a href="/en/index.html" class="">Home</a></li>
-            <li><a href="/en/services.html" class="">Services</a></li>
-            <li><a href="/en/collaboration.html" class="active">Collaboration</a></li>
-            <li><a href="/en/blog.html" class="">Blog</a></li>
-            <li><a href="/en/about.html" class="">About Us</a></li>
-            <li><a href="/en/contact.html" class="">Contact</a></li>
-        </ul>
-    </nav>
-    <div class="right-header">
-        <div class="lang-switch">
-            <a href="/collaboration.html" style="color: #777;">TR</a>
-            <a href="#" class="active" style="color: #000; font-weight: bold; font-size: 1.1em; background-color: #4CAF50; padding: 3px 8px; border-radius: 3px;">EN</a>
-        </div>
-        <button class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-</header>
+        <!-- Include Universal Header -->
+    <div id="header"></div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
 
 
 
@@ -121,29 +104,85 @@
 
         <!-- Contact Section -->
         <section class="contact-section">
-            <div class="contact-container">
-                <div class="contact-form-wrapper">
-                    <div class="meeting-icon">
-                        <i class="fas fa-handshake"></i>
+            <div class="contact-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <!-- Left Card: Contact Form -->
+                <div class="contact-card" style="background: white; border-radius: 12px; padding: 40px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 620px; min-height: 620px; width: 100%;">
+                    <!-- Icon -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <i class="fas fa-handshake contact-icon-handshake" style="font-size: 48px; color: #ff6b35; transition: all 0.3s ease;"></i>
                     </div>
-                    <h2>Collaboration Request</h2>
-                    <p class="form-description">You can send your collaboration request through our contact form. We will get back to you as soon as possible.</p>
-                    <a href="contact.html" class="cta-button" style="margin: 0;">
-                        <i class="fas fa-envelope"></i>
-                        Contact Form
-                    </a>
+                    
+                    <!-- Title -->
+                    <h3 style="text-align: center; margin-bottom: 25px; color: #333; font-size: 26px; font-weight: bold;">Fill Out Collaboration Form</h3>
+                    
+                    <!-- Description -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <p style="color: #666; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 30px;">
+                            Click the button below to send your collaboration request. The form will open in a new tab and you can securely submit all your information.
+                        </p>
+                        
+                        <!-- Main Button -->
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <a href="https://pro-lance.app.n8n.cloud/form/c8bcf487-8382-46f3-af6b-744d5f74dd90" 
+                               target="_blank" 
+                               class="contact-btn-primary"
+                               style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                                <i class="fas fa-paper-plane" style="margin-right: 10px;"></i>
+                                Open Collaboration Form
+                            </a>
+                        </div>
+                        
+                        <p style="text-align: center; color: #888; font-size: 16px; margin-bottom: 20px;">
+                            Form will open in a new tab
+                        </p>
+                        
+                        <!-- Separator -->
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <span style="color: #999; font-size: 18px;">or</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Button -->
+                    <div style="text-align: center;">
+                        <a href="https://t.me/Eneytenbot" 
+                           target="_blank" 
+                           class="contact-btn-telegram"
+                           style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #0088cc 0%, #006699 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease;">
+                            <i class="fab fa-telegram" style="margin-right: 10px;"></i>
+                            Telegram Pro-lancebot
+                        </a>
+                    </div>
                 </div>
 
-                <div class="meeting-request">
-                    <div class="meeting-icon">
-                        <i class="fas fa-calendar-check"></i>
+                <!-- Right Card: Schedule Meeting -->
+                <div class="meeting-card" style="background: white; border-radius: 12px; padding: 40px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 620px; min-height: 620px; width: 100%;">
+                    <!-- Icon -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <i class="fas fa-calendar-check contact-icon-calendar" style="font-size: 48px; color: #007bff; transition: all 0.3s ease;"></i>
                     </div>
-                    <h2>Schedule an Online Meeting</h2>
-                    <p>Request an online meeting to discuss your projects and needs in detail.</p>
-                    <div style="margin-top: 1.5rem;">
-                        <a href="https://calendly.com/pro-lance-support/30min" target="_blank" class="calendly-btn">
-                            <i class="fas fa-video"></i>
-                            Schedule Meeting
+                    
+                    <!-- Title -->
+                    <h3 style="text-align: center; margin-bottom: 25px; color: #333; font-size: 26px; font-weight: bold;">Schedule an Online Meeting</h3>
+                    
+                    <!-- Description -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <p style="color: #666; font-size: 18px; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+                            We invite you to a one-on-one meeting to evaluate collaboration opportunities and discuss your projects in detail. You can select a meeting time from our calendar that works best for you.
+                        </p>
+                        
+                        <p style="color: #666; font-size: 18px; line-height: 1.6; text-align: justify; margin-bottom: 30px;">
+                            During this meeting, we will analyze your goals, expectations, and challenges by reviewing current collaboration opportunities. Together with our expert teams, we will develop the most appropriate strategies for your needs and offer you customized solutions.
+                        </p>
+                    </div>
+                    
+                    <!-- Bottom Button -->
+                    <div style="text-align: center;">
+                        <a href="https://calendly.com/pro-lance-support/30min" 
+                           target="_blank" 
+                           class="contact-btn-calendly"
+                           style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
+                            <i class="fas fa-video" style="margin-right: 10px;"></i>
+                            Schedule a Meeting
                         </a>
                     </div>
                 </div>

@@ -27,32 +27,16 @@
 </script> 
 </head>
 <body>
-    <!-- Header -->
-    <header class="header flex">
-        <div class="logo">
-            <a href="index.html">Pro-Lance</a>
-        </div>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="services.html">Hizmetler</a></li>
-                <li><a href="collaboration.html">İş Birliği</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">İletişim</a></li>
-            </ul>
-        </nav>
-        <div class="right-header">
-            <div class="lang-switch">
-                <a href="#" class="active">TR</a>
-                <a href="../en/terms-of-use.html">EN</a>
-            </div>
-            <button class="hamburger" aria-label="Menüyü aç/kapat">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
+        <!-- Include Universal Header -->
+    <div id="header"></div>
+    <script>
+        fetch('../header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
 
     <main class="policy-page">
         <div class="container">
